@@ -22,6 +22,6 @@ namespace Honeypot.Models
 
         public ICollection<Quote> Quotes { get; set; }
 
-        public byte[] Photo { get; set; }
+        //TODO: add photo property
     }
 }

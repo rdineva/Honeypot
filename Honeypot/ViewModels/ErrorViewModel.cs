@@ -1,6 +1,4 @@
-using System;
-
-namespace Honeypot.Models
+namespace Honeypot.ViewModels
 {
     public class ErrorViewModel
     {

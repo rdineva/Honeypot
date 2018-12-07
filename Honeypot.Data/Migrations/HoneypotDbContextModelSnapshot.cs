@@ -31,8 +31,6 @@ namespace Honeypot.Data.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<byte[]>("Photo");
-
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
