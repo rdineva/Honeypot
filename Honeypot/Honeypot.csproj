@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
 	    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
@@ -20,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Honeypot.Data\Honeypot.Data.csproj" />
+    <ProjectReference Include="..\Honeypot.Services\Honeypot.Services.csproj" />
   </ItemGroup>
 
 </Project>

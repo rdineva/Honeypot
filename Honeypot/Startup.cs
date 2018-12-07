@@ -1,4 +1,7 @@
-﻿using Honeypot.Data;
+﻿using AutoMapper;
+using Honeypot.Data;
+using Honeypot.Models;
+using Honeypot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -32,10 +35,24 @@ namespace Honeypot
             services.AddDbContext<HoneypotDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<HoneypotDbContext>();
+
+            services.AddIdentity<HoneypotUser, IdentityRole>(options =>
+                {
+                    options.SignIn.RequireConfirmedEmail = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredUniqueChars = 0;
+                    options.Password.RequiredLength = 4;
+                })
+                .AddEntityFrameworkStores<HoneypotDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAutoMapper();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<HoneypotUsersService, HoneypotUsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

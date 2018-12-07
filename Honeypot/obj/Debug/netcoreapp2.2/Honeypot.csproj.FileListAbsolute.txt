@@ -40,3 +40,6 @@ C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honey
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Honeypot.pdb
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Account\Register.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Account\Login.g.cshtml.cs
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\bin\Debug\netcoreapp2.2\Honeypot.Services.dll
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\bin\Debug\netcoreapp2.2\Honeypot.Services.pdb
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\bin\Debug\netcoreapp2.2\Honeypot.Services.dll.config
