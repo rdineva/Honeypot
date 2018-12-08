@@ -21,10 +21,7 @@ C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honey
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Honeypot.TagHelpers.output.cache
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Honeypot.RazorCoreGenerate.cache
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewStart.g.cshtml.cs
-C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Home\About.g.cshtml.cs
-C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Home\Contact.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
-C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
@@ -43,3 +40,5 @@ C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honey
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\bin\Debug\netcoreapp2.2\Honeypot.Services.dll
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\bin\Debug\netcoreapp2.2\Honeypot.Services.pdb
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\bin\Debug\netcoreapp2.2\Honeypot.Services.dll.config
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Account\Profile.g.cshtml.cs
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Book\Details.g.cshtml.cs

@@ -1,0 +1,22 @@
+﻿@using Honeypot.ViewModels.Account
+@model Honeypot.ViewModels.Account.ProfileViewModel
+
+<h1>Profile Info</h1>
+<div>
+    <div>
+        <label asp-for="Username"></label>
+        <span>@Model.Username</span>
+    </div>
+    <div>
+        <label asp-for="FirstName"></label>
+        <span>@Model.FirstName</span>
+    </div>
+    <div>
+        <label asp-for="LastName"></label>
+        <span>@Model.LastName</span>
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <span>@Model.Email</span>
+    </div>
+</div>

@@ -44,6 +44,8 @@ namespace Honeypot.Data.Migrations
 
                     b.Property<int>("AuthorId");
 
+                    b.Property<string>("Summary");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -84,6 +86,10 @@ namespace Honeypot.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -312,7 +318,7 @@ namespace Honeypot.Data.Migrations
             modelBuilder.Entity("Honeypot.Models.Bookshelf", b =>
                 {
                     b.HasOne("Honeypot.Models.HoneypotUser", "Owner")
-                        .WithMany("Bookshelves")
+                        .WithMany("CustomBookshelves")
                         .HasForeignKey("OwnerId");
                 });
 

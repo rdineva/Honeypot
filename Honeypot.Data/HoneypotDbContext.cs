@@ -45,26 +45,6 @@ namespace Honeypot.Data
                 .WithMany(y => y.Quotes)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //builder.Entity<Book>()
-            //    .HasOne(x => x.Author)
-            //    .WithMany(y => y.Books)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //builder.Entity<Review>()
-            //    .HasOne(x => x.Owner)
-            //    .WithMany(y => y.Reviews)
-            //    .OnDelete(DeleteBehavior.SetNull);
-
-            //builder.Entity<Review>()
-            //    .HasOne(x => x.Book)
-            //    .WithMany(y => y.Reviews)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //builder.Entity<Bookshelf>()
-            //    .HasOne(x => x.Owner)
-            //    .WithMany(y => y.Bookshelves)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             base.OnModelCreating(builder);
         }
     }

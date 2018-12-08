@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Honeypot.Models;
 using Honeypot.ViewModels;
+using Honeypot.ViewModels.Account;
+using Honeypot.ViewModels.Book;
 
 namespace Honeypot
 {
@@ -9,6 +11,8 @@ namespace Honeypot
         public MappingConfiguration()
         {
             CreateMap<RegisterViewModel, HoneypotUser>();
+            CreateMap<HoneypotUser, ProfileViewModel>();
+            CreateMap<Book, BookDetailsViewModel>();
         }
     }
 }

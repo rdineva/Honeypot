@@ -1,0 +1,21 @@
+﻿@model Honeypot.ViewModels.Book.BookDetailsViewModel
+
+<h2>"@Model.Title"</h2>
+<div>
+    <label asp-for="Author"></label>
+    @*<div>@Model.Author.FirstName</div>
+    <div>@Model.Author.LastName</div>*@
+    <label asp-for="Summary"></label>
+    <div>@Model.Summary</div>
+    <label asp-for="Rating"></label>
+    <div>@Model.Rating</div>
+    <label asp-for="ReviewsCount"></label>
+    <div>@Model.ReviewsCount</div>
+    <label asp-for="Reviews"></label>
+    @foreach (var review  in @Model.Reviews)
+    {
+        <div>@review.Owner.UserName</div>
+        <div>@review.Rating</div>
+        <div>@review.Text</div>
+    }
+</div>

@@ -221,9 +221,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HoneypotDbContext.cs" />
-    <Compile Include="Migrations\20181207110006_Initial.cs" />
-    <Compile Include="Migrations\20181207110006_Initial.designer.cs">
-      <DependentUpon>20181207110006_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\20181208164714_Initial.cs" />
+    <Compile Include="Migrations\20181208164714_Initial.designer.cs">
+      <DependentUpon>20181208164714_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20181208171309_Book-Summary.cs" />
+    <Compile Include="Migrations\20181208171309_Book-Summary.designer.cs">
+      <DependentUpon>20181208171309_Book-Summary.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\HoneypotDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -20,10 +20,12 @@ namespace Honeypot.Models
         public int AuthorId { get; set; }
         public Author Author { get; set; }
 
+        public string Summary { get; set; }
+
         public int ReviewsCount => this.Reviews.Count;
 
-        public decimal Rating => this.Reviews.Sum(x => int.Parse(x.Rating.ToString())) 
-                                 / (decimal)this.ReviewsCount;
+        public decimal Rating => this.ReviewsCount > 0 ? (this.Reviews.Sum(x => int.Parse(x.Rating.ToString())) 
+                                 / (decimal)this.ReviewsCount) : 0;
 
         public ICollection<Review> Reviews { get; set; }
 
