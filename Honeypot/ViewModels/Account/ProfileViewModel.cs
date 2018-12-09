@@ -21,6 +21,6 @@ namespace Honeypot.ViewModels.Account
 
         public ICollection<Bookshelf> Bookshelves { get; set; }
 
-        public ICollection<Quote> FavouriteQuotes { get; set; }
+        public ICollection<Models.Quote> FavouriteQuotes { get; set; }
     }
 }

@@ -1,0 +1,34 @@
+﻿@using Honeypot.Data
+@model Honeypot.ViewModels.Quote.CreateViewModel
+@inject HoneypotDbContext context
+
+<h1>Create Quote</h1>
+<form asp-controller="Quote" asp-action="Create" method="post">
+    <div>
+        <label asp-for="Text"></label>
+        <input asp-for="Text" />
+        <span asp-validation-for="Text"></span>
+    </div>
+    <div>
+        <label asp-for="Author"></label>
+        <select asp-for="Author">
+            <option selected disabled value="Author">-- Choose Author --</option>
+            @foreach (var author in context.Authors.ToList())
+            {
+                <option value="@author">@author.FirstName @author.LastName</option>
+            }
+        </select>
+        <span asp-validation-for="Author"></span>
+    </div>
+    <div>
+        <label asp-for="Book"></label>
+        <select asp-for="Book">
+            <option selected disabled value="Book">-- Choose Book --</option>
+            @foreach (var book in context.Books.ToList())
+            {
+                <option value="@book">"@book.Title"</option>
+            }
+        </select>
+        <span asp-validation-for="Book"></span>
+    </div>
+</form>

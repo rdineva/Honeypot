@@ -13,6 +13,6 @@ namespace Honeypot.ViewModels.Author
 
         public ICollection<Models.Book> Books { get; set; }
 
-        public ICollection<Quote> Quotes { get; set; }
+        public ICollection<Models.Quote> Quotes { get; set; }
     }
 }

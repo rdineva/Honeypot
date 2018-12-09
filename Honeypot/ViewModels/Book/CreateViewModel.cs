@@ -7,6 +7,5 @@
         public string Summary { get; set; }
 
         public Models.Author Author { get; set; }
-
     }
 }

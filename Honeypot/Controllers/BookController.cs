@@ -23,12 +23,10 @@ namespace Honeypot.Controllers
 
             if (bookResult == null)
             {
-               //TODO: error
+                return this.NotFound("No such book found.");
             }
 
             var book = mapper.Map<BookDetailsViewModel>(bookResult);
-
-            //TODO: use automapper for book's author
 
             var authorName = context.Authors.FirstOrDefaultAsync(x => x.Id == bookResult.AuthorId).Result;
             book.Author = authorName.FirstName + " " + authorName.LastName;
