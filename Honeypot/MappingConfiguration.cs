@@ -4,6 +4,7 @@ using Honeypot.ViewModels;
 using Honeypot.ViewModels.Account;
 using Honeypot.ViewModels.Author;
 using Honeypot.ViewModels.Book;
+using CreateViewModel = Honeypot.ViewModels.Quote.CreateViewModel;
 
 namespace Honeypot
 {
@@ -17,6 +18,7 @@ namespace Honeypot
             //.ForMember(x => x.Author, y => y.MapFrom(z => z.Author));
             CreateMap<ViewModels.Author.CreateViewModel, Author>();
             CreateMap<Author, AuthorDetailsViewModel>();
+            CreateMap<CreateViewModel, Quote>();
 
         }
     }

@@ -10,25 +10,28 @@
         <span asp-validation-for="Text"></span>
     </div>
     <div>
-        <label asp-for="Author"></label>
-        <select asp-for="Author">
-            <option selected disabled value="Author">-- Choose Author --</option>
+        <label asp-for="AuthorId"></label>
+        <select asp-for="AuthorId">
+            <option selected disabled>-- Choose Author --</option>
             @foreach (var author in context.Authors.ToList())
             {
-                <option value="@author">@author.FirstName @author.LastName</option>
+                <option value="@author.Id">@author.FirstName @author.LastName</option>
             }
         </select>
-        <span asp-validation-for="Author"></span>
+        <span asp-validation-for="AuthorId"></span>
     </div>
     <div>
-        <label asp-for="Book"></label>
-        <select asp-for="Book">
-            <option selected disabled value="Book">-- Choose Book --</option>
+        <label asp-for="BookId"></label>
+        <select asp-for="BookId">
+            <option selected disabled>-- Choose Book --</option>
             @foreach (var book in context.Books.ToList())
             {
-                <option value="@book">"@book.Title"</option>
+                <option value="@book.Id">"@book.Title"</option>
             }
         </select>
-        <span asp-validation-for="Book"></span>
+        <span asp-validation-for="BookId"></span>
+    </div>
+    <div>
+        <button type="submit">Create</button>
     </div>
 </form>
