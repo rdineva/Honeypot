@@ -1,0 +1,27 @@
+﻿@model Honeypot.ViewModels.Author.AuthorDetailsViewModel
+
+<div>
+    <h1>@Model.FirstName @Model.LastName</h1>
+</div>
+<div>
+    <h3>Biography</h3>
+    @Model.Biography
+</div>
+<div>
+    <h3>Books</h3>
+    @foreach (var book in @Model.Books)
+    {
+        <div>
+            <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">@book.Title</a>
+        </div>
+    }
+</div>
+<div>
+    <h3>Quotes</h3>
+    @foreach (var quote in @Model.Quotes)
+    {
+        <div>
+            <a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">@quote.Text</a>
+        </div>
+    }
+</div>

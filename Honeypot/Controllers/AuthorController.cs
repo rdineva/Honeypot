@@ -1,8 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using System.Threading;
+using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
+using Honeypot.ViewModels;
 using Honeypot.ViewModels.Author;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Honeypot.Controllers
 {
@@ -33,9 +37,19 @@ namespace Honeypot.Controllers
             return RedirectToAction("Details", "Author", author.Id);
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return this.View();
+            var authorResut = this.context.Authors.FirstOrDefaultAsync(x => x.Id == id).Result;
+
+            if (authorResut == null)
+                return this.NotFound("No such author exists.");
+
+            var author = mapper.Map<AuthorDetailsViewModel>(authorResut);
+
+            author.Books = this.context.Books.Where(x => x.AuthorId == id).ToList();
+            author.Quotes = this.context.Quotes.Where(x => x.AuthorId == id).ToList();
+
+            return this.View(author);
         }
     }
 }

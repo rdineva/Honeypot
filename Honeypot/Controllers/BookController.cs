@@ -42,7 +42,7 @@ namespace Honeypot.Controllers
         }
 
         [HttpPost]
-        public IActionResult DoCreate(CreateViewModel viewModel)
+        public IActionResult Create(CreateViewModel viewModel)
         {
             return null;
         }

@@ -44,3 +44,4 @@ C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honey
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Book\Details.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Author\Create.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Book\Create.g.cshtml.cs
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Author\Details.g.cshtml.cs
