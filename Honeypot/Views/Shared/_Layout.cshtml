@@ -26,7 +26,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand">Honeypot</a>
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand"
+                   style="color: #FFD700; text-transform: uppercase; font-family: Comic Sans MS, serif">Honeypot</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -41,12 +42,8 @@
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
+    <div class="container body-content" style="background-color: #CECECE:">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Honeypot</p>
-        </footer>
     </div>
 
     <environment include="Development">
@@ -72,4 +69,10 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+<footer>
+    <div class="container body-content" style="width: 100%; color: lightgrey; background-color: #222222">
+        <hr />
+        <p style="text-align: center">Honeypot &copy; 2018 - All Rights Reserved</p>
+    </div>
+</footer>
 </html>
