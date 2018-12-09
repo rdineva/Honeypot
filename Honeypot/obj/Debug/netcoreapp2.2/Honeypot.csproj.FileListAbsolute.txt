@@ -42,3 +42,5 @@ C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honey
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\bin\Debug\netcoreapp2.2\Honeypot.Services.dll.config
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Account\Profile.g.cshtml.cs
 C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Book\Details.g.cshtml.cs
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Author\Create.g.cshtml.cs
+C:\Users\Lenovo Legion Y520\Documents\Visual Studio 2017\Projects\Honeypot\Honeypot\obj\Debug\netcoreapp2.2\Razor\Views\Book\Create.g.cshtml.cs

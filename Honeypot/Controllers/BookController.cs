@@ -27,7 +27,12 @@ namespace Honeypot.Controllers
             }
 
             var book = mapper.Map<BookDetailsViewModel>(bookResult);
-        
+
+            //TODO: use automapper for book's author
+
+            var authorName = context.Authors.FirstOrDefaultAsync(x => x.Id == bookResult.AuthorId).Result;
+            book.Author = authorName.FirstName + " " + authorName.LastName;
+
             return View(book);
         }
 
@@ -37,7 +42,7 @@ namespace Honeypot.Controllers
         }
 
         [HttpPost]
-        public IActionResult DoCreate()
+        public IActionResult DoCreate(CreateViewModel viewModel)
         {
             return null;
         }

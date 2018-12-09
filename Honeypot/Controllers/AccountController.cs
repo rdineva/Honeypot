@@ -37,7 +37,7 @@ namespace Honeypot.Controllers
 
         [HttpPost]
         public IActionResult Logout()
-        {
+        { 
             this.signInManager.SignOutAsync().Wait();
             return RedirectToAction("Index", "Home");
         }

@@ -1,0 +1,23 @@
+﻿@model Honeypot.ViewModels.Author.CreateViewModel
+
+<h1>Create Author</h1>
+<form asp-controller="Author" asp-action="Create" method="post">
+    <div>
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName"/>
+        <span asp-validation-for="FirstName"></span>
+    </div>
+    <div>
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName"/>
+        <span asp-validation-for="LastName"></span>
+    </div>
+    <div>
+        <label asp-for="Biography"></label>
+        <input asp-for="Biography"/>
+        <span asp-validation-for="Biography"></span>
+    </div>
+    <div>
+        <button type="submit">Create</button>
+    </div>
+</form>

@@ -1,0 +1,23 @@
+﻿@model Honeypot.ViewModels.Book.CreateViewModel
+
+<h1>Create Book</h1>
+<form asp-controller="Book" asp-action="Create" method="post">
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title"/>
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div>
+        <label asp-for="Summary"></label>
+        <input asp-for="Summary"/>
+        <span asp-validation-for="Summary"></span>
+    </div>
+    @*<div> TODO: add author dropdown menu
+        <label asp-for="Author"></label>
+        <input asp-for="Author"/>
+        <span asp-validation-for="Author"></span>
+    </div>*@
+    <div>
+        <button type="submit">Create</button>
+    </div>
+</form>
