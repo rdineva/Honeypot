@@ -3,6 +3,7 @@ using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.ViewModels.Quote;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Honeypot.Controllers
 {
@@ -33,9 +34,24 @@ namespace Honeypot.Controllers
             return this.RedirectToAction("Details", "Quote", quote.Id);
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return this.View();
+            var quoteResult = this.context.Quotes.FirstOrDefaultAsync(q => q.Id == id).Result;
+
+            if (quoteResult == null)
+                return this.NotFound("No such quote found!");
+
+            var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quoteResult.AuthorId).Result;
+            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == quoteResult.BookId).Result;
+
+            var quote = new DetailsViewModel()
+            {
+                AuthorName = author.FirstName + " " + author.LastName,
+                BookTitle = book.Title,
+                Text =  quoteResult.Text
+            };
+
+            return this.View(quote);
         }
     }
 }
