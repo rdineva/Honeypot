@@ -18,9 +18,9 @@ namespace Honeypot.Models
 
         public string Biography { get; set; }
 
-        public ICollection<Book> Books { get; set; }
+        public virtual ICollection<Book> Books { get; set; }
 
-        public ICollection<Quote> Quotes { get; set; }
+        public virtual ICollection<Quote> Quotes { get; set; }
 
         //TODO: add photo property
     }

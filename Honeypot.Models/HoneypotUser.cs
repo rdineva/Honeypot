@@ -17,7 +17,7 @@ namespace Honeypot.Models
 
         public string LastName { get; set; }
 
-        public ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
 
 
         //TODO: add read, to-read, and fav bookshelves
@@ -30,8 +30,8 @@ namespace Honeypot.Models
         //public int FavouritesId { get; set; }
         //public Bookshelf Favourites { get; set; }
 
-        public ICollection<Bookshelf> CustomBookshelves { get; set; }
+        public virtual ICollection<Bookshelf> CustomBookshelves { get; set; }
 
-        public ICollection<UsersQuotes> FavouriteQuotes { get; set; }
+        public virtual ICollection<UsersQuotes> FavouriteQuotes { get; set; }
     }
 }

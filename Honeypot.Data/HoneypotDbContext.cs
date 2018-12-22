@@ -45,6 +45,11 @@ namespace Honeypot.Data
                 .WithMany(y => y.Quotes)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Book>()
+                .HasOne(x => x.Author)
+                .WithMany(x => x.Books)
+                .HasForeignKey(x => x.AuthorId);
+
             base.OnModelCreating(builder);
         }
     }

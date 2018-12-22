@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Honeypot.Models.MappingModels;
 
 namespace Honeypot.Models
@@ -12,14 +13,16 @@ namespace Honeypot.Models
 
         public int Id { get; set; }
 
+        [ForeignKey("Author")]
         public int? AuthorId { get; set; }
-        public Author Author { get; set; }
+        public virtual Author Author { get; set; }
 
         public string Text { get; set; }
 
+        [ForeignKey("Book")]
         public int? BookId { get; set; }
-        public Book Book { get; set; }
+        public virtual Book Book { get; set; }
 
-        public ICollection<UsersQuotes> UsersWhoLikedIt { get; set; }
+        public virtual ICollection<UsersQuotes> UsersWhoLikedIt { get; set; }
     }
 }

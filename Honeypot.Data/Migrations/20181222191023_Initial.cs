@@ -197,7 +197,8 @@ namespace Honeypot.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
-                    AuthorId = table.Column<int>(nullable: false)
+                    AuthorId = table.Column<int>(nullable: false),
+                    Summary = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -8,7 +8,8 @@ namespace Honeypot.ViewModels.Book
     {
         public string Title { get; set; }
 
-        public string Author { get; set; }
+        [DisplayName("Author")]
+        public string AuthorName { get; set; }
 
         public int AuthorId { get; set; }
 

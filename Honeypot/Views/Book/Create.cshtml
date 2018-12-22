@@ -7,16 +7,21 @@
         <input asp-for="Title"/>
         <span asp-validation-for="Title"></span>
     </div>
+    <div> 
+        <label asp-for="AuthorFirstName"></label>
+        <input asp-for="AuthorFirstName"/>
+        <span asp-validation-for="AuthorFirstName"></span>
+    </div>
+    <div> 
+        <label asp-for="AuthorLastName"></label>
+        <input asp-for="AuthorLastName"/>
+        <span asp-validation-for="AuthorLastName"></span>
+    </div>
     <div>
         <label asp-for="Summary"></label>
         <input asp-for="Summary"/>
         <span asp-validation-for="Summary"></span>
     </div>
-    @*<div> TODO: add author dropdown menu
-        <label asp-for="Author"></label>
-        <input asp-for="Author"/>
-        <span asp-validation-for="Author"></span>
-    </div>*@
     <div>
         <button type="submit">Create</button>
     </div>

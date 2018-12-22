@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Honeypot.Models.MappingModels;
 
 namespace Honeypot.Models
@@ -14,9 +15,10 @@ namespace Honeypot.Models
 
         public string Title { get; set; }
 
-        public ICollection<BooksBookshelves> Books { get; set; }
+        public virtual ICollection<BooksBookshelves> Books { get; set; }
 
+        [ForeignKey("Owner")]
         public string OwnerId { get; set; }
-        public HoneypotUser Owner { get; set; }
+        public virtual HoneypotUser Owner { get; set; }
     }
 }

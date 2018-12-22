@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using System.Threading;
 using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
-using Honeypot.ViewModels;
 using Honeypot.ViewModels.Author;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +27,15 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult Create(CreateViewModel viewModel)
         {
-            var author = mapper.Map<Author>(viewModel);
+            var author = new Author()
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                Biography = viewModel.Biography
+            };
+
+            if (this.context.Authors.Any(x => x.FirstName == author.FirstName && x.LastName == author.LastName))
+                return this.BadRequest("Author already exists!");
 
             this.context.Authors.Add(author);
             this.context.SaveChanges();
@@ -44,10 +50,14 @@ namespace Honeypot.Controllers
             if (authorResut == null)
                 return this.NotFound("No such author exists.");
 
-            var author = mapper.Map<AuthorDetailsViewModel>(authorResut);
-
-            author.Books = this.context.Books.Where(x => x.AuthorId == id).ToList();
-            author.Quotes = this.context.Quotes.Where(x => x.AuthorId == id).ToList();
+            var author = new AuthorDetailsViewModel()
+            {
+                FirstName = authorResut.FirstName,
+                LastName = authorResut.LastName,
+                Biography = authorResut.Biography,
+                Books = authorResut.Books,
+                Quotes = authorResut.Quotes
+            };
 
             return this.View(author);
         }

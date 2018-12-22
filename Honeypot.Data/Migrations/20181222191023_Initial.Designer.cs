@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Honeypot.Data.Migrations
 {
     [DbContext(typeof(HoneypotDbContext))]
-    [Migration("20181208171309_Book-Summary")]
-    partial class BookSummary
+    [Migration("20181222191023_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -12956,11 +12956,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenovo Legion Y520\\Documents\\Visual Studio 2017\\Projects\\Honeypot\\Honeypot\\Honeypot.csproj",
+      "projectUniqueName": "C:\\Users\\Lenovo Legion Y520\\Desktop\\Honeypot\\Honeypot\\Honeypot.csproj",
       "projectName": "Honeypot",
-      "projectPath": "C:\\Users\\Lenovo Legion Y520\\Documents\\Visual Studio 2017\\Projects\\Honeypot\\Honeypot\\Honeypot.csproj",
+      "projectPath": "C:\\Users\\Lenovo Legion Y520\\Desktop\\Honeypot\\Honeypot\\Honeypot.csproj",
       "packagesPath": "C:\\Users\\Lenovo Legion Y520\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lenovo Legion Y520\\Documents\\Visual Studio 2017\\Projects\\Honeypot\\Honeypot\\obj\\",
+      "outputPath": "C:\\Users\\Lenovo Legion Y520\\Desktop\\Honeypot\\Honeypot\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12979,11 +12979,11 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "C:\\Users\\Lenovo Legion Y520\\Documents\\Visual Studio 2017\\Projects\\Honeypot\\Honeypot.Data\\Honeypot.Data.csproj": {
-              "projectPath": "C:\\Users\\Lenovo Legion Y520\\Documents\\Visual Studio 2017\\Projects\\Honeypot\\Honeypot.Data\\Honeypot.Data.csproj"
+            "C:\\Users\\Lenovo Legion Y520\\Desktop\\Honeypot\\Honeypot.Data\\Honeypot.Data.csproj": {
+              "projectPath": "C:\\Users\\Lenovo Legion Y520\\Desktop\\Honeypot\\Honeypot.Data\\Honeypot.Data.csproj"
             },
-            "C:\\Users\\Lenovo Legion Y520\\Documents\\Visual Studio 2017\\Projects\\Honeypot\\Honeypot.Services\\Honeypot.Services.csproj": {
-              "projectPath": "C:\\Users\\Lenovo Legion Y520\\Documents\\Visual Studio 2017\\Projects\\Honeypot\\Honeypot.Services\\Honeypot.Services.csproj"
+            "C:\\Users\\Lenovo Legion Y520\\Desktop\\Honeypot\\Honeypot.Services\\Honeypot.Services.csproj": {
+              "projectPath": "C:\\Users\\Lenovo Legion Y520\\Desktop\\Honeypot\\Honeypot.Services\\Honeypot.Services.csproj"
             }
           }
         }

@@ -1,4 +1,5 @@
-﻿using Honeypot.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Honeypot.Models.Enums;
 
 namespace Honeypot.Models
 {
@@ -8,11 +9,13 @@ namespace Honeypot.Models
 
         public string Text { get; set; }
 
+        [ForeignKey("Book")]
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        public virtual Book Book { get; set; }
 
+        [ForeignKey("Owner")]
         public string OwnerId { get; set; }
-        public HoneypotUser Owner { get; set; }
+        public virtual HoneypotUser Owner { get; set; }
 
         public Rating Rating { get; set; }
     }
