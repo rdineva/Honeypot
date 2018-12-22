@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.ViewModels.Quote;
@@ -26,7 +27,21 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult Create(CreateViewModel viewModel)
         {
-            var quote = mapper.Map<Quote>(viewModel);
+            var quote = new Quote()
+            {
+                Text = viewModel.Text,
+                BookId = viewModel.BookId,
+                AuthorId = viewModel.AuthorId
+            };
+
+            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == quote.BookId).Result;
+            var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quote.AuthorId).Result;
+
+            if (book == null || author == null)
+                return this.BadRequest("Book or author doesn't exist!");
+
+            if (this.context.Quotes.FirstOrDefaultAsync(x => x.Text == quote.Text).Result != null)
+                return this.BadRequest("Quote already exists!");
 
             this.context.Quotes.Add(quote);
             this.context.SaveChanges();

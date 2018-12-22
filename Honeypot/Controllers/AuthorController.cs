@@ -61,5 +61,11 @@ namespace Honeypot.Controllers
 
             return this.View(author);
         }
+
+        public IActionResult Rate()
+        {
+            //TODO: add rate
+            return null;
+        }
     }
 }
