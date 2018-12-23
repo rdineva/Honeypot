@@ -2,6 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div>
-    
+<div class="jumbotron" style="background-color: #d29f1e">
+    <h1 class="display-3" style="opacity: 1; text-align: center; text-decoration-line: none; text-decoration-style: solid; font-family: Georgia, serif;">
+        <div>HONEYPOT</div>
+        <p class="lead">Our site provides you with the latest info about all newly released and upcoming books, as well as books written all throughout human existence. 
+        <br>Read and write reviews, add your favourite books and and get insipration and wisdom from authors, books and quotes.</p>
+        @if (this.User == null)
+        {
+            <p><a asp-controller="Account" asp-action="Register" class="btn btn-lg btn-warning" role="button">Register</a></p>
+        }
+    </h1>
 </div>

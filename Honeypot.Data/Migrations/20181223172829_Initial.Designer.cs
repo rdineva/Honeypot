@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Honeypot.Data.Migrations
 {
     [DbContext(typeof(HoneypotDbContext))]
-    [Migration("20181222191023_Initial")]
+    [Migration("20181223172829_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

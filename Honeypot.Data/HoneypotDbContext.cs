@@ -59,7 +59,7 @@ namespace Honeypot.Data
         HoneypotDbContext IDesignTimeDbContextFactory<HoneypotDbContext>.CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<HoneypotDbContext>();
-            optionsBuilder.UseSqlServer<HoneypotDbContext>(@"Server=DESKTOP-6P48I7L\SQLEXPRESS;Database=Honeypot;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer<HoneypotDbContext>(@"Server=DESKTOP-5E1CE94;Database=Honeypot;Trusted_Connection=True;MultipleActiveResultSets=true");
 
             return new HoneypotDbContext(optionsBuilder.Options);
         }
