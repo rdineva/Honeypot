@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Write Review";
+}
+@model Honeypot.ViewModels.Review.CreateViewModel
+
+<h2>Write Review</h2>
+
+<form asp-controller="Review" asp-action="Create" method="post" class="form-group">
+    <div class="form-group">
+        <label asp-for="BookTitle"></label>
+        <input type="text" asp-for="BookTitle">
+        <span asp-validation-for="BookTitle"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Rating"></label>
+        <select asp-for="Rating">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+        <span asp-validation-for="Rating"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Text"></label>
+        <textarea asp-for="Text" class="form-control" rows="15" cols="33"></textarea>
+        <span asp-validation-for="Text"></span>
+    </div>
+    <div>
+        <button type="submit">Create</button>
+    </div>
+</form>
