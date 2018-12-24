@@ -2,36 +2,44 @@
 @model Honeypot.ViewModels.Quote.CreateViewModel
 @inject HoneypotDbContext context
 
-<h1>Create Quote</h1>
-<form asp-controller="Quote" asp-action="Create" method="post">
-    <div>
-        <label asp-for="Text"></label>
-        <input asp-for="Text" />
-        <span asp-validation-for="Text"></span>
+<div class="col-md-7 col-md-offset-2" style="background-color: #c2daff">
+    <div class="form-group">
+        <h1 class="text-center">Create Quote</h1>
     </div>
-    <div>
-        <label asp-for="AuthorId"></label>
-        <select asp-for="AuthorId">
-            <option selected disabled>-- Choose Author --</option>
-            @foreach (var author in context.Authors.ToList())
-            {
-                <option value="@author.Id">@author.FirstName @author.LastName</option>
-            }
-        </select>
-        <span asp-validation-for="AuthorId"></span>
-    </div>
-    <div>
-        <label asp-for="BookId"></label>
-        <select asp-for="BookId">
-            <option selected disabled>-- Choose Book --</option>
-            @foreach (var book in context.Books.ToList())
-            {
-                <option value="@book.Id">"@book.Title"</option>
-            }
-        </select>
-        <span asp-validation-for="BookId"></span>
-    </div>
-    <div>
-        <button type="submit">Create</button>
-    </div>
-</form>
+    <hr style="border-color:#222222" />
+    <form asp-controller="Quote" asp-action="Create">
+        <div class="form-group row">
+            <label asp-for="AuthorId"></label>
+            <select asp-for="AuthorId" class="form-control col-md-4">
+                <option selected disabled>-- Choose Author --</option>
+                @foreach (var author in context.Authors.ToList())
+                {
+                    <option value="@author.Id">@author.FirstName @author.LastName</option>
+                }
+            </select>
+            <span asp-validation-for="AuthorId"></span>
+        </div>
+        <br />
+        <div class="form-group row">
+            <label asp-for="BookId"></label>
+            <select asp-for="BookId" class="form-control col-md-4">
+                <option selected disabled>-- Choose Book --</option>
+                @foreach (var book in context.Books.ToList())
+                {
+                    <option value="@book.Id">"@book.Title"</option>
+                }
+            </select>
+            <span asp-validation-for="BookId"></span>
+        </div>
+        <br />
+        <div class="form-group row">
+            <label asp-for="Text"></label>
+            <textarea asp-for="Text" class="form-control col-md-4" rows="10" style="resize: none"></textarea>
+            <span asp-validation-for="Text"></span>
+        </div>
+        <hr style="border-color:#222222" />
+        <div class="form-group">
+            <button type="submit" style="color:#c2daff; background-color:#222222" class="btn center-block btn-lg">Create</button>
+        </div>
+    </form>
+</div>
