@@ -1,28 +1,38 @@
 ﻿@model Honeypot.ViewModels.Book.CreateViewModel
 
-<h1>Create Book</h1>
-<form asp-controller="Book" asp-action="Create" method="post">
+<div class="col-md-8 col-md-offset-2" style="background-color: #c2daff">
     <div>
-        <label asp-for="Title"></label>
-        <input asp-for="Title"/>
-        <span asp-validation-for="Title"></span>
+        <h1 class="form-group text-center">Create Book</h1>
     </div>
-    <div> 
-        <label asp-for="AuthorFirstName"></label>
-        <input asp-for="AuthorFirstName"/>
-        <span asp-validation-for="AuthorFirstName"></span>
-    </div>
-    <div> 
-        <label asp-for="AuthorLastName"></label>
-        <input asp-for="AuthorLastName"/>
-        <span asp-validation-for="AuthorLastName"></span>
-    </div>
-    <div>
-        <label asp-for="Summary"></label>
-        <input asp-for="Summary"/>
-        <span asp-validation-for="Summary"></span>
-    </div>
-    <div>
-        <button type="submit">Create</button>
-    </div>
-</form>
+    <hr style="border-color:#222222" />
+    <form asp-controller="Book" asp-action="Create" method="post">
+        <div>
+            <div class="form-group row col-md-8 col-md-offset-2">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control col-md-4" placeholder="Title..." />
+                <span asp-validation-for="Title"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6 ">
+                    <label asp-for="AuthorFirstName"></label>
+                    <input asp-for="AuthorFirstName" class="form-control col-md-4" placeholder="Author's First Name..." />
+                    <span asp-validation-for="AuthorFirstName"></span>
+                </div>
+                <div class="col-md-6 ">
+                    <label asp-for="AuthorLastName"></label>
+                    <input asp-for="AuthorLastName" class="form-control col-md-4" placeholder="Author's Last Name..." />
+                    <span asp-validation-for="AuthorLastName"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Summary"></label>
+                <textarea asp-for="Summary" class="form-control col-md-4" rows="15" placeholder="Summary..."></textarea>
+                <span asp-validation-for="Summary"></span>
+            </div>
+            <hr style="border-color:#222222" />
+            <div class="form-group">
+                <button type="submit" style="color:#c2daff; background-color:#222222" class="btn center-block btn-lg">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
