@@ -6,6 +6,7 @@ namespace Honeypot.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(5, ErrorMessage = "Username must be at least 5 symbols")]
         public string Username { get; set; }
 
         [Required]
@@ -13,6 +14,7 @@ namespace Honeypot.ViewModels
         public string Email { get; set; }
 
         [Required]
+        [StringLength(6, ErrorMessage = "Password must be at least 6 symbols")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

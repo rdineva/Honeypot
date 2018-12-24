@@ -1,34 +1,27 @@
 ﻿@model Honeypot.ViewModels.Book.BookDetailsViewModel
 
 <div class="col-md-8 col-sm-offset-2" style="background-color: #c2daff;">
-    <div>
+    <div class="row">
         <h1 class="text-center text-capitalize" style="font-family: Comic Sans MS, serif">@Model.Title</h1>
     </div>
-    <hr style="border-color:#222222" />
+    <div class="row">
+        <p class="text-right"><b>Written by <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a></b></p>
+    </div>
+    <hr class="row" style="border-color:#222222" />
+    <div class="row">
+        <p class="text-left"><b>Rating:</b> @Model.Rating/5 based on <b>@Model.ReviewsCount reviews</b></p>
+    </div>
+    <div class="row">
+        <h4><b>About</b></h4>
+        <hr style="border-color:#222222" />
+        <p class="text-justify">@Model.Summary</p>
+    </div>
+    <div class="row">
+        <h4><b>Reviews</b></h4>
+        <hr style="border-color:#222222" />
+    </div>
     <div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <p class="text-left"><b>Rating:</b> @Model.Rating/5</p>
-            </div>
-            <div class="col-md-6">
-                <p class="text-right">Written by  @Model.AuthorName</p>
-            </div>
-        </div>
-        <hr style="border-color:#222222" />
         <div>
-            <h4><b>About</b></h4>
-            <p class="text-justify">@Model.Summary</p>
-        </div>
-        <hr style="border-color:#222222" />
-        <div>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <h4><b>Reviews</b></h4>
-                </div>
-                <div class="col-md-6">
-                    <p class="text-right"><b>Count:</b> @Model.ReviewsCount</p>
-                </div>
-            </div>
             @foreach (var review in @Model.Reviews)
             {
                 <div>@review.Owner.UserName</div>

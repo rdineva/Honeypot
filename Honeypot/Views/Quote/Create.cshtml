@@ -17,7 +17,7 @@
                     <option value="@author.Id">@author.FirstName @author.LastName</option>
                 }
             </select>
-            <span asp-validation-for="AuthorId"></span>
+            <span asp-validation-for="AuthorId" class="text-danger"></span>
         </div>
         <br />
         <div class="form-group row">
@@ -29,13 +29,13 @@
                     <option value="@book.Id">"@book.Title"</option>
                 }
             </select>
-            <span asp-validation-for="BookId"></span>
+            <span asp-validation-for="BookId" class="text-danger"></span>
         </div>
         <br />
         <div class="form-group row">
             <label asp-for="Text"></label>
             <textarea asp-for="Text" class="form-control col-md-4" rows="10" style="resize: none" placeholder="Quote..."></textarea>
-            <span asp-validation-for="Text"></span>
+            <span asp-validation-for="Text" class="text-danger"></span>
         </div>
         <hr style="border-color:#222222" />
         <div class="form-group">

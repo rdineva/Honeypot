@@ -51,6 +51,11 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(viewModel);
+            }
+
             var user = this.usersService.GetByUsername(viewModel.Username);
             var result = signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false).Result;
 
@@ -66,6 +71,11 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult Register(RegisterViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(viewModel);
+            }
+
             var user = mapper.Map<HoneypotUser>(viewModel);
 
             var result = this.userManager.CreateAsync(user, viewModel.Password).Result;

@@ -27,6 +27,11 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult Create(CreateViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(viewModel);
+            }
+
             var quote = new Quote()
             {
                 Text = viewModel.Text,

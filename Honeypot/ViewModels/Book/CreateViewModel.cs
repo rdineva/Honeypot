@@ -7,7 +7,7 @@ namespace Honeypot.ViewModels.Book
     {
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(50, ErrorMessage = "Title is too long!")]
+        [StringLength(50, ErrorMessage = "Title can be of maximum length 50 characters!")]
         public string Title { get; set; }
 
         [Required]
