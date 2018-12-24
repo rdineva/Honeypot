@@ -27,11 +27,17 @@ namespace Honeypot.Controllers
 
         public IActionResult Register()
         {
+            //if (this.User != null)
+            //    return RedirectToAction("Index", "Home");
+
             return View();
         }
 
         public IActionResult Login()
         {
+            //if (this.User != null)
+            //    return RedirectToAction("Index", "Home");
+
             return View();
         }
 
