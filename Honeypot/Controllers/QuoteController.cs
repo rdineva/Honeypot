@@ -70,7 +70,9 @@ namespace Honeypot.Controllers
             {
                 AuthorName = author.FirstName + " " + author.LastName,
                 BookTitle = book.Title,
-                Text =  quoteResult.Text
+                Text =  quoteResult.Text,
+                BookId = book.Id,
+                AuthorId = author.Id
             };
 
             return this.View(quote);

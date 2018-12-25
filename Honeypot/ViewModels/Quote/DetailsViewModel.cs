@@ -7,9 +7,13 @@ namespace Honeypot.ViewModels.Quote
         [DisplayName("Author")]
         public string AuthorName { get; set; }
 
+        public int AuthorId { get; set; }
+
         public string Text { get; set; }
 
         [DisplayName("Book")]
         public string BookTitle { get; set; }
+
+        public int BookId { get; set; }
     }
 }

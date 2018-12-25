@@ -1,11 +1,14 @@
 ﻿@using Honeypot.ViewModels.Quote
 @model Honeypot.ViewModels.Quote.DetailsViewModel
 
-<div>
-    <div>
-        <h2><em>"@Model.Text"</em></h2>
-    </div>
-    <div>
-        <p>@Model.AuthorName, "@Model.BookTitle"</p>
+<div class="card col-md-8" style="border:2px solid black">
+    <div class="card-body">
+        <blockquote class="blockquote mb-0" style=" border: none">
+            <h2><em>"@Model.Text"</em></h2>
+            <footer class="blockquote-footer">
+                <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.BookId">"@Model.BookTitle"</a>, written by
+                <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a>
+            </footer>
+        </blockquote>
     </div>
 </div>
