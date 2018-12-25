@@ -5,10 +5,11 @@
     <div class="card-body">
         <blockquote class="blockquote mb-0" style=" border: none">
             <h2><em>"@Model.Text"</em></h2>
-            <footer class="blockquote-footer">
-                <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.BookId">"@Model.BookTitle"</a>, written by
+            <br />
+            <div class="blockquote-footer text-right">
+                &mdash; <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.BookId">"@Model.BookTitle"</a>, written by
                 <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a>
-            </footer>
+            </div>
         </blockquote>
     </div>
 </div>

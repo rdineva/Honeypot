@@ -7,26 +7,38 @@
     <div class="form-group">
         <p class="text-right"><b>Written by <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a></b></p>
     </div>
-    <hr style="border-color:#222222" />
+    <hr class="blackHrLine" />
     <div class="form-group">
         <p class="text-left"><b>Rating:</b> @Model.Rating/5 based on <b>@Model.ReviewsCount reviews</b></p>
     </div>
     <div class="form-group">
         <h4><b>About</b></h4>
-        <hr style="border-color:#222222" />
+        <hr class="blackHrLine" />
         <p class="text-justify">@Model.Summary</p>
     </div>
     <div class="form-group">
         <h4><b>Reviews</b></h4>
-        <hr style="border-color:#222222" />
+        <hr class="blackHrLine" />
     </div>
     <div>
-        <div>
+        <div class="form-group">
             @foreach (var review in @Model.Reviews)
             {
                 <div>@review.Owner.UserName</div>
                 <div>@review.Rating</div>
                 <div>@review.Text</div>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <h4><b>Quotes</b></h4>
+        <hr class="blackHrLine" />
+    </div>
+    <div>
+        <div>
+            @foreach (var quote in @Model.Quotes)
+            {
+                <p class="form-group"><em>"@quote.Text"</em></p>
             }
         </div>
     </div>

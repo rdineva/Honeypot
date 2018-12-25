@@ -4,6 +4,7 @@ using Honeypot.Models;
 using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Honeypot.Controllers
 {
@@ -36,8 +37,9 @@ namespace Honeypot.Controllers
                 AuthorName = author.FirstName + " " + author.LastName,
                 AuthorId = bookResult.AuthorId,
                 Rating = bookResult.Rating,
-                Reviews = bookResult.Reviews,
-                ReviewsCount = bookResult.ReviewsCount
+                Reviews = this.context.Reviews.Where(x => x.BookId == bookResult.Id).ToList(),
+                ReviewsCount = this.context.Reviews.Where(x => x.BookId == bookResult.Id).Count(),
+                Quotes = this.context.Quotes.Where(x => x.AuthorId == bookResult.AuthorId && x.BookId == bookResult.Id).ToList()
             };
 
             return View(book);
