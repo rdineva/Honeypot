@@ -48,10 +48,12 @@ namespace Honeypot.Controllers
             if (this.context.Quotes.FirstOrDefaultAsync(x => x.Text == quote.Text).Result != null)
                 return this.BadRequest("Quote already exists!");
 
+            book.Quotes.Add(quote);
+            author.Quotes.Add(quote);
             this.context.Quotes.Add(quote);
             this.context.SaveChanges();
 
-            return this.RedirectToAction("Details", "Quote", quote.Id);
+            return this.RedirectToAction("Details", quote.Id);
         }
 
         public IActionResult Details(int id)

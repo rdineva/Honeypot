@@ -27,20 +27,21 @@ namespace Honeypot.Controllers
 
         public IActionResult Register()
         {
-            //if (this.User != null)
-            //    return RedirectToAction("Index", "Home");
+            if (this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
 
         public IActionResult Login()
         {
-            //if (this.User != null)
-            //    return RedirectToAction("Index", "Home");
+            if (this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Logout()
         { 

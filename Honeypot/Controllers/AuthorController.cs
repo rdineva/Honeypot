@@ -45,7 +45,7 @@ namespace Honeypot.Controllers
             this.context.Authors.Add(author);
             this.context.SaveChanges();
 
-            return RedirectToAction("Details", "Author", author.Id);
+            return RedirectToAction("Details", "Author", new { id = author.Id });
         }
 
         public IActionResult Details(int id)
@@ -60,8 +60,8 @@ namespace Honeypot.Controllers
                 FirstName = authorResut.FirstName,
                 LastName = authorResut.LastName,
                 Biography = authorResut.Biography,
-                Books = authorResut.Books,
-                Quotes = authorResut.Quotes
+                Books = this.context.Books.Where(x => x.AuthorId == id).ToList(),
+                Quotes = this.context.Quotes.Where(x => x.AuthorId == id).ToList()
             };
 
             return this.View(author);

@@ -1,22 +1,22 @@
 ﻿@model Honeypot.ViewModels.Book.BookDetailsViewModel
 
 <div class="col-md-8 col-sm-offset-2" style="background-color: #c2daff;">
-    <div class="row">
+    <div class="form-group">
         <h1 class="text-center text-capitalize" style="font-family: Comic Sans MS, serif">@Model.Title</h1>
     </div>
-    <div class="row">
+    <div class="form-group">
         <p class="text-right"><b>Written by <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a></b></p>
     </div>
-    <hr class="row" style="border-color:#222222" />
-    <div class="row">
+    <hr style="border-color:#222222" />
+    <div class="form-group">
         <p class="text-left"><b>Rating:</b> @Model.Rating/5 based on <b>@Model.ReviewsCount reviews</b></p>
     </div>
-    <div class="row">
+    <div class="form-group">
         <h4><b>About</b></h4>
         <hr style="border-color:#222222" />
         <p class="text-justify">@Model.Summary</p>
     </div>
-    <div class="row">
+    <div class="form-group">
         <h4><b>Reviews</b></h4>
         <hr style="border-color:#222222" />
     </div>

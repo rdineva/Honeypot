@@ -64,24 +64,23 @@ namespace Honeypot.Controllers
 
             var book = new Book()
             {
-                Title = viewModel.Title,
-                Summary = viewModel.Summary,
+                Title = viewModel.Title.Trim(),
+                Summary = viewModel.Summary.Trim(),
                 AuthorId = author.Id,
                 Author =  author
             };
-
+            
             var bookExists = this.context.Books
                 .FirstOrDefaultAsync(x => x.Title == book.Title && x.AuthorId == book.AuthorId).Result;
 
             if (bookExists != null)
                 return this.BadRequest("Book already exists!");
 
+            author.Books.Add(book);
             this.context.Books.AddAsync(book);
             this.context.SaveChanges();
 
-            var bookId = this.context.Books.FirstOrDefaultAsync(x => x.Title == book.Title);
-
-            return RedirectToAction("Details", bookId);
+            return RedirectToAction("Details","Book", new { id = book.Id });
         }
     }
 }

@@ -1,27 +1,35 @@
 ﻿@model Honeypot.ViewModels.Author.AuthorDetailsViewModel
 
-<div>
-    <h1>@Model.FirstName @Model.LastName</h1>
-</div>
-<div>
-    <h3>Biography</h3>
-    @Model.Biography
-</div>
-<div>
-    <h3>Books</h3>
-    @foreach (var book in @Model.Books)
-    {
-        <div>
-            <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">@book.Title</a>
+<div class="col-md-8 col-sm-offset-2" style="background-color: #c2daff;">
+    <div class="form-group">
+        <h1 class="text-center text-capitalize">@Model.FirstName @Model.LastName</h1>
+    </div>
+    <hr style="border-color:#222222" />
+    <div class="form-group">
+        <h3>Biography</h3>
+        <hr style="border-color:#222222" />
+        <div class="text-justify">
+            @Model.Biography
         </div>
-    }
-</div>
-<div>
-    <h3>Quotes</h3>
-    @foreach (var quote in @Model.Quotes)
-    {
-        <div>
-            <a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">@quote.Text</a>
-        </div>
-    }
+    </div>
+    <div class="form-group">
+        <h3>Books</h3>
+        <hr style="border-color:#222222" />
+        @foreach (var book in @Model.Books)
+        {
+            <div class="form-group">
+                <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">@book.Title</a>
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <h3>Quotes</h3>
+        <hr style="border-color:#222222" />
+        @foreach (var quote in @Model.Quotes)
+        {
+            <div class="form-group">
+                <a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">@quote.Text</a>
+            </div>
+        }
+    </div>
 </div>
