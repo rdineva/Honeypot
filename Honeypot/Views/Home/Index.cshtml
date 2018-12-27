@@ -2,9 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="jumbotron" style="background-color: #a4c4f4">
+<div class="jumbotron" style="background-color: #a4c4f4; height:400px">
     <h1 class="display-3" style="opacity: 1; text-align: center; text-decoration-line: none; text-decoration-style: solid; font-family: Georgia, serif;">
-        <div>HONEYPOT</div>
+        <div class="brand">HONEYPOT</div>
         <hr class="blackHrLine" />
         <p class="lead">
             Our site provides you with the latest info about all newly released and upcoming books, as well as books written all throughout human existence.
@@ -12,8 +12,7 @@
         </p>
         @if (!this.User.Identity.IsAuthenticated)
         {
-            <p><a asp-controller="Account" asp-action="Register" class="btn center-block btn-lg blackButton" role="button">Register</a></p>
+            <div class=" form-group; col-md-4 col-md-offset-4"><a asp-controller="Account" asp-action="Register" class="btn center-block btn-lg blackButton" role="button">Register</a></div>
         }
-        <hr class="blackHrLine" />
     </h1>
 </div>

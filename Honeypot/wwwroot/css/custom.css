@@ -23,3 +23,12 @@ body {
     color: #c2daff;
     background-color: #222222;
 }
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #a4c4f4;
+}
+
+.brand {
+    text-transform: uppercase;
+    font-family: Comic Sans MS, serif
+}

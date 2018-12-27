@@ -53,6 +53,8 @@ namespace Honeypot
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<HoneypotUsersService, HoneypotUsersService>();
+            services.AddScoped<HoneypotUsersQuotesService, HoneypotUsersQuotesService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

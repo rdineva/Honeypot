@@ -1,15 +1,21 @@
 ﻿@using Honeypot.ViewModels.Account
 @model Honeypot.ViewModels.Account.ProfileViewModel
 
-<table class="table table-sm table-dark table-bordered table-hover" style="border:2px solid black">
-    <tbody>
+<div class="form-group">
+    <h1>@Model.Username's Account</h1>
+</div>
+<hr class="blackHrLine"/>
+<div class="col-md-5 col-md-offset-4">
+    <table class="table table-bordered"
+           style="height:200px; text-align:center; border:2px solid black;
+           background-color:black; color:#a4c4f4">
         <tr>
-            <th scope="row">Username</th>
+            <th>Username</th>
             <td>@Model.Username</td>
             <td>Edit</td>
         </tr>
         <tr>
-            <th scope="row">First Name</th>
+            <th>First Name</th>
             <td>@Model.FirstName</td>
             <td>Edit</td>
         </tr>
@@ -19,9 +25,9 @@
             <td>Edit</td>
         </tr>
         <tr>
-            <th scope="row">Email</th>
+            <th>Email</th>
             <td>@Model.Email</td>
             <td>Edit</td>
         </tr>
-    </tbody>
-</table>
+    </table>
+</div>

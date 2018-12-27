@@ -1,10 +1,13 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
+using Honeypot.Models.MappingModels;
 using Honeypot.ViewModels.Quote;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Honeypot.Controllers
 {
@@ -12,11 +15,13 @@ namespace Honeypot.Controllers
     {
         private readonly IMapper mapper;
         private readonly HoneypotDbContext context;
+        private readonly UserManager<HoneypotUser> userManager;
 
-        public QuoteController(IMapper mapper, HoneypotDbContext context)
+        public QuoteController(IMapper mapper, HoneypotDbContext context, UserManager<HoneypotUser> userManager)
         {
             this.mapper = mapper;
             this.context = context;
+            this.userManager = userManager;
         }
 
         public IActionResult Create()
@@ -72,10 +77,35 @@ namespace Honeypot.Controllers
                 BookTitle = book.Title,
                 Text =  quoteResult.Text,
                 BookId = book.Id,
-                AuthorId = author.Id
+                AuthorId = author.Id,
+                Id = id
             };
 
             return this.View(quote);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Favourite(int id)
+        {
+            var user = userManager.GetUserAsync(HttpContext.User).Result;
+
+            var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == id).Result;
+
+            if (quote == null)
+                return this.BadRequest("No such quote exists!");
+
+            if (user.FavouriteQuotes.Any(x => x.QuoteId == id))
+                return RedirectToAction("Details", new { id = id });
+
+            var userQuote = new UsersQuotes() { QuoteId = id, UserId = user.Id };
+            this.context.UsersQuotes.Add(userQuote);
+            user.FavouriteQuotes.Add(userQuote);
+            quote.UsersWhoLikedIt.Add(userQuote);
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = id });
         }
     }
 }
