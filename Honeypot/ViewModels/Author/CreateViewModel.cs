@@ -8,18 +8,18 @@ namespace Honeypot.ViewModels.Author
         [Required]
         [DisplayName("First Name")]
         [DataType(DataType.Text)]
-        [StringLength(25, ErrorMessage = "First name is too long", MinimumLength = 3)]
+        [StringLength(25, ErrorMessage = "First name is too long!", MinimumLength = 3)]
         public string FirstName { get; set; }
 
         [Required]
         [DisplayName("Last Name")]
         [DataType(DataType.Text)]
-        [StringLength(25, ErrorMessage = "Last name is too long", MinimumLength = 3)]
+        [StringLength(25, ErrorMessage = "Last name is too long!", MinimumLength = 3)]
         public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(500, ErrorMessage = "Biography is too long", MinimumLength = 10)]
+        [StringLength(500, ErrorMessage = "Biography is too long!", MinimumLength = 10)]
         public string Biography { get; set; }
     }
 }
