@@ -19,8 +19,6 @@ namespace Honeypot.ViewModels.Book
 
         public decimal Rating { get; set; }
 
-        public ICollection<Models.Review> Reviews { get; set; }
-
         public ICollection<Models.Quote> Quotes { get; set; }
     }
 }
