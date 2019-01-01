@@ -13,10 +13,8 @@ namespace Honeypot.ViewModels.Account
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
-        [DisplayName("Username")]
         public string Username { get; set; }
 
-        [DisplayName("Email")]
         public string Email { get; set; }
 
         public ICollection<Models.Bookshelf> Bookshelves { get; set; }

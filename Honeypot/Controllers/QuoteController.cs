@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace Honeypot.Controllers
 {
+    [Authorize]
     public class QuoteController : Controller
     {
         private readonly IMapper mapper;
@@ -61,6 +62,7 @@ namespace Honeypot.Controllers
             return this.RedirectToAction("Details", quote.Id);
         }
 
+        [AllowAnonymous]
         public IActionResult Details(int id)
         {
             var quoteResult = this.context.Quotes.FirstOrDefaultAsync(q => q.Id == id).Result;
@@ -75,7 +77,7 @@ namespace Honeypot.Controllers
             {
                 AuthorName = author.FirstName + " " + author.LastName,
                 BookTitle = book.Title,
-                Text =  quoteResult.Text,
+                Text = quoteResult.Text,
                 BookId = book.Id,
                 AuthorId = author.Id,
                 Id = id
@@ -84,7 +86,6 @@ namespace Honeypot.Controllers
             return this.View(quote);
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult Favourite(int id)
         {
@@ -102,6 +103,46 @@ namespace Honeypot.Controllers
             this.context.UsersQuotes.Add(userQuote);
             user.FavouriteQuotes.Add(userQuote);
             quote.UsersWhoLikedIt.Add(userQuote);
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = id });
+        }
+
+        public IActionResult MyFavouriteQuotes()
+        {
+            var user = userManager.GetUserAsync(HttpContext.User).Result;
+            var quotesList = this.context.UsersQuotes.Where(x => x.UserId == user.Id).Select(x => x.QuoteId).ToList();
+
+            var quotes = new MyFavouriteQuotesViewModel();
+            foreach(var q in quotesList)
+            {
+                var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == q).Result;
+                var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quote.AuthorId).Result;
+                quote.Author = author;
+                quotes.Quotes.Add(quote);
+            }            
+
+            return this.View(quotes);
+        }
+
+        [HttpPost]
+        public IActionResult Unfavourite(int id)
+        {
+            var user = userManager.GetUserAsync(HttpContext.User).Result;
+
+            var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == id).Result;
+
+            if (quote == null)
+                return this.BadRequest("No such quote exists!");
+
+            if (user.FavouriteQuotes.All(x => x.QuoteId != id))
+                return RedirectToAction("Details", new { id = id });
+
+            var userQuote = new UsersQuotes() { QuoteId = id, UserId = user.Id };
+            this.context.UsersQuotes.Remove(userQuote);
+            user.FavouriteQuotes.Remove(userQuote);
+            quote.UsersWhoLikedIt.Remove(userQuote);
 
             this.context.SaveChanges();
 

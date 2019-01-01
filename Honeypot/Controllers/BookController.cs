@@ -2,12 +2,15 @@
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.ViewModels.Book;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace Honeypot.Controllers
 {
+    [Authorize]
     public class BookController : Controller
     {
         private readonly IMapper mapper;
@@ -32,19 +35,20 @@ namespace Honeypot.Controllers
 
             var book = new BookDetailsViewModel()
             {
+                Id = bookResult.Id,
                 Title = bookResult.Title,
                 Summary = bookResult.Summary,
                 AuthorName = author.FirstName + " " + author.LastName,
                 AuthorId = bookResult.AuthorId,
                 Rating = bookResult.Rating,
-                Reviews = this.context.Reviews.Where(x => x.BookId == bookResult.Id).ToList(),
-                ReviewsCount = this.context.Reviews.Where(x => x.BookId == bookResult.Id).Count(),
+                ReviewsCount = bookResult.RatingsCount,
                 Quotes = this.context.Quotes.Where(x => x.AuthorId == bookResult.AuthorId && x.BookId == bookResult.Id).ToList()
             };
 
             return View(book);
         }
 
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
@@ -83,6 +87,30 @@ namespace Honeypot.Controllers
             this.context.SaveChanges();
 
             return RedirectToAction("Details","Book", new { id = book.Id });
+        }
+
+        [HttpPost]
+        public IActionResult AddToBookshelf()
+        {
+            return null;
+        }
+
+        [HttpPost]
+        public IActionResult Rate(int stars, int BookId)
+        {
+            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result;
+            if (book == null)
+                return this.BadRequest("Book is invalid!");
+
+            if (stars < 1 || stars > 5)
+                return this.BadRequest("Rating is invalid!");
+
+            var rating = (Rating)Enum.Parse(typeof(Rating), stars.ToString());
+
+            this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result.Ratings.Add(rating);
+            this.context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = book.Id });
         }
     }
 }

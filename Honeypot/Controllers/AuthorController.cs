@@ -3,11 +3,13 @@ using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.ViewModels.Author;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Honeypot.Controllers
 {
+    [Authorize]
     public class AuthorController : Controller
     {
         private readonly IMapper mapper;
@@ -48,6 +50,7 @@ namespace Honeypot.Controllers
             return RedirectToAction("Details", "Author", new { id = author.Id });
         }
 
+        [AllowAnonymous]
         public IActionResult Details(int id)
         {
             var authorResut = this.context.Authors.FirstOrDefaultAsync(x => x.Id == id).Result;

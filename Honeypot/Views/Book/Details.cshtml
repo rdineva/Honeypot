@@ -1,6 +1,10 @@
 ﻿@model Honeypot.ViewModels.Book.BookDetailsViewModel
+@{
+    ViewData["BookId"] = Model.Id;
+    ViewBag.BookId = Model.Id;
+}
 
-<div class="col-md-8 col-sm-offset-2" style="background-color: #c2daff;">
+<div class="col-md-6 col-sm-offset-2" style="background-color: #c2daff;">
     <div class="form-group">
         <h1 class="text-center text-capitalize" style="font-family: Comic Sans MS, serif">@Model.Title</h1>
     </div>
@@ -13,6 +17,27 @@
             <p class="text-right"><b>Written by <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a></b></p>
         </div>
     </div>
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <div class="row form-group">
+            <form asp-controller="Book" asp-action="Rate" method="post">
+                <div class="col-md-10 @*col-md-offset-8*@">
+                    <select class="form-control" name="stars">
+                        <option disabled selected>Rating</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                    <input type="number" hidden value="@Model.Id" name="BookId" />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn blackButton">Rate</button>
+                </div>
+            </form>
+        </div>
+    }
     <div class="form-group">
         <h4><b>About</b></h4>
         <hr class="blackHrLine" />

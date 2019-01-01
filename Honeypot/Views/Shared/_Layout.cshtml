@@ -37,12 +37,13 @@
                     {
                         <li><a asp-controller="Books" asp-action="AllBooks">Discover</a></li>
                         <li><a asp-controller="Bookshelves" asp-action="AllBookshelves">My Bookshelves</a></li>
-                        @*@if (this.User.IsInRole("Admin"))*@
                         <li class="nav-item dropdown">
                             <a style="text-decoration:none" class="" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Create
                             </a>
-                            <div style="text-align:center; line-height:13px;" class="dropdown-menu">
+                            <div style="text-align:center; background-color:black; line-height:13px;" class="dropdown-menu">
+                                <a style="color:dodgerblue; text-decoration:none" class=" row dropdown-item" asp-controller="Bookshelf" asp-action="Create">Create Bookshelf</a>
+                                @*@if (this.User.IsInRole("Admin"))*@
                                 <a style="color:dodgerblue; text-decoration:none" class=" row dropdown-item" asp-controller="Book" asp-action="Create">Create Book</a>
                                 <a style="color:dodgerblue; text-decoration:none" class="row nav-link dropdown-item" asp-controller="Author" asp-action="Create">Create Author</a>
                                 <a style="color:dodgerblue; text-decoration:none;" class="row nav-link dropdown-item" asp-controller="Quote" asp-action="Create">Create Quote</a>
@@ -91,7 +92,7 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-<footer>
+<footer class="footer">
     <div class="container" style="width: 100%; color: lightgrey; background-color: #222222">
         <p style="text-align: center; color:#c2daff">Honeypot &copy; 2018 - All Rights Reserved</p>
     </div>

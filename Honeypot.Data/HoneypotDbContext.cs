@@ -21,8 +21,6 @@ namespace Honeypot.Data
 
         public DbSet<Bookshelf> Bookshelves { get; set; }
 
-        public DbSet<Review> Reviews { get; set; }
-
         public DbSet<UsersQuotes> UsersQuotes { get; set; }
 
         public DbSet<BooksBookshelves> BooksBookshelves { get; set; }

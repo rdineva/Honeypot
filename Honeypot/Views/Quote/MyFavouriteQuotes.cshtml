@@ -1,0 +1,18 @@
+﻿@model Honeypot.ViewModels.Quote.MyFavouriteQuotesViewModel
+
+@{
+    ViewData["Title"] = "My Favourite Quotes";
+}
+
+<div class="form-group col-md-6 col-md-offset-2">
+    <h2>@ViewData["Title"]</h2>
+    <hr class="blackHrLine" />
+    @foreach (var quote in @Model.Quotes)
+    {
+        <p class="form-group"><em>"@quote.Text"</em></p>
+        <p class="col-md-12 text-right">
+            &ndash; @quote.Author.FirstName @quote.Author.LastName &nbsp; &nbsp;
+            <a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">Details</a>
+        </p>
+    }
+</div>

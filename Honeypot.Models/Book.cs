@@ -9,7 +9,7 @@ namespace Honeypot.Models
     {
         public Book()
         {
-            this.Reviews = new List<Review>();
+            this.Ratings = new List<Rating>();
             this.Bookshelves = new List<BooksBookshelves>();
             this.Quotes = new List<Quote>();
         }
@@ -24,12 +24,12 @@ namespace Honeypot.Models
 
         public string Summary { get; set; }
 
-        public int ReviewsCount => this.Reviews.Count;
+        public int RatingsCount => this.Ratings.Count;
 
-        public decimal Rating => this.ReviewsCount > 0 ? (this.Reviews.Sum(x => int.Parse(x.Rating.ToString())) 
-                                 / (decimal)this.ReviewsCount) : 0;
+        public decimal Rating => this.RatingsCount > 0 ? (this.Ratings.Sum(x => int.Parse(x.ToString())) / (decimal)this.RatingsCount) : 0;
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        [NotMapped]
+        public virtual ICollection<Rating> Ratings { get; set; }
 
         public virtual ICollection<BooksBookshelves> Bookshelves { get; set; }
 

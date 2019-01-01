@@ -8,7 +8,6 @@ namespace Honeypot.Models
     {
         public HoneypotUser()
         {
-            this.Reviews = new List<Review>();
             this.CustomBookshelves = new List<Bookshelf>();
             this.FavouriteQuotes = new List<UsersQuotes>();
         }
@@ -16,9 +15,6 @@ namespace Honeypot.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public virtual ICollection<Review> Reviews { get; set; }
-
 
         //TODO: add read, to-read, and fav bookshelves
         //public int ReadId { get; set; }

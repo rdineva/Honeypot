@@ -217,13 +217,12 @@
     <Compile Include="Author.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Bookshelf.cs" />
-    <Compile Include="Enums\Rating.cs" />
     <Compile Include="HoneypotUser.cs" />
     <Compile Include="MappingModels\BooksBookshelves.cs" />
     <Compile Include="MappingModels\UsersQuotes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quote.cs" />
-    <Compile Include="Review.cs" />
+    <Compile Include="Rating.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

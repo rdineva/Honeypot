@@ -2,32 +2,38 @@
 @model Honeypot.ViewModels.Account.ProfileViewModel
 
 <div class="form-group">
-    <h1>@Model.Username's Account</h1>
+    <h1 class="text-right">@Model.Username's Account</h1>
 </div>
-<hr class="blackHrLine"/>
-<div class="col-md-5 col-md-offset-4">
-    <table class="table table-bordered"
-           style="height:200px; text-align:center; border:2px solid black;
+<hr class="blackHrLine" />
+<div class="container">
+    <div style="float:left; width:50%; padding-left:50px">
+        <table class="table table-bordered"
+               style="height:200px; text-align:center; border:2px solid black;
            background-color:black; color:#a4c4f4">
-        <tr>
-            <th>Username</th>
-            <td>@Model.Username</td>
-            <td>Edit</td>
-        </tr>
-        <tr>
-            <th>First Name</th>
-            <td>@Model.FirstName</td>
-            <td>Edit</td>
-        </tr>
-        <tr>
-            <th scope="row">Last Name</th>
-            <td>@Model.LastName</td>
-            <td>Edit</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>@Model.Email</td>
-            <td>Edit</td>
-        </tr>
-    </table>
+            <tr>
+                <th>Username</th>
+                <td>@Model.Username</td>
+            </tr>
+            <tr>
+                <th>First Name</th>
+                <td>@Model.FirstName</td>
+            </tr>
+            <tr>
+                <th scope="row">Last Name</th>
+                <td>@Model.LastName</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@Model.Email</td>
+            </tr>
+        </table>
+    </div>
+    <div style="float:left; width:50%">
+        <div class="text-right form-group" style="padding-right:50px">
+            <a asp-controller="Quote" asp-action="MyFavouriteQuotes">My Favourite Quotes</a>
+        </div>
+        <div class="text-right form-group" style="padding-right:50px">
+            <a asp-controller="Bookshelf" asp-action="MyBookshelves">My Bookshelves</a>
+        </div>
+    </div>
 </div>
