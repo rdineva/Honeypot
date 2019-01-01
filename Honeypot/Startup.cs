@@ -54,6 +54,7 @@ namespace Honeypot
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<HoneypotUsersService, HoneypotUsersService>();
             services.AddScoped<HoneypotUsersQuotesService, HoneypotUsersQuotesService>();
+            services.AddScoped<HoneypotUsersBookshelvesService, HoneypotUsersBookshelvesService>();
 
         }
 

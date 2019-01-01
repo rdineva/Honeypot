@@ -214,6 +214,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseService.cs" />
+    <Compile Include="HoneypotUsersBookshelvesService.cs" />
     <Compile Include="HoneypotUsersQuotesService.cs" />
     <Compile Include="HoneypotUsersService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

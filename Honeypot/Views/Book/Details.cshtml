@@ -1,8 +1,6 @@
 ﻿@model Honeypot.ViewModels.Book.BookDetailsViewModel
-@{
-    ViewData["BookId"] = Model.Id;
-    ViewBag.BookId = Model.Id;
-}
+@inject Honeypot.Services.HoneypotUsersBookshelvesService bookshelvesService
+@inject Honeypot.Services.HoneypotUsersService usersService
 
 <div class="col-md-6 col-sm-offset-2" style="background-color: #c2daff;">
     <div class="form-group">
@@ -43,6 +41,33 @@
         <hr class="blackHrLine" />
         <p class="text-justify">@Model.Summary</p>
     </div>
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        var user = this.usersService.GetByUsername(this.User.Identity.Name);
+        <div class="row form-group">
+            <form asp-controller="Book" asp-action="AddToBookshelf" method="post">
+                <div class="col-md-10">
+                    <select class="form-control" name="bookshelf">
+                        <option disabled selected>Add to Bookshelf</option>
+                        @foreach (var bookshelf in this.bookshelvesService.GetUsersBookshelves(user.Id))
+                        {
+                            if (this.bookshelvesService.CheckIfBookIsInBookshelf(@Model.Id, bookshelf.Id))
+                            {
+                                <option disabled>@bookshelf.Title</option>
+                            }
+                            else
+                            {
+                                <option value="@bookshelf.Id">@bookshelf.Title</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn blackButton">Add</button>
+                </div>
+            </form>
+        </div>
+    }
     <div class="form-group">
         <h4><b>Quotes</b></h4>
         <hr class="blackHrLine" />

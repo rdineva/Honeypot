@@ -25,6 +25,7 @@ namespace Honeypot.Controllers
             this.usersService = usersService;
         }
 
+        [AllowAnonymous]
         public IActionResult Details(int id)
         {
             var bookResult = this.context.Books.FirstOrDefaultAsync(x => x.Id == id).Result;
@@ -51,7 +52,6 @@ namespace Honeypot.Controllers
             return View(book);
         }
 
-        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();

@@ -1,20 +1,11 @@
 ﻿using Honeypot.Data;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Honeypot.Services
 {
-    public class HoneypotUsersQuotesService
+    public class HoneypotUsersQuotesService : BaseService
     {
-        private readonly HoneypotDbContext context;
-
-        public HoneypotUsersQuotesService(HoneypotDbContext context)
-        {
-            this.context = context;
-        }
+        public HoneypotUsersQuotesService(HoneypotDbContext context) : base(context) { }
 
         public bool HasUserLikedQuote(int quoteId, string userId)
         {

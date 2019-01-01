@@ -4,14 +4,9 @@ using Honeypot.Models;
 
 namespace Honeypot.Services
 {
-    public class HoneypotUsersService
+    public class HoneypotUsersService : BaseService
     {
-        private readonly HoneypotDbContext context;
-
-        public HoneypotUsersService(HoneypotDbContext context)
-        {
-            this.context = context;
-        }
+        public HoneypotUsersService(HoneypotDbContext context) : base(context) { }
 
         public HoneypotUser GetByUsername(string username) =>
             this.context.Users.FirstOrDefault(x => x.UserName == username);
