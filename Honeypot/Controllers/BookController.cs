@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
+using Honeypot.Services;
 using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace Honeypot.Controllers
     {
         private readonly IMapper mapper;
         private readonly HoneypotDbContext context;
+        private readonly HoneypotUsersService usersService;
 
-        public BookController(IMapper mapper, HoneypotDbContext context)
+        public BookController(IMapper mapper, HoneypotDbContext context, HoneypotUsersService usersService)
         {
             this.mapper = mapper;
             this.context = context;
+            this.usersService = usersService;
         }
 
         public IActionResult Details(int id)
@@ -40,8 +43,8 @@ namespace Honeypot.Controllers
                 Summary = bookResult.Summary,
                 AuthorName = author.FirstName + " " + author.LastName,
                 AuthorId = bookResult.AuthorId,
-                Rating = bookResult.Rating,
-                ReviewsCount = bookResult.RatingsCount,
+                Rating = this.context.Ratings.Where(x => x.BookId == id).Select(x => x.Stars).Average(),
+                ReviewsCount = this.context.Ratings.Where(x => x.BookId == id).Count(),
                 Quotes = this.context.Quotes.Where(x => x.AuthorId == bookResult.AuthorId && x.BookId == bookResult.Id).ToList()
             };
 
@@ -73,9 +76,9 @@ namespace Honeypot.Controllers
                 Title = viewModel.Title.Trim(),
                 Summary = viewModel.Summary.Trim(),
                 AuthorId = author.Id,
-                Author =  author
+                Author = author
             };
-            
+
             var bookExists = this.context.Books
                 .FirstOrDefaultAsync(x => x.Title == book.Title && x.AuthorId == book.AuthorId).Result;
 
@@ -86,7 +89,7 @@ namespace Honeypot.Controllers
             this.context.Books.AddAsync(book);
             this.context.SaveChanges();
 
-            return RedirectToAction("Details","Book", new { id = book.Id });
+            return RedirectToAction("Details", "Book", new { id = book.Id });
         }
 
         [HttpPost]
@@ -105,9 +108,19 @@ namespace Honeypot.Controllers
             if (stars < 1 || stars > 5)
                 return this.BadRequest("Rating is invalid!");
 
-            var rating = (Rating)Enum.Parse(typeof(Rating), stars.ToString());
+            var user = this.usersService.GetByUsername(this.User.Identity.Name);
 
-            this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result.Ratings.Add(rating);
+            if (this.context.Ratings.Any(x => x.BookId == BookId && x.UserId == user.Id))
+            {
+                var rating = this.context.Ratings.FirstOrDefaultAsync(x => x.BookId == BookId && x.UserId == user.Id).Result;
+                rating.Stars = stars;
+            }
+            else
+            {
+                var rating = new Rating() { Stars = stars, UserId = user.Id };
+                this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result.Ratings.Add(rating);
+            }
+
             this.context.SaveChanges();
 
             return RedirectToAction("Details", new { id = book.Id });

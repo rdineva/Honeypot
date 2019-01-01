@@ -174,7 +174,7 @@ namespace Honeypot.Data.Migrations
                     b.ToTable("Quotes");
                 });
 
-            modelBuilder.Entity("Honeypot.Models.Review", b =>
+            modelBuilder.Entity("Honeypot.Models.Rating", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,19 +182,17 @@ namespace Honeypot.Data.Migrations
 
                     b.Property<int>("BookId");
 
-                    b.Property<string>("OwnerId");
+                    b.Property<int>("Stars");
 
-                    b.Property<int>("Rating");
-
-                    b.Property<string>("Text");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -361,16 +359,16 @@ namespace Honeypot.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Honeypot.Models.Review", b =>
+            modelBuilder.Entity("Honeypot.Models.Rating", b =>
                 {
                     b.HasOne("Honeypot.Models.Book", "Book")
-                        .WithMany("Reviews")
+                        .WithMany("Ratings")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Honeypot.Models.HoneypotUser", "Owner")
-                        .WithMany("Reviews")
-                        .HasForeignKey("OwnerId");
+                    b.HasOne("Honeypot.Models.HoneypotUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

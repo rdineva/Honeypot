@@ -26,9 +26,8 @@ namespace Honeypot.Models
 
         public int RatingsCount => this.Ratings.Count;
 
-        public decimal Rating => this.RatingsCount > 0 ? (this.Ratings.Sum(x => int.Parse(x.ToString())) / (decimal)this.RatingsCount) : 0;
+        public double Rating => this.RatingsCount > 0 ? (this.Ratings.Sum(x => x.Stars) / (double)this.RatingsCount) : 0;
 
-        [NotMapped]
         public virtual ICollection<Rating> Ratings { get; set; }
 
         public virtual ICollection<BooksBookshelves> Bookshelves { get; set; }

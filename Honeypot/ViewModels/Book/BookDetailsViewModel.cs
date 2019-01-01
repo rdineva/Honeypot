@@ -19,7 +19,7 @@ namespace Honeypot.ViewModels.Book
         [DisplayName("Reviews Count")]
         public int ReviewsCount { get; set; }
 
-        public decimal Rating { get; set; }
+        public double Rating { get; set; }
 
         public ICollection<Models.Quote> Quotes { get; set; }
     }
