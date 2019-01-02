@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
+using Honeypot.Models.MappingModels;
 using Honeypot.Services;
 using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 
 namespace Honeypot.Controllers
@@ -93,9 +93,30 @@ namespace Honeypot.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToBookshelf()
+        public IActionResult AddToBookshelf(int BookshelfId, int BookId)
         {
-            return null;
+            var bookResult = this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result;
+
+            if (bookResult == null)
+                return this.BadRequest("Book doesn't exist!");
+
+            var user = this.usersService.GetByUsername(this.User.Identity.Name);
+
+            var bookshelfResult = this.context.Bookshelves.Where(x => x.OwnerId == user.Id).FirstOrDefaultAsync(x => x.Id == BookshelfId).Result;
+
+            if (bookshelfResult == null)
+                return this.BadRequest("Bookshelf doesn't exist!");
+
+            var bookBookshelf = new BooksBookshelves()
+            {
+                BookId = bookResult.Id,
+                BookshelfId = BookshelfId
+            };
+
+            user.CustomBookshelves.First(x => x.Id == BookshelfId).Books.Add(bookBookshelf);
+            this.context.SaveChanges();
+
+            return RedirectToAction("Bookshelf", "Details", new { id = BookshelfId });
         }
 
         [HttpPost]

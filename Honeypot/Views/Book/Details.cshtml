@@ -47,7 +47,7 @@
         <div class="row form-group">
             <form asp-controller="Book" asp-action="AddToBookshelf" method="post">
                 <div class="col-md-10">
-                    <select class="form-control" name="bookshelf">
+                    <select class="form-control" name="BookshelfId">
                         <option disabled selected>Add to Bookshelf</option>
                         @foreach (var bookshelf in this.bookshelvesService.GetUsersBookshelves(user.Id))
                         {
@@ -61,6 +61,7 @@
                             }
                         }
                     </select>
+                    <input type="number" hidden value="@Model.Id" name="BookId"/>
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn blackButton">Add</button>

@@ -3,10 +3,8 @@ using Honeypot.Models;
 using Honeypot.Services;
 using Honeypot.ViewModels.Bookshelf;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Honeypot.Controllers
 {
@@ -50,8 +48,8 @@ namespace Honeypot.Controllers
             };
 
             this.context.Bookshelves.Add(bookshelf);
-            this.context.SaveChanges();
             user.CustomBookshelves.Add(bookshelf);
+            this.context.SaveChanges();
 
             return RedirectToAction("Details", new { id = bookshelf.Id });
         }
