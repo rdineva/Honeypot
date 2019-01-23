@@ -5,6 +5,7 @@ using Honeypot.ViewModels.Bookshelf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Honeypot.Controllers
 {
@@ -63,12 +64,15 @@ namespace Honeypot.Controllers
             if (bookshelfResult == null || bookshelfResult.OwnerId != user.Id)
                 return this.BadRequest("Bookshelf doesn't exist!");
 
+            var booksInBookshelf = this.context.BooksBookshelves.Where(x => x.BookshelfId == id).Select(x => x.BookId);
+
             var bookshelf = new DetailsViewModel()
             {
                 Title = bookshelfResult.Title,
                 OwnerId = bookshelfResult.OwnerId,
                 OwnerNickname = bookshelfResult.Owner.UserName,
-                Books = bookshelfResult.Books
+                Books = this.context.BooksBookshelves.Where(x => booksInBookshelf.Contains(x.BookId)).ToList()
+                //Books = this.context.Books.Where(x => booksInBookshelf.Contains(x.Id)).ToList()
             };
 
             return this.View(bookshelf);

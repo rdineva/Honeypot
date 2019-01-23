@@ -107,6 +107,9 @@ namespace Honeypot.Controllers
             if (bookshelfResult == null)
                 return this.BadRequest("Bookshelf doesn't exist!");
 
+            if (this.context.BooksBookshelves.Any(x => x.BookId == BookId && x.BookshelfId == BookshelfId))
+                return this.BadRequest("Book is already on that bookshelf!");
+
             var bookBookshelf = new BooksBookshelves()
             {
                 BookId = bookResult.Id,
@@ -116,7 +119,7 @@ namespace Honeypot.Controllers
             user.CustomBookshelves.First(x => x.Id == BookshelfId).Books.Add(bookBookshelf);
             this.context.SaveChanges();
 
-            return RedirectToAction("Bookshelf", "Details", new { id = BookshelfId });
+            return RedirectToAction("Details", "Bookshelf", new { id = BookshelfId });
         }
 
         [HttpPost]
