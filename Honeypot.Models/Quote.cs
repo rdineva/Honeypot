@@ -8,7 +8,7 @@ namespace Honeypot.Models
     {
         public Quote()
         {
-            this.UsersWhoLikedIt = new List<UsersQuotes>();
+            this.LikedByUsers = new List<UsersQuotes>();
         }
 
         public int Id { get; set; }
@@ -23,6 +23,6 @@ namespace Honeypot.Models
         public int? BookId { get; set; }
         public virtual Book Book { get; set; }
 
-        public virtual ICollection<UsersQuotes> UsersWhoLikedIt { get; set; }
+        public virtual ICollection<UsersQuotes> LikedByUsers { get; set; }
     }
 }

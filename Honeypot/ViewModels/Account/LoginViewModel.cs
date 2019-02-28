@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Honeypot.ViewModels
+namespace Honeypot.ViewModels.Account
 {
     public class LoginViewModel
     {

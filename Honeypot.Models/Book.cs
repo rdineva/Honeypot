@@ -10,7 +10,7 @@ namespace Honeypot.Models
         public Book()
         {
             this.Ratings = new List<Rating>();
-            this.Bookshelves = new List<BooksBookshelves>();
+            this.AddedToBookshelves = new List<BooksBookshelves>();
             this.Quotes = new List<Quote>();
         }
 
@@ -24,13 +24,13 @@ namespace Honeypot.Models
 
         public string Summary { get; set; }
 
-        public int RatingsCount => this.Ratings.Count;
+        public int CountOfRatings => this.Ratings.Count;
 
-        public double Rating => this.RatingsCount > 0 ? (this.Ratings.Sum(x => x.Stars) / (double)this.RatingsCount) : 0;
+        public double AverageRating => this.CountOfRatings > 0 ? (this.Ratings.Sum(x => x.Stars) / (double)this.CountOfRatings) : 0;
 
         public virtual ICollection<Rating> Ratings { get; set; }
 
-        public virtual ICollection<BooksBookshelves> Bookshelves { get; set; }
+        public virtual ICollection<BooksBookshelves> AddedToBookshelves { get; set; }
 
         public virtual ICollection<Quote> Quotes { get; set; }
     }

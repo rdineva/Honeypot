@@ -16,7 +16,6 @@ namespace Honeypot
             CreateMap<RegisterViewModel, HoneypotUser>();
             CreateMap<HoneypotUser, ProfileViewModel>();
             CreateMap<Book, BookDetailsViewModel>();
-            //.ForMember(x => x.Author, y => y.MapFrom(z => z.Author));
 
             CreateMap<ViewModels.Author.CreateViewModel, Author>();
             CreateMap<Author, AuthorDetailsViewModel>();
