@@ -4,11 +4,11 @@ namespace Honeypot.Services
 {
     public class BaseService
     {
-        protected readonly HoneypotDbContext context;
+        protected readonly HoneypotDbContext Context;
 
-        public BaseService(HoneypotDbContext context)
+        protected BaseService(HoneypotDbContext context)
         {
-            this.context = context;
+            this.Context = context;
         }
     }
 }

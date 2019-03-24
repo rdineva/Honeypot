@@ -5,11 +5,13 @@ namespace Honeypot.Services
 {
     public class HoneypotUsersQuotesService : BaseService
     {
-        public HoneypotUsersQuotesService(HoneypotDbContext context) : base(context) { }
+        public HoneypotUsersQuotesService(HoneypotDbContext context) : base(context)
+        {
+        }
 
         public bool HasUserLikedQuote(int quoteId, string userId)
         {
-            if (this.context.UsersQuotes.Any(x => x.UserId == userId && x.QuoteId == quoteId))
+            if (this.Context.UsersQuotes.Any(x => x.UserId == userId && x.QuoteId == quoteId))
                 return true;
 
             return false;

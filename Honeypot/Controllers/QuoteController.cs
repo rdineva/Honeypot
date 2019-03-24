@@ -102,7 +102,7 @@ namespace Honeypot.Controllers
             var userQuote = new UsersQuotes() { QuoteId = id, UserId = user.Id };
             this.context.UsersQuotes.Add(userQuote);
             user.FavouriteQuotes.Add(userQuote);
-            quote.UsersWhoLikedIt.Add(userQuote);
+            quote.LikedByUsers.Add(userQuote);
 
             this.context.SaveChanges();
 
@@ -142,7 +142,7 @@ namespace Honeypot.Controllers
             var userQuote = new UsersQuotes() { QuoteId = id, UserId = user.Id };
             this.context.UsersQuotes.Remove(userQuote);
             user.FavouriteQuotes.Remove(userQuote);
-            quote.UsersWhoLikedIt.Remove(userQuote);
+            quote.LikedByUsers.Remove(userQuote);
 
             this.context.SaveChanges();
 

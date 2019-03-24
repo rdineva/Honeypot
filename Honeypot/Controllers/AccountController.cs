@@ -16,7 +16,7 @@ namespace Honeypot.Controllers
         private readonly HoneypotUsersService usersService;
         private readonly UserManager<HoneypotUser> userManager;
 
-        public AccountController(SignInManager<HoneypotUser> signInManager, IMapper mapper, 
+        public AccountController(SignInManager<HoneypotUser> signInManager, IMapper mapper,
             HoneypotUsersService usersService, UserManager<HoneypotUser> userManager)
         {
             this.signInManager = signInManager;
@@ -44,7 +44,7 @@ namespace Honeypot.Controllers
         [Authorize]
         [HttpPost]
         public IActionResult Logout()
-        { 
+        {
             this.signInManager.SignOutAsync().Wait();
             return RedirectToAction("Index", "Home");
         }

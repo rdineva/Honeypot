@@ -35,8 +35,8 @@
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     @if (this.User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-controller="Books" asp-action="AllBooks">Discover</a></li>
-                        <li><a asp-controller="Bookshelves" asp-action="AllBookshelves">My Bookshelves</a></li>
+                        <li><a asp-controller="Book" asp-action="AllBooks">Discover</a></li>
+                        <li><a asp-controller="Bookshelf" asp-action="AllBookshelves">My Bookshelves</a></li>
                         <li class="nav-item dropdown">
                             <a style="text-decoration:none" class="" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Create

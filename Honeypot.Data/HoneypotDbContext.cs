@@ -30,10 +30,10 @@ namespace Honeypot.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BooksBookshelves>()
-                .HasKey(x => new { x.BookId, x.BookshelfId });
+                .HasKey(x => new {x.BookId, x.BookshelfId});
 
             builder.Entity<UsersQuotes>()
-                .HasKey(x => new { x.QuoteId, x.UserId });
+                .HasKey(x => new {x.QuoteId, x.UserId});
 
             builder.Entity<Quote>()
                 .HasOne(x => x.Author)
@@ -59,7 +59,8 @@ namespace Honeypot.Data
         HoneypotDbContext IDesignTimeDbContextFactory<HoneypotDbContext>.CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<HoneypotDbContext>();
-            optionsBuilder.UseSqlServer<HoneypotDbContext>(@"Server=DESKTOP-5E1CE94;Database=Honeypot;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer<HoneypotDbContext>(
+                @"Server=DESKTOP-5E1CE94;Database=Honeypot;Trusted_Connection=True;MultipleActiveResultSets=true");
 
             return new HoneypotDbContext(optionsBuilder.Options);
         }
