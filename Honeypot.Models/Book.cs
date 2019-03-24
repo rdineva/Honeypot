@@ -10,7 +10,7 @@ namespace Honeypot.Models
         public Book()
         {
             this.Ratings = new List<Rating>();
-            this.AddedToBookshelves = new List<BooksBookshelves>();
+            this.InBookshelves = new List<BooksBookshelves>();
             this.Quotes = new List<Quote>();
         }
 
@@ -30,7 +30,7 @@ namespace Honeypot.Models
 
         public virtual ICollection<Rating> Ratings { get; set; }
 
-        public virtual ICollection<BooksBookshelves> AddedToBookshelves { get; set; }
+        public virtual ICollection<BooksBookshelves> InBookshelves { get; set; }
 
         public virtual ICollection<Quote> Quotes { get; set; }
     }

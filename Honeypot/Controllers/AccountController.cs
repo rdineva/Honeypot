@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Honeypot.Models;
 using Honeypot.Services;
-using Honeypot.ViewModels;
 using Honeypot.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -58,6 +57,10 @@ namespace Honeypot.Controllers
             }
 
             var user = this.usersService.GetByUsername(viewModel.Username);
+
+            if (user == null)
+                return this.View();
+
             var result = signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false).Result;
 
             if (result.Succeeded)
@@ -78,12 +81,14 @@ namespace Honeypot.Controllers
             }
 
             var user = mapper.Map<HoneypotUser>(viewModel);
-
             var result = this.userManager.CreateAsync(user, viewModel.Password).Result;
 
             if (result.Succeeded)
             {
                 this.signInManager.SignInAsync(user, false).Wait();
+
+                IdentityResult identityResult = userManager.AddToRoleAsync(user, "User").Result;
+
                 return this.RedirectToAction("Index", "Home");
             }
 

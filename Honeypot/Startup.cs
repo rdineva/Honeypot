@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Services;
@@ -59,7 +61,7 @@ namespace Honeypot
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -84,6 +86,37 @@ namespace Honeypot
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            CreateUserRoles(services).Wait();
+        }
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<HoneypotUser>>();
+
+            IdentityResult roleResult;
+
+            //Adding Admin Role
+            var roleCheckAdmin = await RoleManager.RoleExistsAsync("Admin");
+            var roleCheckUser = await RoleManager.RoleExistsAsync("User");
+
+            if (!roleCheckAdmin)
+            {
+                //create the roles and seed them to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            if (!roleCheckUser)
+            {
+                //create the roles and seed them to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("User"));
+            }
+
+            //Assign Admin role to the main User here we have given our newly registered 
+            //login id for Admin management
+            HoneypotUser user = await UserManager.FindByNameAsync("Kolkata");
+            await UserManager.AddToRoleAsync(user, "Admin");
         }
     }
 }

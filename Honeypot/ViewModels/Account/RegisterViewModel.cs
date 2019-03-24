@@ -6,7 +6,7 @@ namespace Honeypot.ViewModels.Account
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(5, ErrorMessage = "Username must be at least 5 symbols")]
+        [StringLength(25, ErrorMessage = "Username can be between 5 and 25 symbols!", MinimumLength = 5)]
         public string Username { get; set; }
 
         [Required]
@@ -14,7 +14,7 @@ namespace Honeypot.ViewModels.Account
         public string Email { get; set; }
 
         [Required]
-        [StringLength(6, ErrorMessage = "Password must be at least 6 symbols")]
+        [StringLength(int.MaxValue, ErrorMessage = "Password must be at least 6 symbols", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

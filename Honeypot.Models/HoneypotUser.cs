@@ -16,6 +16,10 @@ namespace Honeypot.Models
 
         public string LastName { get; set; }
 
+        public virtual ICollection<Bookshelf> CustomBookshelves { get; set; }
+
+        public virtual ICollection<UsersQuotes> FavouriteQuotes { get; set; }
+
         //TODO: add read, to-read, and fav bookshelves
         //public int ReadId { get; set; }
         //public Bookshelf Read { get; set; }
@@ -25,9 +29,5 @@ namespace Honeypot.Models
 
         //public int FavouritesId { get; set; }
         //public Bookshelf Favourites { get; set; }
-
-        public virtual ICollection<Bookshelf> CustomBookshelves { get; set; }
-
-        public virtual ICollection<UsersQuotes> FavouriteQuotes { get; set; }
     }
 }

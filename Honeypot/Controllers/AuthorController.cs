@@ -21,12 +21,14 @@ namespace Honeypot.Controllers
             this.context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize(Roles="Admin")]
         public IActionResult Create(CreateViewModel viewModel)
         {
             if (!ModelState.IsValid)

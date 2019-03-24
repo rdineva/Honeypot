@@ -52,12 +52,14 @@ namespace Honeypot.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(CreateViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -102,7 +104,7 @@ namespace Honeypot.Controllers
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
 
-            var bookshelfResult = this.context.Bookshelves.Where(x => x.OwnerId == user.Id).FirstOrDefaultAsync(x => x.Id == BookshelfId).Result;
+            var bookshelfResult = this.context.Bookshelves.Where(x => x.UserId == user.Id).FirstOrDefaultAsync(x => x.Id == BookshelfId).Result;
 
             if (bookshelfResult == null)
                 return this.BadRequest("Bookshelf doesn't exist!");

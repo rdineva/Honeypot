@@ -12,7 +12,7 @@ namespace Honeypot.Services
         }
 
         public List<Bookshelf> GetUsersBookshelves(string userId) =>
-            this.Context.Bookshelves.Where(x => x.OwnerId == userId).ToList();
+            this.Context.Bookshelves.Where(x => x.UserId == userId).ToList();
 
         public bool CheckIfBookIsInBookshelf(int bookId, int bookshelfId) =>
             this.Context.BooksBookshelves.Any(x => x.BookId == bookId && x.BookshelfId == bookshelfId);

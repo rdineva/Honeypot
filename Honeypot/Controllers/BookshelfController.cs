@@ -44,8 +44,8 @@ namespace Honeypot.Controllers
             var bookshelf = new Bookshelf()
             {
                 Title = viewModel.Title,
-                OwnerId = user.Id,
-                Owner = user,
+                UserId = user.Id,
+                User = user,
             };
 
             this.context.Bookshelves.Add(bookshelf);
@@ -61,7 +61,7 @@ namespace Honeypot.Controllers
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
 
-            if (bookshelfResult == null || bookshelfResult.OwnerId != user.Id)
+            if (bookshelfResult == null || bookshelfResult.UserId != user.Id)
                 return this.BadRequest("Bookshelf doesn't exist!");
 
             var booksInBookshelf = this.context.BooksBookshelves.Where(x => x.BookshelfId == id).Select(x => x.BookId);
@@ -69,8 +69,8 @@ namespace Honeypot.Controllers
             var bookshelf = new DetailsViewModel()
             {
                 Title = bookshelfResult.Title,
-                OwnerId = bookshelfResult.OwnerId,
-                OwnerNickname = bookshelfResult.Owner.UserName,
+                OwnerId = bookshelfResult.UserId,
+                OwnerNickname = bookshelfResult.User.UserName,
                 Books = this.context.BooksBookshelves.Where(x => booksInBookshelf.Contains(x.BookId)).ToList()
                 //Books = this.context.Books.Where(x => booksInBookshelf.Contains(x.Id)).ToList()
             };

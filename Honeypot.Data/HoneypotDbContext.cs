@@ -48,19 +48,35 @@ namespace Honeypot.Data
             builder.Entity<Book>()
                 .HasOne(x => x.Author)
                 .WithMany(x => x.Books)
-                .HasForeignKey(x => x.AuthorId);
+                .HasForeignKey(x => x.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Author>()
+                .HasMany(x => x.Books)
+                .WithOne(x => x.Author)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<HoneypotUser>()
+                .HasMany(x => x.CustomBookshelves)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<HoneypotUser>()
+                .HasMany(x => x.FavouriteQuotes)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }
     }
 
-    public class EventuresContextDbFactory : IDesignTimeDbContextFactory<HoneypotDbContext>
+    public class ContextDbFactory : IDesignTimeDbContextFactory<HoneypotDbContext>
     {
         HoneypotDbContext IDesignTimeDbContextFactory<HoneypotDbContext>.CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<HoneypotDbContext>();
-            optionsBuilder.UseSqlServer<HoneypotDbContext>(
-                @"Server=DESKTOP-5E1CE94;Database=Honeypot;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer(
+                @"Server=DESKTOP-6P48I7L\SQLEXPRESS;Database=Honeypot;Trusted_Connection=True;MultipleActiveResultSets=true");
 
             return new HoneypotDbContext(optionsBuilder.Options);
         }
