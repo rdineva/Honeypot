@@ -116,6 +116,7 @@ namespace Honeypot
             //Assign Admin role to the main User here we have given our newly registered 
             //login id for Admin management
             HoneypotUser user = await UserManager.FindByNameAsync("Kolkata");
+
             await UserManager.AddToRoleAsync(user, "Admin");
         }
     }

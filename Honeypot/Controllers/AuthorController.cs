@@ -36,15 +36,12 @@ namespace Honeypot.Controllers
                 return this.View(viewModel);
             }
 
-            var author = new Author()
-            {
-                FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName,
-                Biography = viewModel.Biography
-            };
+            var author = new Author(viewModel.FirstName, viewModel.LastName, viewModel.Biography);
 
             if (this.context.Authors.Any(x => x.FirstName == author.FirstName && x.LastName == author.LastName))
+            {
                 return this.BadRequest("Author already exists!");
+            }
 
             this.context.Authors.Add(author);
             this.context.SaveChanges();
@@ -58,7 +55,9 @@ namespace Honeypot.Controllers
             var authorResut = this.context.Authors.FirstOrDefaultAsync(x => x.Id == id).Result;
 
             if (authorResut == null)
+            {
                 return this.NotFound("No such author exists.");
+            }
 
             var author = new AuthorDetailsViewModel()
             {

@@ -24,14 +24,14 @@ namespace Honeypot.Models
 
         public string Summary { get; set; }
 
+        public ICollection<Rating> Ratings { get; set; }
+               
+        public ICollection<BooksBookshelves> InBookshelves { get; set; }
+               
+        public ICollection<Quote> Quotes { get; set; }
+
         public int CountOfRatings => this.Ratings.Count;
 
         public double AverageRating => this.CountOfRatings > 0 ? (this.Ratings.Sum(x => x.Stars) / (double)this.CountOfRatings) : 0;
-
-        public virtual ICollection<Rating> Ratings { get; set; }
-
-        public virtual ICollection<BooksBookshelves> InBookshelves { get; set; }
-
-        public virtual ICollection<Quote> Quotes { get; set; }
     }
 }

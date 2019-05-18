@@ -11,10 +11,9 @@ namespace Honeypot.Services
 
         public bool HasUserLikedQuote(int quoteId, string userId)
         {
-            if (this.Context.UsersQuotes.Any(x => x.UserId == userId && x.QuoteId == quoteId))
-                return true;
+            bool hasUserLikedQuote = this.Context.UsersQuotes.Any(x => x.UserId == userId && x.QuoteId == quoteId);
 
-            return false;
+            return hasUserLikedQuote;
         }
     }
 }

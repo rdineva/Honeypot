@@ -220,10 +220,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextDbFactory.cs" />
+    <Compile Include="EntityConfiguration\AuthorConfiguration.cs" />
+    <Compile Include="EntityConfiguration\BookConfiguration.cs" />
+    <Compile Include="EntityConfiguration\QuoteConfiguration.cs" />
+    <Compile Include="EntityConfiguration\UserConfiguration.cs" />
     <Compile Include="HoneypotDbContext.cs" />
-    <Compile Include="Migrations\20190324130627_Initial.cs" />
-    <Compile Include="Migrations\20190324130627_Initial.designer.cs">
-      <DependentUpon>20190324130627_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\20190518132747_initial.cs" />
+    <Compile Include="Migrations\20190518132747_initial.designer.cs">
+      <DependentUpon>20190518132747_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\HoneypotDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

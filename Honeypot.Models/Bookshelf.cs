@@ -15,7 +15,7 @@ namespace Honeypot.Models
 
         public string Title { get; set; }
 
-        public virtual ICollection<BooksBookshelves> Books { get; set; }
+        public ICollection<BooksBookshelves> Books { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }

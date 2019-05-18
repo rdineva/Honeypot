@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Honeypot.Models.Contracts;
 using Honeypot.Models.MappingModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace Honeypot.Models
 {
-    public class HoneypotUser : IdentityUser
+    public class HoneypotUser : IdentityUser, IPerson
     {
         public HoneypotUser()
         {
@@ -16,9 +17,9 @@ namespace Honeypot.Models
 
         public string LastName { get; set; }
 
-        public virtual ICollection<Bookshelf> CustomBookshelves { get; set; }
+        public ICollection<Bookshelf> CustomBookshelves { get; set; }
 
-        public virtual ICollection<UsersQuotes> FavouriteQuotes { get; set; }
+        public ICollection<UsersQuotes> FavouriteQuotes { get; set; }
 
         //TODO: add read, to-read, and fav bookshelves
         //public int ReadId { get; set; }

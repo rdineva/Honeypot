@@ -27,7 +27,9 @@ namespace Honeypot.Controllers
         public IActionResult Register()
         {
             if (this.User.Identity.IsAuthenticated)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             return View();
         }
@@ -35,7 +37,9 @@ namespace Honeypot.Controllers
         public IActionResult Login()
         {
             if (this.User.Identity.IsAuthenticated)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             return View();
         }
@@ -45,6 +49,7 @@ namespace Honeypot.Controllers
         public IActionResult Logout()
         {
             this.signInManager.SignOutAsync().Wait();
+
             return RedirectToAction("Index", "Home");
         }
 

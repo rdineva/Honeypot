@@ -20,6 +20,6 @@ namespace Honeypot.Models
         public int BookId { get; set; }
         public virtual Book Book { get; set; }
 
-        public virtual ICollection<UsersQuotes> LikedByUsers { get; set; }
+        public ICollection<UsersQuotes> LikedByUsers { get; set; }
     }
 }
