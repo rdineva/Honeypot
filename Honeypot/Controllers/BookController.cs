@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace Honeypot.Controllers
 {
+    //TODO: make methods smaller by using abstraction/services w/ functionality
     [Authorize]
     public class BookController : Controller
     {
@@ -37,6 +38,7 @@ namespace Honeypot.Controllers
 
             var author = this.context.Authors.FirstOrDefaultAsync(a => a.Id == bookResult.AuthorId).Result;
 
+            //TODO: use mapping
             var book = new BookDetailsViewModel()
             {
                 Id = bookResult.Id,
@@ -67,27 +69,28 @@ namespace Honeypot.Controllers
                 return this.View(viewModel);
             }
 
-            var author = this.context.Authors.FirstOrDefaultAsync(x =>
+            var bookAuthor = this.context.Authors.FirstOrDefaultAsync(x =>
                 x.FirstName == viewModel.AuthorFirstName && x.LastName == viewModel.AuthorLastName).Result;
 
-            if (author == null)
-                return this.BadRequest("Author doesn't exist!");
-
-            var book = new Book()
+            if (bookAuthor == null)
             {
-                Title = viewModel.Title.Trim(),
-                Summary = viewModel.Summary.Trim(),
-                AuthorId = author.Id,
-                Author = author
-            };
+                return this.BadRequest("Author doesn't exist!");
+            }
+
+            var bookTitle = viewModel.Title.Trim();
+            var bookSumary = viewModel.Summary.Trim();
+
+            var book = new Book(bookTitle, bookSumary, bookAuthor.Id, bookAuthor);
 
             var bookExists = this.context.Books
                 .FirstOrDefaultAsync(x => x.Title == book.Title && x.AuthorId == book.AuthorId).Result;
 
             if (bookExists != null)
+            {
                 return this.BadRequest("Book already exists!");
+            }
 
-            author.Books.Add(book);
+            bookAuthor.Books.Add(book);
             this.context.Books.AddAsync(book);
             this.context.SaveChanges();
 
@@ -100,19 +103,25 @@ namespace Honeypot.Controllers
             var bookResult = this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result;
 
             if (bookResult == null)
+            {
                 return this.BadRequest("Book doesn't exist!");
+            }
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
 
             var bookshelfResult = this.context.Bookshelves.Where(x => x.UserId == user.Id).FirstOrDefaultAsync(x => x.Id == BookshelfId).Result;
 
             if (bookshelfResult == null)
+            {
                 return this.BadRequest("Bookshelf doesn't exist!");
+            }
 
             if (this.context.BooksBookshelves.Any(x => x.BookId == BookId && x.BookshelfId == BookshelfId))
+            {
                 return this.BadRequest("Book is already on that bookshelf!");
+            }
 
-            var bookBookshelf = new BooksBookshelves()
+            var bookBookshelf = new BookBookshelf()
             {
                 BookId = bookResult.Id,
                 BookshelfId = BookshelfId
@@ -129,10 +138,14 @@ namespace Honeypot.Controllers
         {
             var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result;
             if (book == null)
+            {
                 return this.BadRequest("Book is invalid!");
+            }
 
             if (stars < 1 || stars > 5)
+            {
                 return this.BadRequest("Rating is invalid!");
+            }
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
 

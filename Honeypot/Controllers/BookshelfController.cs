@@ -39,17 +39,14 @@ namespace Honeypot.Controllers
                 return this.View(viewModel);
             }
 
-            var user = this.usersService.GetByUsername(this.User.Identity.Name);
+            var bookshelfUser = this.usersService.GetByUsername(this.User.Identity.Name);
 
-            var bookshelf = new Bookshelf()
-            {
-                Title = viewModel.Title,
-                UserId = user.Id,
-                User = user,
-            };
+            var bookshelfTitle = viewModel.Title;
+
+            var bookshelf = new Bookshelf(bookshelfTitle, bookshelfUser.Id);
 
             this.context.Bookshelves.Add(bookshelf);
-            user.CustomBookshelves.Add(bookshelf);
+            bookshelfUser.CustomBookshelves.Add(bookshelf);
             this.context.SaveChanges();
 
             return RedirectToAction("Details", new { id = bookshelf.Id });

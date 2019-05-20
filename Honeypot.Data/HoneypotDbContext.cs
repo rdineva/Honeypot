@@ -11,6 +11,7 @@ namespace Honeypot.Data
         public HoneypotDbContext(DbContextOptions<HoneypotDbContext> options)
             : base(options)
         {
+
         }
 
         public DbSet<Rating> Ratings { get; set; }
@@ -23,22 +24,19 @@ namespace Honeypot.Data
 
         public DbSet<Bookshelf> Bookshelves { get; set; }
 
-        public DbSet<UsersQuotes> UsersQuotes { get; set; }
+        public DbSet<UserQuote> UsersQuotes { get; set; }
 
-        public DbSet<BooksBookshelves> BooksBookshelves { get; set; }
+        public DbSet<BookBookshelf> BooksBookshelves { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<BooksBookshelves>()
-                .HasKey(x => new {x.BookId, x.BookshelfId});
-
-            builder.Entity<UsersQuotes>()
-                .HasKey(x => new {x.QuoteId, x.UserId});
-
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new AuthorConfiguration());
             builder.ApplyConfiguration(new BookConfiguration());
             builder.ApplyConfiguration(new QuoteConfiguration());
+            builder.ApplyConfiguration(new BookshelfConfiguration());
+            builder.ApplyConfiguration(new BookBookshelfConfiguration());
+            builder.ApplyConfiguration(new UserQuoteConfiguration());
 
             base.OnModelCreating(builder);
         }

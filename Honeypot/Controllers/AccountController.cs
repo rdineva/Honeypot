@@ -66,9 +66,9 @@ namespace Honeypot.Controllers
             if (user == null)
                 return this.View();
 
-            var result = signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false).Result;
+            var loginResult = signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false).Result;
 
-            if (result.Succeeded)
+            if (loginResult.Succeeded)
             {
                 this.signInManager.SignInAsync(user, false).Wait();
                 return RedirectToAction("Index", "Home");
@@ -86,9 +86,9 @@ namespace Honeypot.Controllers
             }
 
             var user = mapper.Map<HoneypotUser>(viewModel);
-            var result = this.userManager.CreateAsync(user, viewModel.Password).Result;
+            var registerResult = this.userManager.CreateAsync(user, viewModel.Password).Result;
 
-            if (result.Succeeded)
+            if (registerResult.Succeeded)
             {
                 this.signInManager.SignInAsync(user, false).Wait();
 
@@ -104,9 +104,9 @@ namespace Honeypot.Controllers
         public IActionResult Profile()
         {
             var currentUser = userManager.GetUserAsync(HttpContext.User).Result;
-            var user = mapper.Map<ProfileViewModel>(currentUser);
+            var userProfileViewModel = mapper.Map<ProfileViewModel>(currentUser);
 
-            return this.View(user);
+            return this.View(userProfileViewModel);
         }
     }
 }

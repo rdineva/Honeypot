@@ -7,7 +7,7 @@ namespace Honeypot.ViewModels.Bookshelf
     {
         public string Title { get; set; }
 
-        public virtual ICollection<BooksBookshelves> Books { get; set; }
+        public virtual ICollection<BookBookshelf> Books { get; set; }
 
         public string OwnerId { get; set; }
 

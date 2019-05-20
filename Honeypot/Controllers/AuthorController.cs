@@ -52,18 +52,19 @@ namespace Honeypot.Controllers
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
-            var authorResut = this.context.Authors.FirstOrDefaultAsync(x => x.Id == id).Result;
+            var authorResult = this.context.Authors.FirstOrDefaultAsync(x => x.Id == id).Result;
 
-            if (authorResut == null)
+            if (authorResult == null)
             {
                 return this.NotFound("No such author exists.");
             }
 
+            //TODO: use mapping
             var author = new AuthorDetailsViewModel()
             {
-                FirstName = authorResut.FirstName,
-                LastName = authorResut.LastName,
-                Biography = authorResut.Biography,
+                FirstName = authorResult.FirstName,
+                LastName = authorResult.LastName,
+                Biography = authorResult.Biography,
                 Books = this.context.Books.Where(x => x.AuthorId == id).ToList(),
                 Quotes = this.context.Quotes.Where(x => x.AuthorId == id).ToList()
             };

@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace Honeypot.Controllers
 {
+    //TODO: simplify methods aka use abstraction
     [Authorize]
     public class QuoteController : Controller
     {
@@ -40,12 +41,11 @@ namespace Honeypot.Controllers
                 return this.View(viewModel);
             }
 
-            var quote = new Quote()
-            {
-                Text = viewModel.Text,
-                BookId = viewModel.BookId,
-                AuthorId = viewModel.AuthorId
-            };
+            var quoteText = viewModel.Text;
+            var quoteBookId = viewModel.BookId;
+            var quoteAuthorId = viewModel.AuthorId;
+
+            var quote = new Quote(quoteText, quoteBookId, quoteAuthorId);
 
             var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == quote.BookId).Result;
             var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quote.AuthorId).Result;
@@ -101,7 +101,7 @@ namespace Honeypot.Controllers
             if (user.FavouriteQuotes.Any(x => x.QuoteId == id))
                 return RedirectToAction("Details", new { id = id });
 
-            var userQuote = new UsersQuotes() { QuoteId = id, UserId = user.Id };
+            var userQuote = new UserQuote() { QuoteId = id, UserId = user.Id };
             this.context.UsersQuotes.Add(userQuote);
             user.FavouriteQuotes.Add(userQuote);
             quote.LikedByUsers.Add(userQuote);
@@ -136,12 +136,20 @@ namespace Honeypot.Controllers
             var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == id).Result;
 
             if (quote == null)
+            {
                 return this.BadRequest("No such quote exists!");
+            }
 
             if (user.FavouriteQuotes.All(x => x.QuoteId != id))
-                return RedirectToAction("Details", new { id = id });
+            {
+                return RedirectToAction("Details", new {id = id});
+            }
 
-            var userQuote = new UsersQuotes() { QuoteId = id, UserId = user.Id };
+            var userQuote = new UserQuote()
+            {
+                QuoteId = id, UserId = user.Id
+            };
+
             this.context.UsersQuotes.Remove(userQuote);
             user.FavouriteQuotes.Remove(userQuote);
             quote.LikedByUsers.Remove(userQuote);

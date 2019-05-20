@@ -13,6 +13,24 @@ namespace Honeypot.Data.EntityConfiguration
                 .WithMany(x => x.Books)
                 .HasForeignKey(x => x.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasMany(x => x.InBookshelves)
+                .WithOne(x => x.Book)
+                .HasForeignKey(x => x.BookshelfId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasMany(x => x.Quotes)
+                .WithOne(x => x.Book)
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasMany(x => x.Ratings)
+                .WithOne(x => x.Book)
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

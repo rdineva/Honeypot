@@ -5,7 +5,8 @@ namespace Honeypot.Services
 {
     public class HoneypotUsersQuotesService : BaseService
     {
-        public HoneypotUsersQuotesService(HoneypotDbContext context) : base(context)
+        public HoneypotUsersQuotesService(HoneypotDbContext context) 
+            : base(context)
         {
         }
 

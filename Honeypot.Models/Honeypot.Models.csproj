@@ -218,8 +218,8 @@
     <Compile Include="Book.cs" />
     <Compile Include="Bookshelf.cs" />
     <Compile Include="HoneypotUser.cs" />
-    <Compile Include="MappingModels\BooksBookshelves.cs" />
-    <Compile Include="MappingModels\UsersQuotes.cs" />
+    <Compile Include="MappingModels\BookBookshelf.cs" />
+    <Compile Include="MappingModels\UserQuote.cs" />
     <Compile Include="Contracts\IPerson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quote.cs" />

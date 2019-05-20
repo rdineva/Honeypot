@@ -1,6 +1,6 @@
 ﻿namespace Honeypot.Models.MappingModels
 {
-    public class BooksBookshelves
+    public class BookBookshelf
     {
         public int BookId { get; set; }
         public Book Book { get; set; }

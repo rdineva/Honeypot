@@ -7,7 +7,8 @@ namespace Honeypot.Services
 {
     public class HoneypotUsersBookshelvesService : HoneypotUsersService
     {
-        public HoneypotUsersBookshelvesService(HoneypotDbContext context) : base(context)
+        public HoneypotUsersBookshelvesService(HoneypotDbContext context) 
+            : base(context)
         {
         }
 
@@ -18,7 +19,7 @@ namespace Honeypot.Services
             return usersBookshelves;
         }
 
-        public bool CheckIfBookIsInBookshelf(int bookId, int bookshelfId)
+        public bool IsBookInBookshelf(int bookId, int bookshelfId)
         {
             var isBookInBookshelf = this.Context.BooksBookshelves.Any(x => x.BookId == bookId && x.BookshelfId == bookshelfId);
 

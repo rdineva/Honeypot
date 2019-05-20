@@ -223,8 +223,12 @@
     <Compile Include="ContextDbFactory.cs" />
     <Compile Include="EntityConfiguration\AuthorConfiguration.cs" />
     <Compile Include="EntityConfiguration\BookConfiguration.cs" />
+    <Compile Include="EntityConfiguration\BookBookshelfConfiguration.cs" />
+    <Compile Include="EntityConfiguration\BookshelfConfiguration.cs" />
     <Compile Include="EntityConfiguration\QuoteConfiguration.cs" />
+    <Compile Include="EntityConfiguration\RatingConfiguration.cs" />
     <Compile Include="EntityConfiguration\UserConfiguration.cs" />
+    <Compile Include="EntityConfiguration\UserQuoteConfiguration.cs" />
     <Compile Include="HoneypotDbContext.cs" />
     <Compile Include="Migrations\20190518132747_initial.cs" />
     <Compile Include="Migrations\20190518132747_initial.designer.cs">
