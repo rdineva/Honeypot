@@ -51,10 +51,15 @@ namespace Honeypot.Controllers
             var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quote.AuthorId).Result;
 
             if (book == null || author == null)
+            {
                 return this.BadRequest("Book or author doesn't exist!");
+            }
 
-            if (this.context.Quotes.FirstOrDefaultAsync(x => x.Text == quote.Text).Result != null)
+            var quoteExists = this.context.Quotes.FirstOrDefaultAsync(x => x.Text == quote.Text).Result != null;
+            if (quoteExists)
+            {
                 return this.BadRequest("Quote already exists!");
+            }
 
             book.Quotes.Add(quote);
             author.Quotes.Add(quote);
@@ -70,7 +75,9 @@ namespace Honeypot.Controllers
             var quoteResult = this.context.Quotes.FirstOrDefaultAsync(q => q.Id == id).Result;
 
             if (quoteResult == null)
+            {
                 return this.NotFound("No such quote found!");
+            }
 
             var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quoteResult.AuthorId).Result;
             var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == quoteResult.BookId).Result;
@@ -92,14 +99,16 @@ namespace Honeypot.Controllers
         public IActionResult Favourite(int id)
         {
             var user = userManager.GetUserAsync(HttpContext.User).Result;
-
             var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == id).Result;
-
             if (quote == null)
+            {
                 return this.BadRequest("No such quote exists!");
+            }
 
             if (user.FavouriteQuotes.Any(x => x.QuoteId == id))
-                return RedirectToAction("Details", new { id = id });
+            {
+                return RedirectToAction("Details", new {id = id});
+            }
 
             var userQuote = new UserQuote() { QuoteId = id, UserId = user.Id };
             this.context.UsersQuotes.Add(userQuote);
@@ -132,7 +141,6 @@ namespace Honeypot.Controllers
         public IActionResult Unfavourite(int id)
         {
             var user = userManager.GetUserAsync(HttpContext.User).Result;
-
             var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == id).Result;
 
             if (quote == null)
@@ -147,7 +155,8 @@ namespace Honeypot.Controllers
 
             var userQuote = new UserQuote()
             {
-                QuoteId = id, UserId = user.Id
+                QuoteId = id,
+                UserId = user.Id
             };
 
             this.context.UsersQuotes.Remove(userQuote);

@@ -69,8 +69,9 @@ namespace Honeypot.Controllers
                 return this.View(viewModel);
             }
 
-            var bookAuthor = this.context.Authors.FirstOrDefaultAsync(x =>
-                x.FirstName == viewModel.AuthorFirstName && x.LastName == viewModel.AuthorLastName).Result;
+            var bookAuthorFirstName = viewModel.AuthorFirstName;
+            var bookAuthorLastName = viewModel.AuthorLastName;
+            var bookAuthor = this.context.Authors.FirstOrDefaultAsync(x => x.FirstName == bookAuthorFirstName && x.LastName == bookAuthorLastName).Result;
 
             if (bookAuthor == null)
             {
@@ -98,10 +99,9 @@ namespace Honeypot.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToBookshelf(int BookshelfId, int BookId)
+        public IActionResult AddToBookshelf(int bookshelfId, int bookId)
         {
-            var bookResult = this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result;
-
+            var bookResult = this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result;
             if (bookResult == null)
             {
                 return this.BadRequest("Book doesn't exist!");
@@ -109,14 +109,15 @@ namespace Honeypot.Controllers
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
 
-            var bookshelfResult = this.context.Bookshelves.Where(x => x.UserId == user.Id).FirstOrDefaultAsync(x => x.Id == BookshelfId).Result;
+            var bookshelfResult = this.context.Bookshelves.Where(x => x.UserId == user.Id).FirstOrDefaultAsync(x => x.Id == bookshelfId).Result;
 
             if (bookshelfResult == null)
             {
                 return this.BadRequest("Bookshelf doesn't exist!");
             }
 
-            if (this.context.BooksBookshelves.Any(x => x.BookId == BookId && x.BookshelfId == BookshelfId))
+            var isBookInBookshelf = this.context.BooksBookshelves.Any(x => x.BookId == bookId && x.BookshelfId == bookshelfId);
+            if (isBookInBookshelf)
             {
                 return this.BadRequest("Book is already on that bookshelf!");
             }
@@ -124,19 +125,19 @@ namespace Honeypot.Controllers
             var bookBookshelf = new BookBookshelf()
             {
                 BookId = bookResult.Id,
-                BookshelfId = BookshelfId
+                BookshelfId = bookshelfId
             };
 
-            user.CustomBookshelves.First(x => x.Id == BookshelfId).Books.Add(bookBookshelf);
+            user.CustomBookshelves.First(x => x.Id == bookshelfId).Books.Add(bookBookshelf);
             this.context.SaveChanges();
 
-            return RedirectToAction("Details", "Bookshelf", new { id = BookshelfId });
+            return RedirectToAction("Details", "Bookshelf", new { id = bookshelfId });
         }
 
         [HttpPost]
-        public IActionResult Rate(int stars, int BookId)
+        public IActionResult Rate(int stars, int bookId)
         {
-            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result;
+            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result;
             if (book == null)
             {
                 return this.BadRequest("Book is invalid!");
@@ -148,16 +149,17 @@ namespace Honeypot.Controllers
             }
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
+            var hasUserRatedBook = this.context.Ratings.Any(x => x.BookId == bookId && x.UserId == user.Id);
 
-            if (this.context.Ratings.Any(x => x.BookId == BookId && x.UserId == user.Id))
+            if (hasUserRatedBook)
             {
-                var rating = this.context.Ratings.FirstOrDefaultAsync(x => x.BookId == BookId && x.UserId == user.Id).Result;
+                var rating = this.context.Ratings.FirstOrDefaultAsync(x => x.BookId == bookId && x.UserId == user.Id).Result;
                 rating.Stars = stars;
             }
             else
             {
                 var rating = new Rating() { Stars = stars, UserId = user.Id };
-                this.context.Books.FirstOrDefaultAsync(x => x.Id == BookId).Result.Ratings.Add(rating);
+                this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result.Ratings.Add(rating);
             }
 
             this.context.SaveChanges();

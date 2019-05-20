@@ -53,7 +53,6 @@ namespace Honeypot.Controllers
         public IActionResult Details(int id)
         {
             var authorResult = this.context.Authors.FirstOrDefaultAsync(x => x.Id == id).Result;
-
             if (authorResult == null)
             {
                 return this.NotFound("No such author exists.");

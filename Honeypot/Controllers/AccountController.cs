@@ -63,15 +63,15 @@ namespace Honeypot.Controllers
 
             var user = this.usersService.GetByUsername(viewModel.Username);
 
-            if (user == null)
-                return this.View();
-
-            var loginResult = signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false).Result;
-
-            if (loginResult.Succeeded)
+            if (user != null)
             {
-                this.signInManager.SignInAsync(user, false).Wait();
-                return RedirectToAction("Index", "Home");
+                var loginResult = signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false).Result;
+
+                if (loginResult.Succeeded)
+                {
+                    this.signInManager.SignInAsync(user, false).Wait();
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             return this.View();
@@ -91,7 +91,6 @@ namespace Honeypot.Controllers
             if (registerResult.Succeeded)
             {
                 this.signInManager.SignInAsync(user, false).Wait();
-
                 IdentityResult identityResult = userManager.AddToRoleAsync(user, "User").Result;
 
                 return this.RedirectToAction("Index", "Home");

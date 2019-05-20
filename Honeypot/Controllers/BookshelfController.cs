@@ -40,9 +40,7 @@ namespace Honeypot.Controllers
             }
 
             var bookshelfUser = this.usersService.GetByUsername(this.User.Identity.Name);
-
             var bookshelfTitle = viewModel.Title;
-
             var bookshelf = new Bookshelf(bookshelfTitle, bookshelfUser.Id);
 
             this.context.Bookshelves.Add(bookshelf);
@@ -55,11 +53,12 @@ namespace Honeypot.Controllers
         public IActionResult Details(int id)
         {
             var bookshelfResult = this.context.Bookshelves.FirstOrDefaultAsync(x => x.Id == id).Result;
-
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
 
             if (bookshelfResult == null || bookshelfResult.UserId != user.Id)
+            {
                 return this.BadRequest("Bookshelf doesn't exist!");
+            }
 
             var booksInBookshelf = this.context.BooksBookshelves.Where(x => x.BookshelfId == id).Select(x => x.BookId);
 
