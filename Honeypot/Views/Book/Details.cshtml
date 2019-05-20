@@ -51,7 +51,7 @@
                         <option disabled selected>Add to Bookshelf</option>
                         @foreach (var bookshelf in this.bookshelvesService.GetUsersBookshelves(user.Id))
                         {
-                            if (this.bookshelvesService.CheckIfBookIsInBookshelf(@Model.Id, bookshelf.Id))
+                            if (this.bookshelvesService.IsBookInBookshelf(@Model.Id, bookshelf.Id))
                             {
                                 <option disabled>@bookshelf.Title</option>
                             }

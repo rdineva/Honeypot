@@ -6,7 +6,7 @@ namespace Honeypot.ViewModels.Quote
     public class CreateViewModel
     {
         [Required]
-        [StringLength(1000, ErrorMessage = "Quote length exceeded the maximum!")]
+        [StringLength(1000, ErrorMessage = "Quote should be between 5 and 1000 characters!", MinimumLength = 5)]
         [DataType(DataType.Text)]
         [DisplayName("Quote")]
         public string Text { get; set; }

@@ -127,7 +127,7 @@ namespace Honeypot.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Honeypot.Models.MappingModels.BooksBookshelves", b =>
+            modelBuilder.Entity("Honeypot.Models.MappingModels.BookBookshelf", b =>
                 {
                     b.Property<int>("BookId");
 
@@ -140,7 +140,7 @@ namespace Honeypot.Data.Migrations
                     b.ToTable("BooksBookshelves");
                 });
 
-            modelBuilder.Entity("Honeypot.Models.MappingModels.UsersQuotes", b =>
+            modelBuilder.Entity("Honeypot.Models.MappingModels.UserQuote", b =>
                 {
                     b.Property<int>("QuoteId");
 
@@ -176,9 +176,7 @@ namespace Honeypot.Data.Migrations
 
             modelBuilder.Entity("Honeypot.Models.Rating", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
                     b.Property<int>("BookId");
 
@@ -187,8 +185,6 @@ namespace Honeypot.Data.Migrations
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId");
 
                     b.HasIndex("UserId");
 
@@ -321,7 +317,7 @@ namespace Honeypot.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Honeypot.Models.MappingModels.BooksBookshelves", b =>
+            modelBuilder.Entity("Honeypot.Models.MappingModels.BookBookshelf", b =>
                 {
                     b.HasOne("Honeypot.Models.Book", "Book")
                         .WithMany("InBookshelves")
@@ -334,7 +330,7 @@ namespace Honeypot.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Honeypot.Models.MappingModels.UsersQuotes", b =>
+            modelBuilder.Entity("Honeypot.Models.MappingModels.UserQuote", b =>
                 {
                     b.HasOne("Honeypot.Models.Quote", "Quote")
                         .WithMany("LikedByUsers")
@@ -364,7 +360,7 @@ namespace Honeypot.Data.Migrations
                 {
                     b.HasOne("Honeypot.Models.Book", "Book")
                         .WithMany("Ratings")
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Honeypot.Models.HoneypotUser", "User")

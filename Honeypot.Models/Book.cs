@@ -7,12 +7,11 @@ namespace Honeypot.Models
 {
     public class Book
     {
-        public Book(string title, string summary, int authorId, Author author)
+        public Book(string title, string summary, int authorId)
         {
             this.Title = title;
             this.Summary = summary;
             this.AuthorId = authorId;
-            this.Author = author;
             this.Ratings = new List<Rating>();
             this.InBookshelves = new List<BookBookshelf>();
             this.Quotes = new List<Quote>();

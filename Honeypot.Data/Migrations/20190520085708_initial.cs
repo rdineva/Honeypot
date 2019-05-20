@@ -197,8 +197,8 @@ namespace Honeypot.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
-                    AuthorId = table.Column<int>(nullable: false),
-                    Summary = table.Column<string>(nullable: true)
+                    Summary = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -266,8 +266,7 @@ namespace Honeypot.Data.Migrations
                 name: "Ratings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Stars = table.Column<int>(nullable: false),
                     BookId = table.Column<int>(nullable: false)
@@ -276,8 +275,8 @@ namespace Honeypot.Data.Migrations
                 {
                     table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ratings_Books_BookId",
-                        column: x => x.BookId,
+                        name: "FK_Ratings_Books_Id",
+                        column: x => x.Id,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -375,11 +374,6 @@ namespace Honeypot.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Quotes_BookId",
                 table: "Quotes",
-                column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ratings_BookId",
-                table: "Ratings",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(

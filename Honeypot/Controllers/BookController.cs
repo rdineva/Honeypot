@@ -46,9 +46,9 @@ namespace Honeypot.Controllers
                 Summary = bookResult.Summary,
                 AuthorName = author.FirstName + " " + author.LastName,
                 AuthorId = bookResult.AuthorId,
-                Rating = this.context.Ratings.Where(x => x.BookId == id).Select(x => x.Stars).Average(),
-                ReviewsCount = this.context.Ratings.Where(x => x.BookId == id).Count(),
-                Quotes = this.context.Quotes.Where(x => x.AuthorId == bookResult.AuthorId && x.BookId == bookResult.Id).ToList()
+                Rating = bookResult.AverageRating(),
+                ReviewsCount = bookResult.RatingsCount(),
+                Quotes = bookResult.Quotes
             };
 
             return View(book);
@@ -80,7 +80,7 @@ namespace Honeypot.Controllers
             var bookTitle = viewModel.Title.Trim();
             var bookSumary = viewModel.Summary.Trim();
 
-            var book = new Book(bookTitle, bookSumary, bookAuthor.Id, bookAuthor);
+            var book = new Book(bookTitle, bookSumary, bookAuthor.Id);
 
             var bookExists = this.context.Books
                 .FirstOrDefaultAsync(x => x.Title == book.Title && x.AuthorId == book.AuthorId).Result;
