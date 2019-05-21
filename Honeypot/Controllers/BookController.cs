@@ -13,16 +13,13 @@ namespace Honeypot.Controllers
 {
     //TODO: make methods smaller by using abstraction/services w/ functionality
     [Authorize]
-    public class BookController : Controller
+    public class BookController : BaseController
     {
-        private readonly IMapper mapper;
-        private readonly HoneypotDbContext context;
         private readonly HoneypotUsersService usersService;
 
-        public BookController(IMapper mapper, HoneypotDbContext context, HoneypotUsersService usersService)
+        public BookController(HoneypotDbContext context, IMapper mapper, HoneypotUsersService usersService) 
+            : base(context, mapper)
         {
-            this.mapper = mapper;
-            this.context = context;
             this.usersService = usersService;
         }
 

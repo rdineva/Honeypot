@@ -104,7 +104,7 @@ namespace Honeypot.Controllers
         {
             var currentUser = userManager.GetUserAsync(HttpContext.User).Result;
             var userProfileViewModel = mapper.Map<ProfileViewModel>(currentUser);
-
+            
             return this.View(userProfileViewModel);
         }
     }

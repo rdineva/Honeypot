@@ -10,15 +10,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Honeypot.Controllers
 {
     [Authorize]
-    public class AuthorController : Controller
-    {
-        private readonly IMapper mapper;
-        private readonly HoneypotDbContext context;
-
-        public AuthorController(IMapper mapper, HoneypotDbContext context)
+    public class AuthorController : BaseController
+    { 
+        public AuthorController(HoneypotDbContext context, IMapper mapper) 
+            : base(context, mapper)
         {
-            this.mapper = mapper;
-            this.context = context;
         }
 
         [Authorize(Roles = "Admin")]

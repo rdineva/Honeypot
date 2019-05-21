@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using AutoMapper;
 
 namespace Honeypot.Controllers
 {
     [Authorize]
-    public class BookshelfController : Controller
+    public class BookshelfController : BaseController
     {
         private readonly HoneypotUsersService usersService;
-        private readonly HoneypotDbContext context;
 
-        public BookshelfController(HoneypotUsersService usersService, HoneypotDbContext context)
+        public BookshelfController(HoneypotUsersService usersService, IMapper mapper, HoneypotDbContext context)
+            : base(context, mapper)
         {
             this.usersService = usersService;
-            this.context = context;
         }
 
         public IActionResult Create()

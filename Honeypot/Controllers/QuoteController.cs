@@ -13,16 +13,13 @@ namespace Honeypot.Controllers
 {
     //TODO: simplify methods aka use abstraction
     [Authorize]
-    public class QuoteController : Controller
+    public class QuoteController : BaseController
     {
-        private readonly IMapper mapper;
-        private readonly HoneypotDbContext context;
         private readonly UserManager<HoneypotUser> userManager;
 
-        public QuoteController(IMapper mapper, HoneypotDbContext context, UserManager<HoneypotUser> userManager)
+        public QuoteController(HoneypotDbContext context, IMapper mapper, UserManager<HoneypotUser> userManager)
+            : base(context, mapper)
         {
-            this.mapper = mapper;
-            this.context = context;
             this.userManager = userManager;
         }
 
@@ -105,9 +102,10 @@ namespace Honeypot.Controllers
                 return this.BadRequest("No such quote exists!");
             }
 
-            if (user.FavouriteQuotes.Any(x => x.QuoteId == id))
+            var isQuoteFavourited = user.FavouriteQuotes.Any(x => x.QuoteId == id);
+            if (isQuoteFavourited)
             {
-                return RedirectToAction("Details", new {id = id});
+                return RedirectToAction("Details", new { id = id });
             }
 
             var userQuote = new UserQuote() { QuoteId = id, UserId = user.Id };
@@ -126,13 +124,13 @@ namespace Honeypot.Controllers
             var quotesList = this.context.UsersQuotes.Where(x => x.UserId == user.Id).Select(x => x.QuoteId).ToList();
 
             var quotes = new MyFavouriteQuotesViewModel();
-            foreach(var q in quotesList)
+            foreach (var q in quotesList)
             {
                 var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == q).Result;
                 var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quote.AuthorId).Result;
                 quote.Author = author;
                 quotes.Quotes.Add(quote);
-            }            
+            }
 
             return this.View(quotes);
         }
@@ -148,9 +146,10 @@ namespace Honeypot.Controllers
                 return this.BadRequest("No such quote exists!");
             }
 
-            if (user.FavouriteQuotes.All(x => x.QuoteId != id))
+            var isQuoteFavourited = user.FavouriteQuotes.All(x => x.QuoteId != id);
+            if (isQuoteFavourited)
             {
-                return RedirectToAction("Details", new {id = id});
+                return RedirectToAction("Details", new { id = id });
             }
 
             var userQuote = new UserQuote()
