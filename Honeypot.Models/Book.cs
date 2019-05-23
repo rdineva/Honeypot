@@ -7,11 +7,11 @@ namespace Honeypot.Models
 {
     public class Book
     {
-        public Book(string title, string summary, int authorId)
+        public Book(/*string title, string summary, int authorId*/)
         {
-            this.Title = title;
-            this.Summary = summary;
-            this.AuthorId = authorId;
+            //this.Title = title;
+            //this.Summary = summary;
+            //this.AuthorId = authorId;
             this.Ratings = new List<Rating>();
             this.InBookshelves = new List<BookBookshelf>();
             this.Quotes = new List<Quote>();
@@ -19,19 +19,19 @@ namespace Honeypot.Models
 
         public int Id { get; set; }
 
-        public string Title { get; private set; }
+        public string Title { get; set; }
 
-        public string Summary { get; private set; }
+        public string Summary { get; set; }
 
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
         public Author Author { get; set; }
 
-        public ICollection<Rating> Ratings { get; set; }
-               
-        public ICollection<BookBookshelf> InBookshelves { get; set; }
-               
-        public ICollection<Quote> Quotes { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
+
+        public virtual ICollection<BookBookshelf> InBookshelves { get; set; }
+
+        public virtual ICollection<Quote> Quotes { get; set; }
 
         public int RatingsCount()
         {

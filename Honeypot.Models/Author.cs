@@ -4,11 +4,11 @@ namespace Honeypot.Models
 {
     public class Author 
     {
-        public Author(string firstName, string lastName, string biography)
+        public Author(/*string firstName, string lastName, string biography*/)
         {
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Biography = biography;
+            //this.FirstName = firstName;
+            //this.LastName = lastName;
+            //this.Biography = biography;
             this.Books = new List<Book>();
             this.Quotes = new List<Quote>();
         }
@@ -21,8 +21,8 @@ namespace Honeypot.Models
 
         public string Biography { get; private set; }
 
-        public ICollection<Book> Books { get; set; }
+        public virtual ICollection<Book> Books { get; set; }
 
-        public ICollection<Quote> Quotes { get; set; }
+        public virtual ICollection<Quote> Quotes { get; set; }
     }
 }

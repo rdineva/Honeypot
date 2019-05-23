@@ -2,7 +2,7 @@
 
 namespace Honeypot.ViewModels.Quote
 {
-    public class DetailsViewModel
+    public class QuoteDetailsViewModel
     {
         [DisplayName("Author")]
         public string AuthorName { get; set; }

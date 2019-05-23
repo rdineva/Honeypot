@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Honeypot.Data;
@@ -24,15 +25,19 @@ namespace Honeypot
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            var config = new AutoMapperConfiguration().Configure();
+            IMapper iMapper = config.CreateMapper();
+
+            Mapper.Initialize(cfg => { });
+            Mapper.Configuration.CompileMappings();
 
             services.AddDbContext<HoneypotDbContext>(options =>
                 options.UseSqlServer(
@@ -57,7 +62,7 @@ namespace Honeypot
             services.AddScoped<HoneypotUsersService, HoneypotUsersService>();
             services.AddScoped<HoneypotUsersQuotesService, HoneypotUsersQuotesService>();
             services.AddScoped<HoneypotUsersBookshelvesService, HoneypotUsersBookshelvesService>();
-
+            services.AddSingleton(iMapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,9 +120,9 @@ namespace Honeypot
 
             //Assign Admin role to the main User here we have given our newly registered 
             //login id for Admin management
-            HoneypotUser user = await UserManager.FindByNameAsync("Kolkata");
+            //HoneypotUser user = await UserManager.FindByNameAsync("Kolkata");
 
-            await UserManager.AddToRoleAsync(user, "Admin");
+            //await UserManager.AddToRoleAsync(user, "Admin");
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Honeypot.ViewModels.Bookshelf
 {
-    public class CreateViewModel
+    public class CreateBookshelfViewModel
     {
         //TODO: extract all error messages into common constants class
         [Required]

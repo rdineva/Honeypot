@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Honeypot.ViewModels.Book
 {
-    public class CreateViewModel
+    public class CreateBookViewModel
     {
         [Required]
         [DataType(DataType.Text)]

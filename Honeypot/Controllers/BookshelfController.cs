@@ -27,7 +27,7 @@ namespace Honeypot.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateViewModel viewModel)
+        public IActionResult Create(CreateBookshelfViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace Honeypot.Controllers
 
             var booksInBookshelf = this.context.BooksBookshelves.Where(x => x.BookshelfId == id).Select(x => x.BookId);
 
-            var bookshelf = new DetailsViewModel()
+            var bookshelf = new BookshelfDetailsViewModel()
             {
                 Title = bookshelfResult.Title,
                 OwnerId = bookshelfResult.UserId,

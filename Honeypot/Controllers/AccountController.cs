@@ -1,26 +1,25 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Honeypot.Data;
 using Honeypot.Models;
-using Honeypot.Services;
 using Honeypot.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Honeypot.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly SignInManager<HoneypotUser> signInManager;
-        private readonly IMapper mapper;
-        private readonly HoneypotUsersService usersService;
         private readonly UserManager<HoneypotUser> userManager;
 
-        public AccountController(SignInManager<HoneypotUser> signInManager, IMapper mapper,
-            HoneypotUsersService usersService, UserManager<HoneypotUser> userManager)
+        public AccountController(HoneypotDbContext context, IMapper mapper, SignInManager<HoneypotUser> signInManager, UserManager<HoneypotUser> userManager)
+            : base(context, mapper)
         {
             this.signInManager = signInManager;
-            this.mapper = mapper;
-            this.usersService = usersService;
             this.userManager = userManager;
         }
 
@@ -44,8 +43,8 @@ namespace Honeypot.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public IActionResult Logout()
         {
             this.signInManager.SignOutAsync().Wait();
@@ -56,47 +55,34 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return this.View(viewModel);
-            }
-
-            var user = this.usersService.GetByUsername(viewModel.Username);
-
-            if (user != null)
-            {
-                var loginResult = signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false).Result;
-
-                if (loginResult.Succeeded)
+                var logInResult = this.OnPostLoginAsync(viewModel).GetAwaiter().GetResult();
+                //TODO: add error when unsuccessfull login
+                if (logInResult.Succeeded)
                 {
-                    this.signInManager.SignInAsync(user, false).Wait();
                     return RedirectToAction("Index", "Home");
                 }
             }
 
-            return this.View();
+            return this.View(viewModel);
+
         }
 
         [HttpPost]
         public IActionResult Register(RegisterViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return this.View(viewModel);
+                var registerResult = this.OnPostRegisterAsync(viewModel);
+                if (registerResult.Succeeded)
+                {
+                    return this.RedirectToAction("Index", "Home");
+                }
+                //TODO: add error when unsuccessful register
             }
 
-            var user = mapper.Map<HoneypotUser>(viewModel);
-            var registerResult = this.userManager.CreateAsync(user, viewModel.Password).Result;
-
-            if (registerResult.Succeeded)
-            {
-                this.signInManager.SignInAsync(user, false).Wait();
-                IdentityResult identityResult = userManager.AddToRoleAsync(user, "User").Result;
-
-                return this.RedirectToAction("Index", "Home");
-            }
-
-            return this.View();
+            return this.View(viewModel);
         }
 
         [Authorize]
@@ -104,8 +90,37 @@ namespace Honeypot.Controllers
         {
             var currentUser = userManager.GetUserAsync(HttpContext.User).Result;
             var userProfileViewModel = mapper.Map<ProfileViewModel>(currentUser);
-            
+
             return this.View(userProfileViewModel);
+        }
+
+        private IdentityResult OnPostRegisterAsync(RegisterViewModel viewModel)
+        {
+            var user = mapper.Map<RegisterViewModel, HoneypotUser>(viewModel);
+            var registerResult = this.userManager.CreateAsync(user, viewModel.Password).GetAwaiter().GetResult();
+
+            if (registerResult.Succeeded)
+            {
+                if (this.context.Users.Count() == 1)
+                {
+                    this.userManager.AddToRoleAsync(user, "Admin").GetAwaiter().GetResult();
+                }
+                else
+                {
+                    this.userManager.AddToRoleAsync(user, "User").GetAwaiter().GetResult();
+                }
+
+                this.signInManager.SignInAsync(user, isPersistent: false).GetAwaiter().GetResult();
+            }
+
+            return registerResult;
+        }
+
+        private async Task<SignInResult> OnPostLoginAsync(LoginViewModel viewModel)
+        {
+            var loginResult = await this.signInManager.PasswordSignInAsync(viewModel.Username, viewModel.Password, isPersistent: false, lockoutOnFailure: false);
+
+            return loginResult;
         }
     }
 }

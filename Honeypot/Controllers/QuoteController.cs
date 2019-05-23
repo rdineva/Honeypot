@@ -31,7 +31,7 @@ namespace Honeypot.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(CreateViewModel viewModel)
+        public IActionResult Create(CreateQuoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace Honeypot.Controllers
             var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quoteResult.AuthorId).Result;
             var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == quoteResult.BookId).Result;
 
-            var quote = new DetailsViewModel()
+            var quote = new QuoteDetailsViewModel()
             {
                 AuthorName = author.FirstName + " " + author.LastName,
                 BookTitle = book.Title,

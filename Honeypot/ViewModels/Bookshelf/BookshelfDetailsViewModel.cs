@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Honeypot.ViewModels.Bookshelf
 {
-    public class DetailsViewModel
+    public class BookshelfDetailsViewModel
     {
         public string Title { get; set; }
 

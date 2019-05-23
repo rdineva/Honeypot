@@ -11,8 +11,8 @@ namespace Honeypot.Controllers
 {
     [Authorize]
     public class AuthorController : BaseController
-    { 
-        public AuthorController(HoneypotDbContext context, IMapper mapper) 
+    {
+        public AuthorController(HoneypotDbContext context, IMapper mapper)
             : base(context, mapper)
         {
         }
@@ -24,53 +24,50 @@ namespace Honeypot.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles="Admin")]
-        public IActionResult Create(CreateViewModel viewModel)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Create(CreateAuthorViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return this.View(viewModel);
+                var authorExists = this.context.Authors
+                    .Any(x => x.FirstName == viewModel.FirstName && x.LastName == viewModel.LastName);
+                if (authorExists)
+                {
+                    return this.BadRequest("Author already exists!");
+                }
+                else
+                {
+                    var createdAuthor = OnPostCreateAuthor(viewModel);
+                    return RedirectToAction("Details", "Author", new { id = createdAuthor.Id });
+                }
             }
 
-            var author = new Author(viewModel.FirstName, viewModel.LastName, viewModel.Biography);
+            return this.View(viewModel);
+        }
 
-            if (this.context.Authors.Any(x => x.FirstName == author.FirstName && x.LastName == author.LastName))
-            {
-                return this.BadRequest("Author already exists!");
-            }
-
+        public Author OnPostCreateAuthor(CreateAuthorViewModel viewModel)
+        {
+            var author = this.mapper.Map<Author>(viewModel);
             this.context.Authors.Add(author);
             this.context.SaveChanges();
-
-            return RedirectToAction("Details", "Author", new { id = author.Id });
+            return author;
         }
 
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
-            var authorResult = this.context.Authors.FirstOrDefaultAsync(x => x.Id == id).Result;
+            var authorResult = this.context.Authors
+                .Include(x => x.Books)
+                .ThenInclude(x => x.Quotes)
+                .FirstOrDefault(x => x.Id == id);
+
             if (authorResult == null)
             {
                 return this.NotFound("No such author exists.");
             }
 
-            //TODO: use mapping
-            var author = new AuthorDetailsViewModel()
-            {
-                FirstName = authorResult.FirstName,
-                LastName = authorResult.LastName,
-                Biography = authorResult.Biography,
-                Books = this.context.Books.Where(x => x.AuthorId == id).ToList(),
-                Quotes = this.context.Quotes.Where(x => x.AuthorId == id).ToList()
-            };
-
+            var author = this.mapper.Map<AuthorDetailsViewModel>(authorResult);
             return this.View(author);
-        }
-
-        public IActionResult Rate()
-        {
-            //TODO: add rate
-            return null;
         }
     }
 }

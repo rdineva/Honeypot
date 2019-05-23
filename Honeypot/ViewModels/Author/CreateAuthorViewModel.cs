@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Honeypot.ViewModels.Author
 {
-    public class CreateViewModel
+    public class CreateAuthorViewModel
     {
         [Required]
         [DisplayName("First Name")]
