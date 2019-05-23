@@ -6,11 +6,8 @@ namespace Honeypot.Models
 {
     public class Quote
     {
-        public Quote(string text, int bookId, int authorId)
-        {
-            this.Text = text;
-            this.BookId = bookId;
-            this.AuthorId = authorId;
+        public Quote()
+        { 
             this.LikedByUsers = new List<UserQuote>();
         }
 
@@ -20,7 +17,7 @@ namespace Honeypot.Models
         public int AuthorId { get; set; }
         public virtual Author Author { get; set; }
 
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
         [ForeignKey("Book")]
         public int BookId { get; set; }

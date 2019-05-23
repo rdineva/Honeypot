@@ -5,7 +5,6 @@ using Honeypot.ViewModels.Bookshelf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using AutoMapper;
 
 namespace Honeypot.Controllers
@@ -23,55 +22,48 @@ namespace Honeypot.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         public IActionResult Create(CreateBookshelfViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return this.View(viewModel);
+                //TODO: add nullorwhitespace annotation
+                if (string.IsNullOrWhiteSpace(viewModel.Title))
+                {
+                    return this.View();
+                }
+
+                var createdBookshelf = this.OnPostCreateBookshelf(viewModel);
+                return RedirectToAction("Details", new { id = createdBookshelf.Id });
             }
 
-            if (string.IsNullOrWhiteSpace(viewModel.Title))
-            {
-                return this.View(viewModel);
-            }
-
-            var bookshelfUser = this.usersService.GetByUsername(this.User.Identity.Name);
-            var bookshelfTitle = viewModel.Title;
-            var bookshelf = new Bookshelf(bookshelfTitle, bookshelfUser.Id);
-
-            this.context.Bookshelves.Add(bookshelf);
-            bookshelfUser.CustomBookshelves.Add(bookshelf);
-            this.context.SaveChanges();
-
-            return RedirectToAction("Details", new { id = bookshelf.Id });
+            return this.View(viewModel);
         }
 
         public IActionResult Details(int id)
         {
-            var bookshelfResult = this.context.Bookshelves.FirstOrDefaultAsync(x => x.Id == id).Result;
-            var user = this.usersService.GetByUsername(this.User.Identity.Name);
+            var bookshelfResult = this.context.Bookshelves.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id).Result;
 
-            if (bookshelfResult == null || bookshelfResult.UserId != user.Id)
+            var currentUser = this.usersService.GetByUsername(this.User.Identity.Name);
+            if (bookshelfResult == null || bookshelfResult.UserId != currentUser.Id)
             {
                 return this.BadRequest("Bookshelf doesn't exist!");
             }
 
-            var booksInBookshelf = this.context.BooksBookshelves.Where(x => x.BookshelfId == id).Select(x => x.BookId);
-
-            var bookshelf = new BookshelfDetailsViewModel()
-            {
-                Title = bookshelfResult.Title,
-                OwnerId = bookshelfResult.UserId,
-                OwnerNickname = bookshelfResult.User.UserName,
-                Books = this.context.BooksBookshelves.Where(x => booksInBookshelf.Contains(x.BookId)).ToList()
-                //Books = this.context.Books.Where(x => booksInBookshelf.Contains(x.Id)).ToList()
-            };
-
+            var bookshelf = this.mapper.Map<BookshelfDetailsViewModel>(bookshelfResult);
             return this.View(bookshelf);
+        }
+
+        public Bookshelf OnPostCreateBookshelf(CreateBookshelfViewModel viewModel)
+        {
+            var bookshelf = this.mapper.Map<Bookshelf>(viewModel);
+            bookshelf.UserId = this.usersService.GetByUsername(this.User.Identity.Name).Id;
+            this.context.Bookshelves.Add(bookshelf);
+            this.context.SaveChanges();
+            return bookshelf;
         }
     }
 }

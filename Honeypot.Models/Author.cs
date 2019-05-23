@@ -4,11 +4,8 @@ namespace Honeypot.Models
 {
     public class Author 
     {
-        public Author(/*string firstName, string lastName, string biography*/)
+        public Author()
         {
-            //this.FirstName = firstName;
-            //this.LastName = lastName;
-            //this.Biography = biography;
             this.Books = new List<Book>();
             this.Quotes = new List<Quote>();
         }

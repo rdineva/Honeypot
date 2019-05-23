@@ -7,16 +7,14 @@ namespace Honeypot.Models
 {
     public class Bookshelf
     {
-        public Bookshelf(string title, string userId)
+        public Bookshelf()
         {
-            this.UserId = userId;
-            this.Title = title;
             this.Books = new List<BookBookshelf>();
         }
 
         public int Id { get; set; }
 
-        public string Title { get; private set; }
+        public string Title { get; set; }
 
         public ICollection<BookBookshelf> Books { get; set; }
 

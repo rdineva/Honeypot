@@ -9,9 +9,9 @@ namespace Honeypot.ViewModels.Bookshelf
 
         public virtual ICollection<BookBookshelf> Books { get; set; }
 
-        public string OwnerId { get; set; }
+        public string UserId { get; set; }
 
-        public string OwnerNickname { get; set; }
+        public string UserNickname { get; set; }
 
         public int BooksCount => this.Books.Count;
     }

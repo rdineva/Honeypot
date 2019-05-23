@@ -14,14 +14,14 @@
                     }
                     @if (this.usersQuotesService.HasUserLikedQuote(Model.Id, userId))
                     {
-                        <form asp-controller="Quote" asp-action="Unfavourite" method="post">
-                            <button style="border-radius:50px" class="form-group btn btn-primary" type="submit" name="id" value="@Model.Id">Unfavourite</button>
+                        <form asp-controller="Quote" asp-action="LikeOrUnlike" method="post">
+                            <button style="border-radius:50px" class="form-group btn btn-primary" type="submit" name="quoteId" value="@Model.Id">Liked</button>
                         </form>
                     }
                     else if (this.User.Identity.IsAuthenticated)
                     {
-                        <form asp-controller="Quote" asp-action="Favourite" method="post">
-                            <button style="border-radius:50px" class="form-group btn btn-primary" type="submit" name="id" value="@Model.Id">Favourite</button>
+                        <form asp-controller="Quote" asp-action="LikeOrUnlike" method="post">
+                            <button style="border-radius:50px" class="form-group btn btn-primary" type="submit" name="quoteId" value="@Model.Id">Like</button>
                         </form>
                     }
                 </div>

@@ -1,11 +1,10 @@
-﻿using Honeypot.Models.MappingModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Honeypot.ViewModels.Quote
 {
-    public class MyFavouriteQuotesViewModel
+    public class MyLikedQuotesViewModel
     {
-        public MyFavouriteQuotesViewModel()
+        public MyLikedQuotesViewModel()
         {
             this.Quotes = new List<Models.Quote>();
         }

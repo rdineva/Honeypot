@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.MappingModels;
@@ -11,7 +12,6 @@ using System.Linq;
 
 namespace Honeypot.Controllers
 {
-    //TODO: simplify methods aka use abstraction
     [Authorize]
     public class QuoteController : BaseController
     {
@@ -33,138 +33,124 @@ namespace Honeypot.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create(CreateQuoteViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return this.View(viewModel);
+                var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == viewModel.BookId).Result;
+                var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == viewModel.AuthorId).Result;
+                if (book == null || author == null)
+                {
+                    return this.BadRequest("Book or author doesn't exist!");
+                }
+
+                var quoteExists = this.context.Quotes.FirstOrDefaultAsync(x => x.Text == viewModel.Text).Result != null;
+                if (quoteExists)
+                {
+                    return this.BadRequest("Quote already exists!");
+                }
+
+                var createdQuote = this.OnPostCreateQuote(viewModel);
+                return this.RedirectToAction("Details", createdQuote.Id);
             }
 
-            var quoteText = viewModel.Text;
-            var quoteBookId = viewModel.BookId;
-            var quoteAuthorId = viewModel.AuthorId;
-
-            var quote = new Quote(quoteText, quoteBookId, quoteAuthorId);
-
-            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == quote.BookId).Result;
-            var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quote.AuthorId).Result;
-
-            if (book == null || author == null)
-            {
-                return this.BadRequest("Book or author doesn't exist!");
-            }
-
-            var quoteExists = this.context.Quotes.FirstOrDefaultAsync(x => x.Text == quote.Text).Result != null;
-            if (quoteExists)
-            {
-                return this.BadRequest("Quote already exists!");
-            }
-
-            book.Quotes.Add(quote);
-            author.Quotes.Add(quote);
-            this.context.Quotes.Add(quote);
-            this.context.SaveChanges();
-
-            return this.RedirectToAction("Details", quote.Id);
+            return this.View(viewModel);
         }
 
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
-            var quoteResult = this.context.Quotes.FirstOrDefaultAsync(q => q.Id == id).Result;
-
+            var quoteResult = this.context.Quotes.Include(x => x.Author).Include(x => x.Book).FirstOrDefaultAsync(q => q.Id == id).Result;
             if (quoteResult == null)
             {
                 return this.NotFound("No such quote found!");
             }
 
-            var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quoteResult.AuthorId).Result;
-            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == quoteResult.BookId).Result;
-
-            var quote = new QuoteDetailsViewModel()
-            {
-                AuthorName = author.FirstName + " " + author.LastName,
-                BookTitle = book.Title,
-                Text = quoteResult.Text,
-                BookId = book.Id,
-                AuthorId = author.Id,
-                Id = id
-            };
-
+            var quote = this.mapper.Map<QuoteDetailsViewModel>(quoteResult);
             return this.View(quote);
         }
 
         [HttpPost]
-        public IActionResult Favourite(int id)
+        public IActionResult LikeOrUnlike(int quoteId)
         {
-            var user = userManager.GetUserAsync(HttpContext.User).Result;
-            var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == id).Result;
+            var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == quoteId).Result;
             if (quote == null)
             {
                 return this.BadRequest("No such quote exists!");
             }
 
-            var isQuoteFavourited = user.FavouriteQuotes.Any(x => x.QuoteId == id);
-            if (isQuoteFavourited)
-            {
-                return RedirectToAction("Details", new { id = id });
-            }
-
-            var userQuote = new UserQuote() { QuoteId = id, UserId = user.Id };
-            this.context.UsersQuotes.Add(userQuote);
-            user.FavouriteQuotes.Add(userQuote);
-            quote.LikedByUsers.Add(userQuote);
-
-            this.context.SaveChanges();
-
-            return RedirectToAction("Details", new { id = id });
+            this.OnPostLikeOrUnlike(quote);
+            return RedirectToAction("Details", new { id = quoteId });
         }
 
-        public IActionResult MyFavouriteQuotes()
+        public IActionResult MyLikedQuotes()
         {
             var user = userManager.GetUserAsync(HttpContext.User).Result;
-            var quotesList = this.context.UsersQuotes.Where(x => x.UserId == user.Id).Select(x => x.QuoteId).ToList();
-
-            var quotes = new MyFavouriteQuotesViewModel();
-            foreach (var q in quotesList)
+            var usersLikedQuotes = FindUsersLikedQuotes(user);
+            var quotes = new MyLikedQuotesViewModel()
             {
-                var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == q).Result;
-                var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == quote.AuthorId).Result;
-                quote.Author = author;
-                quotes.Quotes.Add(quote);
-            }
+                Quotes = usersLikedQuotes
+            };
 
             return this.View(quotes);
         }
 
-        [HttpPost]
-        public IActionResult Unfavourite(int id)
+        public Quote OnPostCreateQuote(CreateQuoteViewModel viewModel)
         {
-            var user = userManager.GetUserAsync(HttpContext.User).Result;
-            var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == id).Result;
+            var quote = this.mapper.Map<Quote>(viewModel);
+            quote.AuthorId = viewModel.AuthorId;
+            quote.BookId = viewModel.BookId;
+            this.context.Quotes.Add(quote);
+            this.context.SaveChanges();
+            return quote;
+        }
 
-            if (quote == null)
-            {
-                return this.BadRequest("No such quote exists!");
-            }
-
-            var isQuoteFavourited = user.FavouriteQuotes.All(x => x.QuoteId != id);
-            if (isQuoteFavourited)
-            {
-                return RedirectToAction("Details", new { id = id });
-            }
-
+        public void OnPostLikeQuote(Quote quote, HoneypotUser user)
+        {
             var userQuote = new UserQuote()
             {
-                QuoteId = id,
+                QuoteId = quote.Id,
                 UserId = user.Id
             };
 
-            this.context.UsersQuotes.Remove(userQuote);
-            user.FavouriteQuotes.Remove(userQuote);
-            quote.LikedByUsers.Remove(userQuote);
-
+            this.context.UsersQuotes.Add(userQuote);
+            user.FavouriteQuotes.Add(userQuote);
+            quote.LikedByUsers.Add(userQuote);
             this.context.SaveChanges();
+        }
 
-            return RedirectToAction("Details", new { id = id });
+        public List<Quote> FindUsersLikedQuotes(HoneypotUser user)
+        {
+            var usersLikedQuotes = this.context
+                .UsersQuotes
+                .Include(x => x.Quote)
+                .ThenInclude(x => x.Book)
+                .ThenInclude(x => x.Author)
+                .Where(x => x.UserId == user.Id)
+                .ToList().ConvertAll(x => x.Quote);
+
+            return usersLikedQuotes;
+        }
+
+        public void OnPostUnlikeQuote(Quote quote, HoneypotUser user)
+        {
+            var quoteToUnlike =
+                this.context.UsersQuotes.FirstOrDefault(x => x.QuoteId == quote.Id && x.UserId == user.Id);
+            this.context.UsersQuotes.Remove(quoteToUnlike);
+            this.context.SaveChanges();
+        }
+
+        public void OnPostLikeOrUnlike(Quote quote)
+        {
+            var user = userManager.GetUserAsync(HttpContext.User).Result;
+            var isQuoteliked = this.context.UsersQuotes.Any(x => x.QuoteId == quote.Id && x.UserId == user.Id);
+
+            if (isQuoteliked)
+            {
+                this.OnPostUnlikeQuote(quote, user);
+            }
+            else
+            {
+                this.OnPostLikeQuote(quote, user);
+            }
         }
     }
 }
