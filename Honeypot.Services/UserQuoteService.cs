@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Honeypot.Services
 {
-    public class HoneypotUsersQuotesService : BaseService
+    public class UserQuoteService : BaseService
     {
-        public HoneypotUsersQuotesService(HoneypotDbContext context) 
+        public UserQuoteService(HoneypotDbContext context) 
             : base(context)
         {
         }
@@ -13,7 +13,6 @@ namespace Honeypot.Services
         public bool HasUserLikedQuote(int quoteId, string userId)
         {
             bool hasUserLikedQuote = this.Context.UsersQuotes.Any(x => x.UserId == userId && x.QuoteId == quoteId);
-
             return hasUserLikedQuote;
         }
     }

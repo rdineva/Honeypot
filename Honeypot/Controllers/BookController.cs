@@ -11,7 +11,6 @@ using System.Linq;
 
 namespace Honeypot.Controllers
 {
-    //TODO: make methods smaller by using abstraction/services w/ functionality
     [Authorize]
     public class BookController : BaseController
     {
@@ -80,7 +79,6 @@ namespace Honeypot.Controllers
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
             var bookshelfResult = this.context.Bookshelves.Where(x => x.UserId == user.Id).FirstOrDefault(x => x.Id == bookshelfId);
-
             if (bookshelfResult == null)
             {
                 return this.BadRequest("Bookshelf doesn't exist!");
@@ -92,16 +90,20 @@ namespace Honeypot.Controllers
                 return this.BadRequest("Book is already on that bookshelf!");
             }
 
+            this.OnPostAddToBookshelf(bookshelfId, bookResult, user);
+            return RedirectToAction("Details", "Bookshelf", new { id = bookshelfId });
+        }
+
+        public void OnPostAddToBookshelf(int bookshelfId, Book book, HoneypotUser user)
+        {
             var bookBookshelf = new BookBookshelf()
             {
-                BookId = bookResult.Id,
+                BookId = book.Id,
                 BookshelfId = bookshelfId
             };
 
             user.CustomBookshelves.First(x => x.Id == bookshelfId).Books.Add(bookBookshelf);
             this.context.SaveChanges();
-
-            return RedirectToAction("Details", "Bookshelf", new { id = bookshelfId });
         }
 
         [HttpPost]

@@ -11,7 +11,6 @@ namespace Honeypot.Data
         public HoneypotDbContext(DbContextOptions<HoneypotDbContext> options)
             : base(options)
         {
-
         }
 
         public DbSet<Rating> Ratings { get; set; }

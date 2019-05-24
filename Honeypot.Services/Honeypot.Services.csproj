@@ -215,9 +215,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
-    <Compile Include="UsersBookshelvesService.cs" />
-    <Compile Include="UsersQuotesService.cs" />
-    <Compile Include="UsersService.cs" />
+    <Compile Include="UserBookshelfService.cs" />
+    <Compile Include="UserQuoteService.cs" />
+    <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
