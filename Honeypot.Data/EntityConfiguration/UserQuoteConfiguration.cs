@@ -13,7 +13,7 @@ namespace Honeypot.Data.EntityConfiguration
 
             builder
                 .HasOne(x => x.User)
-                .WithMany(x => x.FavouriteQuotes)
+                .WithMany(x => x.LikedQuotes)
                 .HasForeignKey(x => x.UserId);
 
             builder

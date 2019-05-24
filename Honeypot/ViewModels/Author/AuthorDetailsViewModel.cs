@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Honeypot.Models;
 
 namespace Honeypot.ViewModels.Author
 {

@@ -43,7 +43,7 @@
                             </a>
                             <div style="text-align:center; background-color:black; line-height:13px;" class="dropdown-menu">
                                 <a style="color:dodgerblue; text-decoration:none" class=" row dropdown-item" asp-controller="Bookshelf" asp-action="Create">Create Bookshelf</a>
-                                @if (this.User.IsInRole("Admin"))
+                                @if (this.User.IsInRole(Role.Admin))
                                 {
                                     <a style="color: dodgerblue; text-decoration: none" class=" row dropdown-item" asp-controller="Book" asp-action="Create">Create Book</a>
                                     <a style="color: dodgerblue; text-decoration: none" class="row nav-link dropdown-item" asp-controller="Author" asp-action="Create">Create Author</a>

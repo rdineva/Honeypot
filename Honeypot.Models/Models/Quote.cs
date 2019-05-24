@@ -1,28 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Honeypot.Models.MappingModels;
+using Honeypot.Models.Models;
 
 namespace Honeypot.Models
 {
-    public class Quote
+    public class Quote : BaseModel
     {
         public Quote()
         { 
             this.LikedByUsers = new List<UserQuote>();
         }
 
-        public int Id { get; set; }
+        public string Text { get; private set; }
 
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
-        public virtual Author Author { get; set; }
-
-        public string Text { get; set; }
+        public Author Author { get; set; }
 
         [ForeignKey("Book")]
         public int BookId { get; set; }
-        public virtual Book Book { get; set; }
+        public Book Book { get; set; }
 
-        public ICollection<UserQuote> LikedByUsers { get; set; }
+        public virtual ICollection<UserQuote> LikedByUsers { get; set; }
     }
 }

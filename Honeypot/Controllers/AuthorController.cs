@@ -17,14 +17,14 @@ namespace Honeypot.Controllers
         {
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Create(CreateAuthorViewModel viewModel)
         {
             if (ModelState.IsValid)

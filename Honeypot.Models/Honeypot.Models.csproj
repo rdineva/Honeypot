@@ -214,16 +214,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Author.cs" />
-    <Compile Include="Book.cs" />
-    <Compile Include="Bookshelf.cs" />
-    <Compile Include="HoneypotUser.cs" />
-    <Compile Include="BookBookshelf.cs" />
-    <Compile Include="UserQuote.cs" />
+    <Compile Include="Models\Author.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Bookshelf.cs" />
+    <Compile Include="Models\HoneypotUser.cs" />
+    <Compile Include="Models\BookBookshelf.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\UserQuote.cs" />
     <Compile Include="Contracts\IPerson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quote.cs" />
-    <Compile Include="Rating.cs" />
+    <Compile Include="Models\Quote.cs" />
+    <Compile Include="Models\Rating.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

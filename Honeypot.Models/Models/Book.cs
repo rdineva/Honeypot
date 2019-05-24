@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Honeypot.Models.MappingModels;
+using Honeypot.Models.Models;
 
 namespace Honeypot.Models
 {
-    public class Book
+    public class Book : BaseModel
     {
         public Book()
         {
@@ -14,11 +15,9 @@ namespace Honeypot.Models
             this.Quotes = new List<Quote>();
         }
 
-        public int Id { get; set; }
+        public string Title { get; private set; }
 
-        public string Title { get; set; }
-
-        public string Summary { get; set; }
+        public string Summary { get; private set; }
 
         [ForeignKey("Author")]
         public int AuthorId { get; set; }

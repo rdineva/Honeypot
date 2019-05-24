@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
+using Honeypot.Models.Contracts;
+using Honeypot.Models.Models;
 
 namespace Honeypot.Models
 {
-    public class Author 
+    public class Author : BaseModel, IPerson
     {
         public Author()
         {
             this.Books = new List<Book>();
             this.Quotes = new List<Quote>();
         }
-
-        public int Id { get; set; }
 
         public string FirstName { get; private set; }
 

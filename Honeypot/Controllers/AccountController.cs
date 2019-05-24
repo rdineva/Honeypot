@@ -74,7 +74,7 @@ namespace Honeypot.Controllers
         {
             if (ModelState.IsValid)
             {
-                var registerResult = this.OnPostRegisterAsync(viewModel);
+                var registerResult = this.OnPostRegisterAsync(viewModel).GetAwaiter().GetResult();
                 if (registerResult.Succeeded)
                 {
                     return this.RedirectToAction("Index", "Home");
@@ -94,26 +94,30 @@ namespace Honeypot.Controllers
             return this.View(userProfileViewModel);
         }
 
-        private IdentityResult OnPostRegisterAsync(RegisterViewModel viewModel)
+        private async Task<IdentityResult> OnPostRegisterAsync(RegisterViewModel viewModel)
         {
             var user = mapper.Map<RegisterViewModel, HoneypotUser>(viewModel);
-            var registerResult = this.userManager.CreateAsync(user, viewModel.Password).GetAwaiter().GetResult();
+            var registerResult = await this.userManager.CreateAsync(user, viewModel.Password);
 
             if (registerResult.Succeeded)
             {
-                if (this.context.Users.Count() == 1)
-                {
-                    this.userManager.AddToRoleAsync(user, "Admin").GetAwaiter().GetResult();
-                }
-                else
-                {
-                    this.userManager.AddToRoleAsync(user, "User").GetAwaiter().GetResult();
-                }
-
-                this.signInManager.SignInAsync(user, isPersistent: false).GetAwaiter().GetResult();
+                await this.AddRoleToAccountAsync(user);
+                await this.signInManager.SignInAsync(user, isPersistent: false);
             }
 
             return registerResult;
+        }
+
+        public async Task AddRoleToAccountAsync(HoneypotUser user)
+        {
+            if (this.context.Users.Count() == 1)
+            {
+                await this.userManager.AddToRoleAsync(user, Role.Admin);
+            }
+            else
+            {
+                await this.userManager.AddToRoleAsync(user, Role.User);
+            }
         }
 
         private async Task<SignInResult> OnPostLoginAsync(LoginViewModel viewModel)

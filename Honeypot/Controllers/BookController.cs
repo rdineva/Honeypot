@@ -14,9 +14,9 @@ namespace Honeypot.Controllers
     [Authorize]
     public class BookController : BaseController
     {
-        private readonly HoneypotUsersService usersService;
+        private readonly UserService usersService;
 
-        public BookController(HoneypotDbContext context, IMapper mapper, HoneypotUsersService usersService)
+        public BookController(HoneypotDbContext context, IMapper mapper, UserService usersService)
             : base(context, mapper)
         {
             this.usersService = usersService;
@@ -39,14 +39,14 @@ namespace Honeypot.Controllers
             return View(book);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Create(CreateBookViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -106,38 +106,38 @@ namespace Honeypot.Controllers
             this.context.SaveChanges();
         }
 
-        [HttpPost]
-        public IActionResult Rate(int stars, int bookId)
-        {
-            var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result;
-            if (book == null)
-            {
-                return this.BadRequest("Book is invalid!");
-            }
+        //[HttpPost]
+        //public IActionResult Rate(int stars, int bookId)
+        //{
+        //    var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result;
+        //    if (book == null)
+        //    {
+        //        return this.BadRequest("Book is invalid!");
+        //    }
 
-            if (stars < 1 || stars > 5)
-            {
-                return this.BadRequest("Rating is invalid!");
-            }
+        //    if (stars < 1 || stars > 5)
+        //    {
+        //        return this.BadRequest("Rating is invalid!");
+        //    }
 
-            var user = this.usersService.GetByUsername(this.User.Identity.Name);
-            var hasUserRatedBook = this.context.Ratings.Any(x => x.BookId == bookId && x.UserId == user.Id);
+        //    var user = this.usersService.GetByUsername(this.User.Identity.Name);
+        //    var hasUserRatedBook = this.context.Ratings.Any(x => x.BookId == bookId && x.UserId == user.Id);
 
-            if (hasUserRatedBook)
-            {
-                var rating = this.context.Ratings.FirstOrDefaultAsync(x => x.BookId == bookId && x.UserId == user.Id).Result;
-                rating.Stars = stars;
-            }
-            else
-            {
-                var rating = new Rating() { Stars = stars, UserId = user.Id };
-                this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result.Ratings.Add(rating);
-            }
+        //    if (hasUserRatedBook)
+        //    {
+        //        var rating = this.context.Ratings.FirstOrDefaultAsync(x => x.BookId == bookId && x.UserId == user.Id).Result;
+        //       // rating.Stars = stars;
+        //    }
+        //    else
+        //    {
+        //        var rating = new Rating() { Stars = stars, UserId = user.Id };
+        //        this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result.Ratings.Add(rating);
+        //    }
 
-            this.context.SaveChanges();
+        //    this.context.SaveChanges();
 
-            return RedirectToAction("Details", new { id = book.Id });
-        }
+        //    return RedirectToAction("Details", new { id = book.Id });
+        //}
 
         public bool BookTitleExists(string title, string authorFirstName, string authorLastName)
         {

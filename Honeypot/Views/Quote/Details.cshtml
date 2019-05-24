@@ -1,7 +1,7 @@
 ﻿@using Honeypot.Services
 @model Honeypot.ViewModels.Quote.QuoteDetailsViewModel
-@inject HoneypotUsersService userService
-@inject HoneypotUsersQuotesService usersQuotesService
+@inject UserService userService
+@inject UserQuoteService userQuoteService
 
 <div class="card col-md-8" style="border:2px solid black">
     <div class="card-body">
@@ -12,7 +12,7 @@
                     @{
                         string userId = this.userService.GetByUsername(this.User.Identity.Name).Id;
                     }
-                    @if (this.usersQuotesService.HasUserLikedQuote(Model.Id, userId))
+                    @if (this.userQuoteService.HasUserLikedQuote(Model.Id, userId))
                     {
                         <form asp-controller="Quote" asp-action="LikeOrUnlike" method="post">
                             <button style="border-radius:50px" class="form-group btn btn-primary" type="submit" name="quoteId" value="@Model.Id">Liked</button>

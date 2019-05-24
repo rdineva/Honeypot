@@ -57,11 +57,10 @@ namespace Honeypot
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<HoneypotUsersService, HoneypotUsersService>();
-            services.AddScoped<HoneypotUsersQuotesService, HoneypotUsersQuotesService>();
-            services.AddScoped<HoneypotUsersBookshelvesService, HoneypotUsersBookshelvesService>();
+            services.AddScoped<UserService, UserService>();
+            services.AddScoped<UserQuoteService, UserQuoteService>();
+            services.AddScoped<UserBookshelfService, UserBookshelfService>();
             services.AddSingleton(iMapper);
         }
 
@@ -82,9 +81,7 @@ namespace Honeypot
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -98,31 +95,19 @@ namespace Honeypot
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<HoneypotUser>>();
-
             IdentityResult roleResult;
+            var roleAdminExists = await RoleManager.RoleExistsAsync(Role.Admin);
+            var roleUserExists = await RoleManager.RoleExistsAsync(Role.User);
 
-            //Adding Admin Role
-            var roleCheckAdmin = await RoleManager.RoleExistsAsync("Admin");
-            var roleCheckUser = await RoleManager.RoleExistsAsync("User");
-
-            if (!roleCheckAdmin)
+            if (!roleAdminExists)
             {
-                //create the roles and seed them to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+                roleResult = await RoleManager.CreateAsync(new IdentityRole(Role.Admin));
             }
 
-            if (!roleCheckUser)
+            if (!roleUserExists)
             {
-                //create the roles and seed them to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("User"));
+                roleResult = await RoleManager.CreateAsync(new IdentityRole(Role.User));
             }
-
-            //Assign Admin role to the main User here we have given our newly registered 
-            //login id for Admin management
-            //HoneypotUser user = await UserManager.FindByNameAsync("Kolkata");
-
-            //await UserManager.AddToRoleAsync(user, "Admin");
         }
     }
 }

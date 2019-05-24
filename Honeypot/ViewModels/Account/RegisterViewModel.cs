@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Honeypot.Attributes;
 
 namespace Honeypot.ViewModels.Account
 {
@@ -24,9 +25,11 @@ namespace Honeypot.ViewModels.Account
         [Compare("Password", ErrorMessage = "The passwords don't match.")]
         public string ConfirmPassword { get; set; }
 
+        [NotNullOrWhiteSpace]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
+        [NotNullOrWhiteSpace]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
     }

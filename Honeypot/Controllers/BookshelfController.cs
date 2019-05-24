@@ -12,9 +12,9 @@ namespace Honeypot.Controllers
     [Authorize]
     public class BookshelfController : BaseController
     {
-        private readonly HoneypotUsersService usersService;
+        private readonly UserService usersService;
 
-        public BookshelfController(HoneypotUsersService usersService, IMapper mapper, HoneypotDbContext context)
+        public BookshelfController(UserService usersService, IMapper mapper, HoneypotDbContext context)
             : base(context, mapper)
         {
             this.usersService = usersService;
@@ -30,12 +30,6 @@ namespace Honeypot.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO: add nullorwhitespace annotation
-                if (string.IsNullOrWhiteSpace(viewModel.Title))
-                {
-                    return this.View();
-                }
-
                 var createdBookshelf = this.OnPostCreateBookshelf(viewModel);
                 return RedirectToAction("Details", new { id = createdBookshelf.Id });
             }

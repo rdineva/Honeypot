@@ -1,6 +1,6 @@
 ﻿@model Honeypot.ViewModels.Book.BookDetailsViewModel
-@inject Honeypot.Services.HoneypotUsersBookshelvesService bookshelvesService
-@inject Honeypot.Services.HoneypotUsersService usersService
+@inject Honeypot.Services.UserBookshelfService userBookshelfService
+@inject Honeypot.Services.UserService userService
 
 <div class="col-md-6 col-sm-offset-2" style="background-color: #c2daff;">
     <div class="form-group">
@@ -43,15 +43,15 @@
     </div>
     @if (this.User.Identity.IsAuthenticated)
     {
-        var user = this.usersService.GetByUsername(this.User.Identity.Name);
+        var user = this.userService.GetByUsername(this.User.Identity.Name);
         <div class="row form-group">
             <form asp-controller="Book" asp-action="AddToBookshelf" method="post">
                 <div class="col-md-10">
                     <select class="form-control" name="BookshelfId">
                         <option disabled selected>Add to Bookshelf</option>
-                        @foreach (var bookshelf in this.bookshelvesService.GetUsersBookshelves(user.Id))
+                        @foreach (var bookshelf in this.userBookshelfService.GetUsersBookshelves(user.Id))
                         {
-                            if (this.bookshelvesService.IsBookInBookshelf(@Model.Id, bookshelf.Id))
+                            if (this.userBookshelfService.IsBookInBookshelf(@Model.Id, bookshelf.Id))
                             {
                                 <option disabled>@bookshelf.Title</option>
                             }
@@ -61,7 +61,7 @@
                             }
                         }
                     </select>
-                    <input type="number" hidden value="@Model.Id" name="BookId"/>
+                    <input type="number" hidden value="@Model.Id" name="BookId" />
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn blackButton">Add</button>

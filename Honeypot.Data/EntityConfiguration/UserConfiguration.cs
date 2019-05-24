@@ -14,7 +14,7 @@ namespace Honeypot.Data.EntityConfiguration
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
-                .HasMany(x => x.FavouriteQuotes)
+                .HasMany(x => x.LikedQuotes)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
         }

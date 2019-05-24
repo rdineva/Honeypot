@@ -23,14 +23,14 @@ namespace Honeypot.Controllers
             this.userManager = userManager;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Create(CreateQuoteViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace Honeypot.Controllers
             };
 
             this.context.UsersQuotes.Add(userQuote);
-            user.FavouriteQuotes.Add(userQuote);
+            user.LikedQuotes.Add(userQuote);
             quote.LikedByUsers.Add(userQuote);
             this.context.SaveChanges();
         }
