@@ -2,13 +2,13 @@
 
 namespace Honeypot.Services
 {
-    public class BaseService
+    public abstract class BaseService
     {
-        protected readonly HoneypotDbContext Context;
+        protected readonly HoneypotDbContext context;
 
         protected BaseService(HoneypotDbContext context)
         {
-            this.Context = context;
+            this.context = context;
         }
     }
 }

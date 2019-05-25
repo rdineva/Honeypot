@@ -1,6 +1,6 @@
 ﻿namespace Honeypot.ViewModels
 {
-    public class ErrorConstants
+    public class ViewModelConstants
     {
         public const int MinNameLength = 5;
 

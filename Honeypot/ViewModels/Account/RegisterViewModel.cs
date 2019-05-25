@@ -7,7 +7,8 @@ namespace Honeypot.ViewModels.Account
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [UniqueUsername]
+        [StringLength(ViewModelConstants.MaxPasswordLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string Username { get; set; }
 
         [Required]
@@ -15,24 +16,24 @@ namespace Honeypot.ViewModels.Account
         public string Email { get; set; }
 
         [Required]
-        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [StringLength(ViewModelConstants.MaxPasswordLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
         [DisplayName("Confirm Password")]
         [DataType(DataType.Password)]
-        [Compare(nameof(Password), ErrorMessage = ErrorConstants.PasswordsDontMatch)]
+        [Compare(nameof(Password), ErrorMessage = ViewModelConstants.PasswordsDontMatch)]
         public string ConfirmPassword { get; set; }
 
         [NotNullOrWhiteSpace]
         [DisplayName("First Name")]
-        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [StringLength(ViewModelConstants.MaxPasswordLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string FirstName { get; set; }
 
         [NotNullOrWhiteSpace]
         [DisplayName("Last Name")]
-        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [StringLength(ViewModelConstants.MaxPasswordLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string LastName { get; set; }
     }
 }

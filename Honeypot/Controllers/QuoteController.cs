@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Honeypot.Services.Contracts;
+using Honeypot.ViewModels;
 
 namespace Honeypot.Controllers
 {
@@ -16,11 +18,17 @@ namespace Honeypot.Controllers
     public class QuoteController : BaseController
     {
         private readonly UserManager<HoneypotUser> userManager;
+        private readonly IAuthorService authorService;
+        private readonly IBookService bookService;
+        private readonly IQuoteService quoteService;
 
-        public QuoteController(HoneypotDbContext context, IMapper mapper, UserManager<HoneypotUser> userManager)
+        public QuoteController(HoneypotDbContext context, UserManager<HoneypotUser> userManager, IMapper mapper, IAuthorService authorService, IBookService bookService, IQuoteService quoteService)
             : base(context, mapper)
         {
             this.userManager = userManager;
+            this.authorService = authorService;
+            this.bookService = bookService;
+            this.quoteService = quoteService;
         }
 
         [Authorize(Roles = Role.Admin)]
@@ -35,24 +43,37 @@ namespace Honeypot.Controllers
         {
             if (ModelState.IsValid)
             {
-                var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == viewModel.BookId).Result;
-                var author = this.context.Authors.FirstOrDefaultAsync(x => x.Id == viewModel.AuthorId).Result;
-                if (book == null || author == null)
+                var error = CheckQuoteCreateErrors(viewModel);
+                if (error == null)
                 {
-                    return this.BadRequest("Book or author doesn't exist!");
+                    var createdQuote = this.OnPostCreateQuote(viewModel);
+                    return this.RedirectToAction("Details", createdQuote.Id);
                 }
 
-                var quoteExists = this.context.Quotes.FirstOrDefaultAsync(x => x.Text == viewModel.Text).Result != null;
-                if (quoteExists)
-                {
-                    return this.BadRequest("Quote already exists!");
-                }
-
-                var createdQuote = this.OnPostCreateQuote(viewModel);
-                return this.RedirectToAction("Details", createdQuote.Id);
+                return this.View("Error", new ErrorViewModel()); //TODO: add error text
             }
 
             return this.View(viewModel);
+        }
+
+        public string CheckQuoteCreateErrors(CreateQuoteViewModel viewModel)
+        {
+            if (this.authorService.GeAuthorById(viewModel.AuthorId) == null)
+            {
+                return "Author doesn't exist!";
+            }
+
+            if (this.bookService.GeBookById(viewModel.BookId) == null)
+            {
+                return "Book doesn't exist!";
+            }
+
+            if (this.quoteService.QuoteExists(viewModel.Text))
+            {
+                return "Quote already exists!";
+            }
+
+            return string.Empty;
         }
 
         [AllowAnonymous]
@@ -84,7 +105,7 @@ namespace Honeypot.Controllers
         public IActionResult MyLikedQuotes()
         {
             var user = userManager.GetUserAsync(HttpContext.User).Result;
-            var usersLikedQuotes = FindUsersLikedQuotes(user);
+            var usersLikedQuotes = this.quoteService.FindUsersLikedQuotes(user);
             var quotes = new MyLikedQuotesViewModel()
             {
                 Quotes = usersLikedQuotes
@@ -115,19 +136,6 @@ namespace Honeypot.Controllers
             user.LikedQuotes.Add(userQuote);
             quote.LikedByUsers.Add(userQuote);
             this.context.SaveChanges();
-        }
-
-        public List<Quote> FindUsersLikedQuotes(HoneypotUser user)
-        {
-            var usersLikedQuotes = this.context
-                .UsersQuotes
-                .Include(x => x.Quote)
-                .ThenInclude(x => x.Book)
-                .ThenInclude(x => x.Author)
-                .Where(x => x.UserId == user.Id)
-                .ToList().ConvertAll(x => x.Quote);
-
-            return usersLikedQuotes;
         }
 
         public void OnPostUnlikeQuote(Quote quote, HoneypotUser user)

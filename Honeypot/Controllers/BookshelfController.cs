@@ -1,23 +1,24 @@
 ﻿using Honeypot.Data;
 using Honeypot.Models;
-using Honeypot.Services;
 using Honeypot.ViewModels.Bookshelf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Honeypot.Services.Contracts;
 
 namespace Honeypot.Controllers
 {
     [Authorize]
     public class BookshelfController : BaseController
     {
-        private readonly UserService usersService;
+        private readonly IUserService userService;
+        private readonly IBookshelfService bookshelfService;
 
-        public BookshelfController(UserService usersService, IMapper mapper, HoneypotDbContext context)
+        public BookshelfController(HoneypotDbContext context, IUserService userService, IMapper mapper, IBookshelfService bookshelfService)
             : base(context, mapper)
         {
-            this.usersService = usersService;
+            this.userService = userService;
+            this.bookshelfService = bookshelfService;
         }
 
         public IActionResult Create()
@@ -30,6 +31,13 @@ namespace Honeypot.Controllers
         {
             if (ModelState.IsValid)
             {
+                var currentUser = this.userService.GetByUsername(this.User.Identity.Name);
+                if (this.bookshelfService.UserHasBookshelfTitled(viewModel.Title, currentUser.Id))
+                {
+                    return this.BadRequest("User already has bookshelf with this title.");
+                    //TODO: return this.View("Error", new ErrorViewModel("User already has bookshelf with this title."));
+                }
+
                 var createdBookshelf = this.OnPostCreateBookshelf(viewModel);
                 return RedirectToAction("Details", new { id = createdBookshelf.Id });
             }
@@ -39,10 +47,9 @@ namespace Honeypot.Controllers
 
         public IActionResult Details(int id)
         {
-            var bookshelfResult = this.context.Bookshelves.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id).Result;
-
-            var currentUser = this.usersService.GetByUsername(this.User.Identity.Name);
-            if (bookshelfResult == null || bookshelfResult.UserId != currentUser.Id)
+            var currentUser = this.userService.GetByUsername(this.User.Identity.Name);
+            var bookshelfResult = this.bookshelfService.FindUserBookshelfById(id, currentUser.Id);
+            if (bookshelfResult == null)
             {
                 return this.BadRequest("Bookshelf doesn't exist!");
             }
@@ -54,7 +61,7 @@ namespace Honeypot.Controllers
         public Bookshelf OnPostCreateBookshelf(CreateBookshelfViewModel viewModel)
         {
             var bookshelf = this.mapper.Map<Bookshelf>(viewModel);
-            bookshelf.UserId = this.usersService.GetByUsername(this.User.Identity.Name).Id;
+            bookshelf.UserId = this.userService.GetByUsername(this.User.Identity.Name).Id;
             this.context.Bookshelves.Add(bookshelf);
             this.context.SaveChanges();
             return bookshelf;

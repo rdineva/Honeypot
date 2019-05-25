@@ -6,7 +6,7 @@ namespace Honeypot.ViewModels.Bookshelf
     {
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(ErrorConstants.MaxTitleLength, ErrorMessage =ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinTitleLength)]
+        [StringLength(ViewModelConstants.MaxTitleLength, ErrorMessage =ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinTitleLength)]
         public string Title { get; set; }
     }
 }

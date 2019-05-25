@@ -1,20 +1,22 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
+using Honeypot.Services.Contracts;
 using Honeypot.ViewModels.Author;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Honeypot.Controllers
 {
     [Authorize]
     public class AuthorController : BaseController
     {
-        public AuthorController(HoneypotDbContext context, IMapper mapper)
+        private readonly IAuthorService authorService;
+
+        public AuthorController(HoneypotDbContext context, IMapper mapper, IAuthorService authorService)
             : base(context, mapper)
         {
+            this.authorService = authorService;
         }
 
         [Authorize(Roles = Role.Admin)]
@@ -29,20 +31,29 @@ namespace Honeypot.Controllers
         {
             if (ModelState.IsValid)
             {
-                var authorExists = this.context.Authors
-                    .Any(x => x.FirstName == viewModel.FirstName && x.LastName == viewModel.LastName);
-                if (authorExists)
+                if (this.authorService.AuthorExists(viewModel.FirstName, viewModel.LastName))
                 {
                     return this.BadRequest("Author already exists!");
                 }
-                else
-                {
-                    var createdAuthor = OnPostCreateAuthor(viewModel);
-                    return RedirectToAction("Details", "Author", new { id = createdAuthor.Id });
-                }
+
+                var createdAuthor = OnPostCreateAuthor(viewModel);
+                return RedirectToAction("Details", "Author", new { id = createdAuthor.Id });
             }
 
             return this.View(viewModel);
+        }
+
+        [AllowAnonymous]
+        public IActionResult Details(int id)
+        {
+            var authorResult = this.authorService.GeAuthorById(id);
+            if (authorResult == null)
+            {
+                return this.NotFound("No such author exists.");
+            }
+
+            var author = this.mapper.Map<AuthorDetailsViewModel>(authorResult);
+            return this.View(author);
         }
 
         public Author OnPostCreateAuthor(CreateAuthorViewModel viewModel)
@@ -51,23 +62,6 @@ namespace Honeypot.Controllers
             this.context.Authors.Add(author);
             this.context.SaveChanges();
             return author;
-        }
-
-        [AllowAnonymous]
-        public IActionResult Details(int id)
-        {
-            var authorResult = this.context.Authors
-                .Include(x => x.Books)
-                .ThenInclude(x => x.Quotes)
-                .FirstOrDefault(x => x.Id == id);
-
-            if (authorResult == null)
-            {
-                return this.NotFound("No such author exists.");
-            }
-
-            var author = this.mapper.Map<AuthorDetailsViewModel>(authorResult);
-            return this.View(author);
         }
     }
 }

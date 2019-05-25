@@ -8,18 +8,18 @@ namespace Honeypot.ViewModels.Author
         [Required]
         [DisplayName("First Name")]
         [DataType(DataType.Text)]
-        [StringLength(ErrorConstants.MaxNameLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [StringLength(ViewModelConstants.MaxNameLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string FirstName { get; set; }
 
         [Required]
         [DisplayName("Last Name")]
         [DataType(DataType.Text)]
-        [StringLength(ErrorConstants.MaxNameLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [StringLength(ViewModelConstants.MaxNameLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(ErrorConstants.MaxBiographyLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinBiographyLength)]
+        [StringLength(ViewModelConstants.MaxBiographyLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinBiographyLength)]
         public string Biography { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Services;
+using Honeypot.Services.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -56,11 +56,13 @@ namespace Honeypot
                 .AddEntityFrameworkStores<HoneypotDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAutoMapper();
+            //services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<UserService, UserService>();
-            services.AddScoped<UserQuoteService, UserQuoteService>();
-            services.AddScoped<UserBookshelfService, UserBookshelfService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IQuoteService, QuoteService>();
+            services.AddScoped<IBookshelfService, BookshelfService>();
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IBookService, BookService>();
             services.AddSingleton(iMapper);
         }
 
@@ -94,19 +96,19 @@ namespace Honeypot
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             IdentityResult roleResult;
-            var roleAdminExists = await RoleManager.RoleExistsAsync(Role.Admin);
-            var roleUserExists = await RoleManager.RoleExistsAsync(Role.User);
+            var roleAdminExists = await roleManager.RoleExistsAsync(Role.Admin);
+            var roleUserExists = await roleManager.RoleExistsAsync(Role.User);
 
             if (!roleAdminExists)
             {
-                roleResult = await RoleManager.CreateAsync(new IdentityRole(Role.Admin));
+                roleResult = await roleManager.CreateAsync(new IdentityRole(Role.Admin));
             }
 
             if (!roleUserExists)
             {
-                roleResult = await RoleManager.CreateAsync(new IdentityRole(Role.User));
+                roleResult = await roleManager.CreateAsync(new IdentityRole(Role.User));
             }
         }
     }

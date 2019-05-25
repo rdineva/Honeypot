@@ -2,24 +2,26 @@
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.MappingModels;
-using Honeypot.Services;
 using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Honeypot.Services.Contracts;
 
 namespace Honeypot.Controllers
 {
     [Authorize]
     public class BookController : BaseController
     {
-        private readonly UserService usersService;
+        private readonly IUserService usersService;
+        private readonly IAuthorService authorService;
 
-        public BookController(HoneypotDbContext context, IMapper mapper, UserService usersService)
+        public BookController(HoneypotDbContext context, IMapper mapper, IUserService usersService, IAuthorService authorService)
             : base(context, mapper)
         {
             this.usersService = usersService;
+            this.authorService = authorService;
         }
 
         [AllowAnonymous]
@@ -51,7 +53,7 @@ namespace Honeypot.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (AuthorDoesntExist(viewModel.AuthorFirstName, viewModel.AuthorLastName))
+                if (this.authorService.AuthorExists(viewModel.AuthorFirstName, viewModel.AuthorLastName))
                 {
                     return this.BadRequest("Author doesn't exist!");
                 }
@@ -146,15 +148,6 @@ namespace Honeypot.Controllers
 
             var bookExists = (book != null);
             return bookExists;
-        }
-
-        public bool AuthorDoesntExist(string firstName, string lastName)
-        {
-            var author = this.context.Authors.FirstOrDefault(x =>
-                x.FirstName == firstName && x.LastName == lastName);
-
-            bool authorDoesntExist = (author == null);
-            return authorDoesntExist;
         }
 
         public Book OnPostCreateBook(CreateBookViewModel viewModel)

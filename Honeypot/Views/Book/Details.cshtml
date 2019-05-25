@@ -1,6 +1,7 @@
-﻿@model Honeypot.ViewModels.Book.BookDetailsViewModel
-@inject Honeypot.Services.UserBookshelfService userBookshelfService
-@inject Honeypot.Services.UserService userService
+﻿@using Honeypot.Services.Contracts
+@model Honeypot.ViewModels.Book.BookDetailsViewModel
+@inject IBookshelfService bookshelfService
+@inject IUserService userService
 
 <div class="col-md-6 col-sm-offset-2" style="background-color: #c2daff;">
     <div class="form-group">
@@ -49,9 +50,9 @@
                 <div class="col-md-10">
                     <select class="form-control" name="BookshelfId">
                         <option disabled selected>Add to Bookshelf</option>
-                        @foreach (var bookshelf in this.userBookshelfService.GetUsersBookshelves(user.Id))
+                        @foreach (var bookshelf in this.bookshelfService.GetUsersBookshelves(user.Id))
                         {
-                            if (this.userBookshelfService.IsBookInBookshelf(@Model.Id, bookshelf.Id))
+                            if (this.bookshelfService.IsBookInBookshelf(@Model.Id, bookshelf.Id))
                             {
                                 <option disabled>@bookshelf.Title</option>
                             }

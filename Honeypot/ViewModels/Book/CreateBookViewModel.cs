@@ -7,24 +7,24 @@ namespace Honeypot.ViewModels.Book
     {
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(ErrorConstants.MaxTitleLength, ErrorMessage =ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinTitleLength)]
+        [StringLength(ViewModelConstants.MaxTitleLength, ErrorMessage =ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinTitleLength)]
         public string Title { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(ErrorConstants.MaxSummaryLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinSummaryLength)]
+        [StringLength(ViewModelConstants.MaxSummaryLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinSummaryLength)]
         public string Summary { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [DisplayName("Author's First Name")]
-        [StringLength(ErrorConstants.MaxNameLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [StringLength(ViewModelConstants.MaxNameLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string AuthorFirstName { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [DisplayName("Author's Last Name")]
-        [StringLength(ErrorConstants.MaxNameLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
+        [StringLength(ViewModelConstants.MaxNameLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string AuthorLastName { get; set; }
     }
 }
