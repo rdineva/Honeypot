@@ -1,5 +1,4 @@
-﻿using System;
-using Honeypot.Models;
+﻿using Honeypot.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

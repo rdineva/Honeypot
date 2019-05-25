@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Honeypot.Attributes;
 
 namespace Honeypot.ViewModels.Author
 {
@@ -9,18 +8,18 @@ namespace Honeypot.ViewModels.Author
         [Required]
         [DisplayName("First Name")]
         [DataType(DataType.Text)]
-        [StringLength(25, ErrorMessage = "First name should be between 3 and 25 characters!", MinimumLength = 3)]
+        [StringLength(ErrorConstants.MaxNameLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
         public string FirstName { get; set; }
 
         [Required]
         [DisplayName("Last Name")]
         [DataType(DataType.Text)]
-        [StringLength(25, ErrorMessage = "Last name should be between 3 and 25 characters!", MinimumLength = 3)]
+        [StringLength(ErrorConstants.MaxNameLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
         public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(500, ErrorMessage = "Biography is should be between 10 and 500 characters!", MinimumLength = 10)]
+        [StringLength(ErrorConstants.MaxBiographyLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinBiographyLength)]
         public string Biography { get; set; }
     }
 }

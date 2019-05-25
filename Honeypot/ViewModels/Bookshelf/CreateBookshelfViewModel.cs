@@ -4,10 +4,9 @@ namespace Honeypot.ViewModels.Bookshelf
 {
     public class CreateBookshelfViewModel
     {
-        //TODO: extract all error messages into common constants class
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(30, ErrorMessage = "Title must be between 3 and 30 characters!", MinimumLength = 3)]
+        [StringLength(ErrorConstants.MaxTitleLength, ErrorMessage =ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinTitleLength)]
         public string Title { get; set; }
     }
 }

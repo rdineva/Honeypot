@@ -7,7 +7,7 @@ namespace Honeypot.ViewModels.Account
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(25, ErrorMessage = "Username can be between 5 and 25 symbols!", MinimumLength = 5)]
+        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
         public string Username { get; set; }
 
         [Required]
@@ -15,22 +15,24 @@ namespace Honeypot.ViewModels.Account
         public string Email { get; set; }
 
         [Required]
-        [StringLength(int.MaxValue, ErrorMessage = "Password must be at least 6 symbols", MinimumLength = 6)]
+        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
         [DisplayName("Confirm Password")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The passwords don't match.")]
+        [Compare(nameof(Password), ErrorMessage = ErrorConstants.PasswordsDontMatch)]
         public string ConfirmPassword { get; set; }
 
         [NotNullOrWhiteSpace]
         [DisplayName("First Name")]
+        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
         public string FirstName { get; set; }
 
         [NotNullOrWhiteSpace]
         [DisplayName("Last Name")]
+        [StringLength(ErrorConstants.MaxPasswordLength, ErrorMessage = ErrorConstants.StringLengthError, MinimumLength = ErrorConstants.MinNameLength)]
         public string LastName { get; set; }
     }
 }
