@@ -10,5 +10,7 @@ namespace Honeypot.Services.Contracts
         List<Quote> FindUsersLikedQuotes(HoneypotUser user);
 
         bool QuoteExists(string quote);
+
+        Quote GetQuoteById(int id);
     }
 }

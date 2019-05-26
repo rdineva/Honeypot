@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Honeypot.Services.Contracts;
-using Honeypot.ViewModels;
 
 namespace Honeypot.Controllers
 {
@@ -40,48 +39,54 @@ namespace Honeypot.Controllers
         [Authorize(Roles = Role.Admin)]
         public IActionResult Create(CreateQuoteViewModel viewModel)
         {
+            ValidateQuoteCreate(viewModel);
+
             if (ModelState.IsValid)
             {
-                var error = CheckQuoteCreateErrors(viewModel);
-                if (error == null)
-                {
-                    var createdQuote = this.OnPostCreateQuote(viewModel);
-                    return this.RedirectToAction("Details", createdQuote.Id);
-                }
-
-                return this.View("Error", new ErrorViewModel()); //TODO: add error text
+                var createdQuote = this.OnPostCreateQuote(viewModel);
+                return this.RedirectToAction("Details", createdQuote.Id);
             }
 
             return this.View(viewModel);
         }
 
-        public string CheckQuoteCreateErrors(CreateQuoteViewModel viewModel)
+        public void ValidateQuoteCreate(CreateQuoteViewModel viewModel)
         {
             if (this.authorService.GeAuthorById(viewModel.AuthorId) == null)
             {
-                return "Author doesn't exist!";
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Author).Name);
+                ModelState.AddModelError("Author", errorMessage);
             }
 
             if (this.bookService.GeBookById(viewModel.BookId) == null)
             {
-                return "Book doesn't exist!";
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
+                ModelState.AddModelError("Book", errorMessage);
             }
 
             if (this.quoteService.QuoteExists(viewModel.Text))
             {
-                return "Quote already exists!";
+                var errorMessage = string.Format(ControllerConstants.AlreadyExists, typeof(Quote).Name);
+                ModelState.AddModelError("Text", errorMessage);
             }
+        }
 
-            return string.Empty;
+        public void ValidateQuoteExists(Quote quote)
+        {
+            if (quote == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Quote).Name);
+                ModelState.AddModelError("Quote", errorMessage);
+            }
         }
 
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
-            var quoteResult = this.context.Quotes.Include(x => x.Author).Include(x => x.Book).FirstOrDefaultAsync(q => q.Id == id).Result;
+            var quoteResult = this.quoteService.GetQuoteById(id);
             if (quoteResult == null)
             {
-                return this.NotFound("No such quote found!");
+                return this.RedirectToAction("/", "Home");
             }
 
             var quote = this.mapper.Map<QuoteDetailsViewModel>(quoteResult);
@@ -91,14 +96,16 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult LikeOrUnlike(int quoteId)
         {
-            var quote = this.context.Quotes.FirstOrDefaultAsync(x => x.Id == quoteId).Result;
-            if (quote == null)
+            var quote = this.quoteService.GetQuoteById(quoteId);
+            ValidateQuoteExists(quote);
+
+            if (ModelState.IsValid)
             {
-                return this.BadRequest("No such quote exists!");
+                this.OnPostLikeOrUnlike(quote);
+                return RedirectToAction("Details", new { id = quoteId });
             }
 
-            this.OnPostLikeOrUnlike(quote);
-            return RedirectToAction("Details", new { id = quoteId });
+            return this.RedirectToAction("/", "Home");
         }
 
         public IActionResult MyLikedQuotes()

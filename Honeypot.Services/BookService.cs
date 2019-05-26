@@ -2,6 +2,7 @@
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Honeypot.Services
 {
@@ -15,6 +16,8 @@ namespace Honeypot.Services
         public Book GeBookById(int id)
         {
             var book = this.context.Books
+                .Include(x => x.Author)
+                .Include(x => x.Quotes)
                 .FirstOrDefault(x => x.Id == id);
 
             return book;

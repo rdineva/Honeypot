@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Honeypot.Services.Contracts;
-
 namespace Honeypot.Controllers
 {
     [Authorize]
@@ -31,14 +30,10 @@ namespace Honeypot.Controllers
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
-            var bookResult = this.context.Books
-                .Include(x => x.Author)
-                .Include(x => x.Quotes)
-                .FirstOrDefaultAsync(x => x.Id == id).Result;
-
+            var bookResult = this.bookService.GeBookById(id);
             if (bookResult == null)
             {
-                return this.NotFound("No such book found.");
+                return this.RedirectToAction("/", "Home");
             }
 
             var book = this.mapper.Map<BookDetailsViewModel>(bookResult);
@@ -55,18 +50,11 @@ namespace Honeypot.Controllers
         [Authorize(Roles = Role.Admin)]
         public IActionResult Create(CreateBookViewModel viewModel)
         {
+            ValidateAuthorNamesExist(viewModel);
+            ValidateBookTitleDoesntExist(viewModel);
+
             if (ModelState.IsValid)
             {
-                if (this.authorService.AuthorExists(viewModel.AuthorFirstName, viewModel.AuthorLastName))
-                {
-                    return this.BadRequest("Author doesn't exist!");
-                }
-
-                if (this.bookService.BookTitleExists(viewModel.Title, viewModel.AuthorFirstName, viewModel.AuthorLastName))
-                {
-                    return this.BadRequest("Book already exists!");
-                }
-
                 var bookResult = OnPostCreateBook(viewModel);
                 return RedirectToAction("Details", "Book", new { id = bookResult.Id });
             }
@@ -74,28 +62,66 @@ namespace Honeypot.Controllers
             return this.View(viewModel);
         }
 
+        public void ValidateBookTitleDoesntExist(CreateBookViewModel viewModel)
+        {
+            if (this.bookService.BookTitleExists(viewModel.Title, viewModel.AuthorFirstName, viewModel.AuthorLastName))
+            {
+                ModelState.AddModelError("Title", "Book already exists.");
+            }
+        }
+
+        public void ValidateAuthorNamesExist(CreateBookViewModel viewModel)
+        {
+            if (!this.authorService.AuthorExists(viewModel.AuthorFirstName, viewModel.AuthorLastName))
+            {
+                ModelState.AddModelError("AuthorFirstName", "Author doesn't exist.");
+                ModelState.AddModelError("AuthorLastName", "Author doesn't exist.");
+            }
+        }
+
         [HttpPost]
         public IActionResult AddToBookshelf(int bookshelfId, int bookId)
         {
-            var bookResult = this.bookService.GeBookById(bookId);
-            if (bookResult == null)
-            {
-                return this.BadRequest("Book doesn't exist!");
-            }
-
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
-            if (this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id) == null)
+            var bookResult = this.bookService.GeBookById(bookId);
+            //TODO: create addtobookshelf viewmodel and validate there
+            ValidateBookExists(bookResult);
+            ValidateUserBookshelfIdExists(bookshelfId, user);
+            ValidateBookIsntInBookshelf(bookId, bookshelfId);
+
+            if (ModelState.IsValid)
             {
-                return this.BadRequest("Bookshelf doesn't exist!");
+                this.OnPostAddToBookshelf(bookshelfId, bookResult, user);
+                return RedirectToAction("Details", "Bookshelf", new {id = bookshelfId});
             }
 
+            return this.RedirectToAction("/", "Home");
+        }
+
+        public void ValidateBookIsntInBookshelf(int bookId, int bookshelfId)
+        {
             if (this.bookshelfService.IsBookInBookshelf(bookId, bookshelfId))
             {
-                return this.BadRequest("Book is already on that bookshelf!");
+                ModelState.AddModelError("Book", "Book is already on that bookshelf!");
             }
+        }
 
-            this.OnPostAddToBookshelf(bookshelfId, bookResult, user);
-            return RedirectToAction("Details", "Bookshelf", new { id = bookshelfId });
+        public void ValidateUserBookshelfIdExists(int bookshelfId, HoneypotUser user)
+        {
+            if (this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id) == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Bookshelf).Name);
+                ModelState.AddModelError("Bookshelf", errorMessage);
+            }
+        }
+
+        public void ValidateBookExists(Book book)
+        {
+            if (book == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
+                ModelState.AddModelError("Book", errorMessage);
+            }
         }
 
         public void OnPostAddToBookshelf(int bookshelfId, Book book, HoneypotUser user)
@@ -108,6 +134,16 @@ namespace Honeypot.Controllers
 
             user.CustomBookshelves.First(x => x.Id == bookshelfId).Books.Add(bookBookshelf);
             this.context.SaveChanges();
+        }
+
+        public Book OnPostCreateBook(CreateBookViewModel viewModel)
+        {
+            var bookAuthor = this.context.Authors.FirstOrDefault(x => x.FirstName == viewModel.AuthorFirstName && x.LastName == viewModel.AuthorLastName);
+            var book = this.mapper.Map<Book>(viewModel);
+            book.AuthorId = bookAuthor.Id;
+            this.context.Books.Add(book);
+            this.context.SaveChanges();
+            return book;
         }
 
         //[HttpPost]
@@ -130,7 +166,7 @@ namespace Honeypot.Controllers
         //    if (hasUserRatedBook)
         //    {
         //        var rating = this.context.Ratings.FirstOrDefaultAsync(x => x.BookId == bookId && x.UserId == user.Id).Result;
-        //       // rating.Stars = stars;
+        //        // rating.Stars = stars;
         //    }
         //    else
         //    {
@@ -139,20 +175,7 @@ namespace Honeypot.Controllers
         //    }
 
         //    this.context.SaveChanges();
-
         //    return RedirectToAction("Details", new { id = book.Id });
         //}
-
-        public Book OnPostCreateBook(CreateBookViewModel viewModel)
-        {
-            var bookAuthor = this.context.Authors.FirstOrDefault(x =>
-                x.FirstName == viewModel.AuthorFirstName && x.LastName == viewModel.AuthorLastName);
-
-            var book = this.mapper.Map<Book>(viewModel);
-            book.AuthorId = bookAuthor.Id;
-            this.context.Books.Add(book);
-            this.context.SaveChanges();
-            return book;
-        }
     }
 }

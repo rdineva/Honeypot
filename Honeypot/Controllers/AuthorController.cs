@@ -29,18 +29,25 @@ namespace Honeypot.Controllers
         [Authorize(Roles = Role.Admin)]
         public IActionResult Create(CreateAuthorViewModel viewModel)
         {
+            ValidateAuthorNamesExist(viewModel);
+
             if (ModelState.IsValid)
             {
-                if (this.authorService.AuthorExists(viewModel.FirstName, viewModel.LastName))
-                {
-                    return this.BadRequest("Author already exists!");
-                }
-
                 var createdAuthor = OnPostCreateAuthor(viewModel);
                 return RedirectToAction("Details", "Author", new { id = createdAuthor.Id });
             }
 
             return this.View(viewModel);
+        }
+
+        public void ValidateAuthorNamesExist(CreateAuthorViewModel viewModel)
+        {
+            if (this.authorService.AuthorExists(viewModel.FirstName, viewModel.LastName))
+            {
+                var errorMessage = string.Format(ControllerConstants.AlreadyExists, typeof(Author).Name);
+                ModelState.AddModelError("FirstName", errorMessage);
+                ModelState.AddModelError("LastName", errorMessage);
+            }
         }
 
         [AllowAnonymous]
@@ -49,7 +56,7 @@ namespace Honeypot.Controllers
             var authorResult = this.authorService.GeAuthorById(id);
             if (authorResult == null)
             {
-                return this.NotFound("No such author exists.");
+                return this.RedirectToAction("/", "Home");
             }
 
             var author = this.mapper.Map<AuthorDetailsViewModel>(authorResult);

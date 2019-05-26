@@ -38,5 +38,11 @@ namespace Honeypot.Services
             var quoteExists = this.context.Quotes.Any(x => x.Text == quote);
             return quoteExists;
         }
+
+        public Quote GetQuoteById(int id)
+        {
+            var quote = this.context.Quotes.Include(x => x.Author).Include(x => x.Book).FirstOrDefault(x => x.Id == id);
+            return quote;
+        }
     }
 }

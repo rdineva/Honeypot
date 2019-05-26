@@ -48,7 +48,6 @@ namespace Honeypot.Controllers
         public IActionResult Logout()
         {
             this.signInManager.SignOutAsync().Wait();
-
             return RedirectToAction("Index", "Home");
         }
 
@@ -58,15 +57,15 @@ namespace Honeypot.Controllers
             if (ModelState.IsValid)
             {
                 var logInResult = this.OnPostLoginAsync(viewModel).GetAwaiter().GetResult();
-                //TODO: add error when unsuccessfull login
                 if (logInResult.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("/", "Home");
                 }
+
+                ModelState.AddModelError("Username", ControllerConstants.IncorrectLogin);
             }
 
             return this.View(viewModel);
-
         }
 
         [HttpPost]
@@ -77,9 +76,8 @@ namespace Honeypot.Controllers
                 var registerResult = this.OnPostRegisterAsync(viewModel).GetAwaiter().GetResult();
                 if (registerResult.Succeeded)
                 {
-                    return this.RedirectToAction("Index", "Home");
+                    return this.RedirectToAction("/", "Home");
                 }
-                //TODO: add error when unsuccessful register
             }
 
             return this.View(viewModel);
@@ -123,7 +121,6 @@ namespace Honeypot.Controllers
         private async Task<SignInResult> OnPostLoginAsync(LoginViewModel viewModel)
         {
             var loginResult = await this.signInManager.PasswordSignInAsync(viewModel.Username, viewModel.Password, isPersistent: false, lockoutOnFailure: false);
-
             return loginResult;
         }
     }

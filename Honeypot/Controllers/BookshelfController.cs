@@ -44,7 +44,7 @@ namespace Honeypot.Controllers
             var bookshelfResult = this.bookshelfService.FindUserBookshelfById(id, currentUser.Id);
             if (bookshelfResult == null)
             {
-                return this.BadRequest("Bookshelf doesn't exist!");
+                return this.RedirectToAction("/", "Home");
             }
 
             var bookshelf = this.mapper.Map<BookshelfDetailsViewModel>(bookshelfResult);
