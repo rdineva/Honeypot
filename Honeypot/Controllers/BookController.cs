@@ -16,12 +16,16 @@ namespace Honeypot.Controllers
     {
         private readonly IUserService usersService;
         private readonly IAuthorService authorService;
+        private readonly IBookshelfService bookshelfService;
+        private readonly IBookService bookService;
 
-        public BookController(HoneypotDbContext context, IMapper mapper, IUserService usersService, IAuthorService authorService)
+        public BookController(HoneypotDbContext context, IMapper mapper, IUserService usersService, IAuthorService authorService, IBookshelfService bookshelfService, IBookService bookService)
             : base(context, mapper)
         {
             this.usersService = usersService;
             this.authorService = authorService;
+            this.bookshelfService = bookshelfService;
+            this.bookService = bookService;
         }
 
         [AllowAnonymous]
@@ -58,7 +62,7 @@ namespace Honeypot.Controllers
                     return this.BadRequest("Author doesn't exist!");
                 }
 
-                if (BookTitleExists(viewModel.Title, viewModel.AuthorFirstName, viewModel.AuthorLastName))
+                if (this.bookService.BookTitleExists(viewModel.Title, viewModel.AuthorFirstName, viewModel.AuthorLastName))
                 {
                     return this.BadRequest("Book already exists!");
                 }
@@ -73,21 +77,19 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult AddToBookshelf(int bookshelfId, int bookId)
         {
-            var bookResult = this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result;
+            var bookResult = this.bookService.GeBookById(bookId);
             if (bookResult == null)
             {
                 return this.BadRequest("Book doesn't exist!");
             }
 
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
-            var bookshelfResult = this.context.Bookshelves.Where(x => x.UserId == user.Id).FirstOrDefault(x => x.Id == bookshelfId);
-            if (bookshelfResult == null)
+            if (this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id) == null)
             {
                 return this.BadRequest("Bookshelf doesn't exist!");
             }
 
-            var isBookInBookshelf = this.context.BooksBookshelves.Any(x => x.BookId == bookId && x.BookshelfId == bookshelfId);
-            if (isBookInBookshelf)
+            if (this.bookshelfService.IsBookInBookshelf(bookId, bookshelfId))
             {
                 return this.BadRequest("Book is already on that bookshelf!");
             }
@@ -140,15 +142,6 @@ namespace Honeypot.Controllers
 
         //    return RedirectToAction("Details", new { id = book.Id });
         //}
-
-        public bool BookTitleExists(string title, string authorFirstName, string authorLastName)
-        {
-            var book = this.context.Books
-                .FirstOrDefault(x => x.Title == title && x.Author.FirstName == authorFirstName && x.Author.LastName == authorLastName);
-
-            var bookExists = (book != null);
-            return bookExists;
-        }
 
         public Book OnPostCreateBook(CreateBookViewModel viewModel)
         {

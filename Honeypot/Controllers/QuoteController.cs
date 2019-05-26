@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.MappingModels;

@@ -19,5 +19,14 @@ namespace Honeypot.Services
 
             return book;
         }
+
+        public bool BookTitleExists(string title, string authorFirstName, string authorLastName)
+        {
+            var book = this.context.Books
+                .FirstOrDefault(x => x.Title == title && x.Author.FirstName == authorFirstName && x.Author.LastName == authorLastName);
+
+            var bookExists = (book != null);
+            return bookExists;
+        }
     }
 }

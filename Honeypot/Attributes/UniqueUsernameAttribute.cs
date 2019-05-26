@@ -1,17 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using Honeypot.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Honeypot.Services.Contracts;
 
 namespace Honeypot.Attributes
 {
     public class UniqueUsernameAttribute : ValidationAttribute
     {
-        private HoneypotDbContext context;
-        private UserManager<HoneypotDbContext> userManager;
+        private IUserService userService;
 
         public UniqueUsernameAttribute()
             : base("Invalid Field")
@@ -19,29 +14,21 @@ namespace Honeypot.Attributes
         }
 
         public UniqueUsernameAttribute(string errorMessage)
-            :base(errorMessage)
+            : base(errorMessage)
         {
-        }
-
-        public override bool IsValid(object value)
-        {
-            var currentUser = this.userManager.GetUserAsync(ClaimsPrincipal.Current).Result;
-            if (this.context.Users.Include(x => x.CustomBookshelves).Any(x => x.UserName == value.ToString()))
-            {
-                return true;
-            }
-
-            return false;
         }
 
         protected override ValidationResult IsValid(Object value, ValidationContext validationContext)
         {
-            if (IsValid(value))
+            this.userService = (IUserService)validationContext.GetService(typeof(IUserService));
+            var usernameExists = this.userService.GetByUsername(value.ToString()) != null;
+
+            if (usernameExists)
             {
-                return ValidationResult.Success;
+                return new ValidationResult("This username is already taken.");
             }
 
-            return new ValidationResult("User already has bookshelf with this title.");
+            return ValidationResult.Success;
         }
     }
 }

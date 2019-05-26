@@ -31,13 +31,6 @@ namespace Honeypot.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentUser = this.userService.GetByUsername(this.User.Identity.Name);
-                if (this.bookshelfService.UserHasBookshelfTitled(viewModel.Title, currentUser.Id))
-                {
-                    return this.BadRequest("User already has bookshelf with this title.");
-                    //TODO: return this.View("Error", new ErrorViewModel("User already has bookshelf with this title."));
-                }
-
                 var createdBookshelf = this.OnPostCreateBookshelf(viewModel);
                 return RedirectToAction("Details", new { id = createdBookshelf.Id });
             }
