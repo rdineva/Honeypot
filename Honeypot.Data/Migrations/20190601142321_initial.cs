@@ -241,8 +241,8 @@ namespace Honeypot.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AuthorId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<int>(nullable: false),
                     BookId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -266,17 +266,16 @@ namespace Honeypot.Data.Migrations
                 name: "Ratings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    Stars = table.Column<int>(nullable: false),
-                    BookId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    BookId = table.Column<int>(nullable: false),
+                    Stars = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ratings", x => x.Id);
+                    table.PrimaryKey("PK_Ratings", x => new { x.BookId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_Ratings_Books_Id",
-                        column: x => x.Id,
+                        name: "FK_Ratings_Books_BookId",
+                        column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -285,7 +284,7 @@ namespace Honeypot.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

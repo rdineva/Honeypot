@@ -5,9 +5,9 @@ using Honeypot.Models.MappingModels;
 using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Honeypot.Services.Contracts;
+
 namespace Honeypot.Controllers
 {
     [Authorize]
@@ -92,7 +92,7 @@ namespace Honeypot.Controllers
             if (ModelState.IsValid)
             {
                 this.OnPostAddToBookshelf(bookshelfId, bookResult, user);
-                return RedirectToAction("Details", "Bookshelf", new {id = bookshelfId});
+                return RedirectToAction("Details", "Bookshelf", new { id = bookshelfId });
             }
 
             return this.RedirectToAction("/", "Home");
@@ -146,36 +146,60 @@ namespace Honeypot.Controllers
             return book;
         }
 
-        //[HttpPost]
-        //public IActionResult Rate(int stars, int bookId)
-        //{
-        //    var book = this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result;
-        //    if (book == null)
-        //    {
-        //        return this.BadRequest("Book is invalid!");
-        //    }
+        public void ValidateStars(int stars)
+        {
+            if (stars < 1 || stars > 5)
+            {
+                var errorMessage = string.Format(ControllerConstants.InvalidRating, typeof(Book).Name);
+                ModelState.AddModelError("Book", errorMessage);
+            }
+        }
 
-        //    if (stars < 1 || stars > 5)
-        //    {
-        //        return this.BadRequest("Rating is invalid!");
-        //    }
+        [HttpPost]
+        public IActionResult Rate(int stars, int bookId)
+        {
+            ValidateStars(stars);
+            var book = this.bookService.GeBookById(bookId);
+            ValidateBookExists(book);
 
-        //    var user = this.usersService.GetByUsername(this.User.Identity.Name);
-        //    var hasUserRatedBook = this.context.Ratings.Any(x => x.BookId == bookId && x.UserId == user.Id);
+            if (ModelState.IsValid)
+            {
+                OnPostUserRateBook(bookId, stars);
+            }
 
-        //    if (hasUserRatedBook)
-        //    {
-        //        var rating = this.context.Ratings.FirstOrDefaultAsync(x => x.BookId == bookId && x.UserId == user.Id).Result;
-        //        // rating.Stars = stars;
-        //    }
-        //    else
-        //    {
-        //        var rating = new Rating() { Stars = stars, UserId = user.Id };
-        //        this.context.Books.FirstOrDefaultAsync(x => x.Id == bookId).Result.Ratings.Add(rating);
-        //    }
+            return RedirectToAction("Details", new { id = book.Id });
+        }
 
-        //    this.context.SaveChanges();
-        //    return RedirectToAction("Details", new { id = book.Id });
-        //}
+        public void OnPostUserRateBook(int bookId, int stars)
+        {
+            var user = this.usersService.GetByUsername(this.User.Identity.Name);
+            var userHasRatedBook = this.bookService.HasUserRatedBook(user.Id, bookId);
+            if (userHasRatedBook)
+            {
+                ChangeRating(user, bookId, stars);
+            }
+            else
+            {
+                AddNewRating(user, bookId, stars);
+            }
+
+            this.context.SaveChanges();
+        }
+
+        public void ChangeRating(HoneypotUser user, int bookId, int stars)
+        {
+            var rating = this.bookService.FindUserBookRating(user.Id, bookId);
+            rating.Stars = stars;
+        }
+
+        public void AddNewRating(HoneypotUser user, int bookId, int stars)
+        {
+            var rating = new Rating()
+            {
+                Stars = stars, UserId = user.Id, BookId = bookId 
+            };
+
+            this.context.Ratings.Add(rating);
+        }
     }
 }

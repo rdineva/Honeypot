@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Honeypot.Data.Migrations
 {
     [DbContext(typeof(HoneypotDbContext))]
-    [Migration("20190523161944_initial")]
+    [Migration("20190601142321_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -178,15 +178,13 @@ namespace Honeypot.Data.Migrations
 
             modelBuilder.Entity("Honeypot.Models.Rating", b =>
                 {
-                    b.Property<int>("Id");
-
                     b.Property<int>("BookId");
-
-                    b.Property<int>("Stars");
 
                     b.Property<string>("UserId");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Stars");
+
+                    b.HasKey("BookId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -340,7 +338,7 @@ namespace Honeypot.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Honeypot.Models.HoneypotUser", "User")
-                        .WithMany("FavouriteQuotes")
+                        .WithMany("LikedQuotes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -362,12 +360,13 @@ namespace Honeypot.Data.Migrations
                 {
                     b.HasOne("Honeypot.Models.Book", "Book")
                         .WithMany("Ratings")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Honeypot.Models.HoneypotUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

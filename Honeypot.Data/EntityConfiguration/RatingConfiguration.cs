@@ -14,7 +14,8 @@ public class RatingConfiguration : IEntityTypeConfiguration<Rating>
                 .HasForeignKey(x => x.BookId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //TODO: add user cnfig
+            builder
+                .HasKey(x => new {x.BookId, x.UserId});
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Honeypot.Data
             builder.ApplyConfiguration(new BookshelfConfiguration());
             builder.ApplyConfiguration(new BookBookshelfConfiguration());
             builder.ApplyConfiguration(new UserQuoteConfiguration());
+            builder.ApplyConfiguration(new RatingConfiguration());
 
             base.OnModelCreating(builder);
         }

@@ -3,6 +3,7 @@
 @model Honeypot.ViewModels.Book.BookDetailsViewModel
 @inject IBookshelfService bookshelfService
 @inject IUserService userService
+@inject IBookService bookService
 
 <div class="col-md-6 col-sm-offset-2" style="background-color: #c2daff;">
     <div class="form-group">
@@ -23,7 +24,18 @@
             <form asp-controller="Book" asp-action="Rate" method="post">
                 <div class="col-md-10 @*col-md-offset-8*@">
                     <select class="form-control" name="stars">
-                        <option disabled selected>Rating</option>
+                        @{
+                            var user = this.userService.GetByUsername(this.User.Identity.Name);
+                            var userRating = this.bookService.FindUserBookRating(user.Id, @Model.Id);
+                        }
+                        @if (this.bookService.HasUserRatedBook(user.Id, @Model.Id))
+                        {
+                            <option disabled selected>Your current rating: @userRating.Stars</option>
+                        }
+                        else
+                        {
+                            <option disabled selected>Choose Rating</option>
+                        }
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>

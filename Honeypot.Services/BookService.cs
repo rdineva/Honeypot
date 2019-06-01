@@ -18,6 +18,7 @@ namespace Honeypot.Services
             var book = this.context.Books
                 .Include(x => x.Author)
                 .Include(x => x.Quotes)
+                .Include(x => x.Ratings)
                 .FirstOrDefault(x => x.Id == id);
 
             return book;
@@ -26,10 +27,32 @@ namespace Honeypot.Services
         public bool BookTitleExists(string title, string authorFirstName, string authorLastName)
         {
             var book = this.context.Books
-                .FirstOrDefault(x => x.Title == title && x.Author.FirstName == authorFirstName && x.Author.LastName == authorLastName);
+                .FirstOrDefault(x => x.Title == title 
+                                  && x.Author.FirstName == authorFirstName
+                                  && x.Author.LastName == authorLastName);
 
             var bookExists = (book != null);
             return bookExists;
+        }
+
+        public bool HasUserRatedBook(string userId, int bookId)
+        {
+            var userHasRatedBook = this.context.Ratings
+                .Include(x => x.Book)
+                .Include(x => x.User)
+                .Any(x => x.BookId == bookId 
+                       && x.UserId == userId);
+            return userHasRatedBook;
+        }
+
+        public Rating FindUserBookRating(string userId, int bookId)
+        {
+            var rating = this.context.Ratings
+                .Include(x => x.Book)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.BookId == bookId 
+                                       && x.UserId == userId).Result;
+            return rating;
         }
     }
 }

@@ -19,7 +19,8 @@ namespace Honeypot
             CreateMap<CreateBookViewModel, Book>(MemberList.None);
             CreateMap<Book, BookDetailsViewModel>(MemberList.None)
                 .ForMember(dest => dest.AuthorName, opt => opt
-                    .MapFrom(src => src.Author.FirstName + " " + src.Author.LastName));
+                    .MapFrom(src => src.Author.FirstName + " " + src.Author.LastName))
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.AverageRating()));
 
             CreateMap<CreateAuthorViewModel, Author>(MemberList.None);
             CreateMap<Author, AuthorDetailsViewModel>(MemberList.None);
