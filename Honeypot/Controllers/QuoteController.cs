@@ -49,36 +49,6 @@ namespace Honeypot.Controllers
             return this.View(viewModel);
         }
 
-        public void ValidateQuoteCreate(CreateQuoteViewModel viewModel)
-        {
-            if (this.authorService.GeAuthorById(viewModel.AuthorId) == null)
-            {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Author).Name);
-                ModelState.AddModelError("Author", errorMessage);
-            }
-
-            if (this.bookService.GeBookById(viewModel.BookId) == null)
-            {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
-                ModelState.AddModelError("Book", errorMessage);
-            }
-
-            if (this.quoteService.QuoteExists(viewModel.Text))
-            {
-                var errorMessage = string.Format(ControllerConstants.AlreadyExists, typeof(Quote).Name);
-                ModelState.AddModelError("Text", errorMessage);
-            }
-        }
-
-        public void ValidateQuoteExists(Quote quote)
-        {
-            if (quote == null)
-            {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Quote).Name);
-                ModelState.AddModelError("Quote", errorMessage);
-            }
-        }
-
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
@@ -163,6 +133,37 @@ namespace Honeypot.Controllers
             else
             {
                 this.OnPostLikeQuote(quote, user);
+            }
+        }
+
+        //INPUT DATA VALIDATION METHODS
+        public void ValidateQuoteCreate(CreateQuoteViewModel viewModel)
+        {
+            if (this.authorService.GeAuthorById(viewModel.AuthorId) == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Author).Name);
+                ModelState.AddModelError("Author", errorMessage);
+            }
+
+            if (this.bookService.GeBookById(viewModel.BookId) == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
+                ModelState.AddModelError("Book", errorMessage);
+            }
+
+            if (this.quoteService.QuoteExists(viewModel.Text))
+            {
+                var errorMessage = string.Format(ControllerConstants.AlreadyExists, typeof(Quote).Name);
+                ModelState.AddModelError("Text", errorMessage);
+            }
+        }
+
+        public void ValidateQuoteExists(Quote quote)
+        {
+            if (quote == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Quote).Name);
+                ModelState.AddModelError("Quote", errorMessage);
             }
         }
     }

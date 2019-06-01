@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.MappingModels;
@@ -7,7 +6,6 @@ using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Honeypot.Models.Enums;
 using Honeypot.Services.Contracts;
 
 namespace Honeypot.Controllers
@@ -19,16 +17,14 @@ namespace Honeypot.Controllers
         private readonly IAuthorService authorService;
         private readonly IBookshelfService bookshelfService;
         private readonly IBookService bookService;
-        private readonly IRatingService ratingService;
 
-        public BookController(HoneypotDbContext context, IMapper mapper, IUserService usersService, IAuthorService authorService, IBookshelfService bookshelfService, IBookService bookService, IRatingService ratingService)
+        public BookController(HoneypotDbContext context, IMapper mapper, IUserService usersService, IAuthorService authorService, IBookshelfService bookshelfService, IBookService bookService)
             : base(context, mapper)
         {
             this.usersService = usersService;
             this.authorService = authorService;
             this.bookshelfService = bookshelfService;
             this.bookService = bookService;
-            this.ratingService = ratingService;
         }
 
         [AllowAnonymous]
@@ -66,23 +62,6 @@ namespace Honeypot.Controllers
             return this.View(viewModel);
         }
 
-        public void ValidateBookTitleDoesntExist(CreateBookViewModel viewModel)
-        {
-            if (this.bookService.BookTitleExists(viewModel.Title, viewModel.AuthorFirstName, viewModel.AuthorLastName))
-            {
-                ModelState.AddModelError("Title", "Book already exists.");
-            }
-        }
-
-        public void ValidateAuthorNamesExist(CreateBookViewModel viewModel)
-        {
-            if (!this.authorService.AuthorExists(viewModel.AuthorFirstName, viewModel.AuthorLastName))
-            {
-                ModelState.AddModelError("AuthorFirstName", "Author doesn't exist.");
-                ModelState.AddModelError("AuthorLastName", "Author doesn't exist.");
-            }
-        }
-
         [HttpPost]
         public IActionResult AddToBookshelf(int bookshelfId, int bookId)
         {
@@ -100,32 +79,6 @@ namespace Honeypot.Controllers
             }
 
             return this.RedirectToAction("/", "Home");
-        }
-
-        public void ValidateBookIsntInBookshelf(int bookId, int bookshelfId)
-        {
-            if (this.bookshelfService.IsBookInBookshelf(bookId, bookshelfId))
-            {
-                ModelState.AddModelError("Book", "Book is already on that bookshelf!");
-            }
-        }
-
-        public void ValidateUserBookshelfIdExists(int bookshelfId, HoneypotUser user)
-        {
-            if (this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id) == null)
-            {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Bookshelf).Name);
-                ModelState.AddModelError("Bookshelf", errorMessage);
-            }
-        }
-
-        public void ValidateBookExists(Book book)
-        {
-            if (book == null)
-            {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
-                ModelState.AddModelError("Book", errorMessage);
-            }
         }
 
         public void OnPostAddToBookshelf(int bookshelfId, Book book, HoneypotUser user)
@@ -150,64 +103,48 @@ namespace Honeypot.Controllers
             return book;
         }
 
-        public StarRating ValidateStars(int stars)
+        //INPUT DATA VALIDATION METHODS
+        public void ValidateBookTitleDoesntExist(CreateBookViewModel viewModel)
         {
-            var areStarsValid = Enum.TryParse<StarRating>(stars.ToString(), true, out StarRating starRating);
-            var areStarsDefined = Enum.IsDefined(typeof(StarRating), starRating);
-            if (!areStarsValid || !areStarsDefined)
+            if (this.bookService.BookTitleExists(viewModel.Title, viewModel.AuthorFirstName, viewModel.AuthorLastName))
             {
-                var errorMessage = string.Format(ControllerConstants.InvalidRating, typeof(Book).Name);
+                ModelState.AddModelError("Title", "Book already exists.");
+            }
+        }
+
+        public void ValidateAuthorNamesExist(CreateBookViewModel viewModel)
+        {
+            if (!this.authorService.AuthorExists(viewModel.AuthorFirstName, viewModel.AuthorLastName))
+            {
+                ModelState.AddModelError("AuthorFirstName", "Author doesn't exist.");
+                ModelState.AddModelError("AuthorLastName", "Author doesn't exist.");
+            }
+        }
+
+        public void ValidateUserBookshelfIdExists(int bookshelfId, HoneypotUser user)
+        {
+            if (this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id) == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Bookshelf).Name);
+                ModelState.AddModelError("Bookshelf", errorMessage);
+            }
+        }
+
+        public void ValidateBookExists(Book book)
+        {
+            if (book == null)
+            {
+                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
                 ModelState.AddModelError("Book", errorMessage);
             }
-
-            return starRating;
         }
 
-        [HttpPost]
-        public IActionResult Rate(int stars, int bookId)
+        public void ValidateBookIsntInBookshelf(int bookId, int bookshelfId)
         {
-            StarRating starRating = ValidateStars(stars);
-            var book = this.bookService.GeBookById(bookId);
-            ValidateBookExists(book);
-
-            if (ModelState.IsValid)
+            if (this.bookshelfService.IsBookInBookshelf(bookId, bookshelfId))
             {
-                OnPostUserRateBook(bookId, starRating);
+                ModelState.AddModelError("Book", "Book is already on that bookshelf!");
             }
-
-            return RedirectToAction("Details", new { id = book.Id });
-        }
-
-        public void OnPostUserRateBook(int bookId, StarRating starRating)
-        {
-            var user = this.usersService.GetByUsername(this.User.Identity.Name);
-            var userHasRatedBook = this.ratingService.HasUserRatedBook(user.Id, bookId);
-            if (userHasRatedBook)
-            {
-                ChangeRating(user, bookId, starRating);
-            }
-            else
-            {
-                AddNewRating(user, bookId, starRating);
-            }
-
-            this.context.SaveChanges();
-        }
-
-        public void ChangeRating(HoneypotUser user, int bookId, StarRating starRating)
-        {
-            var rating = this.ratingService.FindUserBookRating(user.Id, bookId);
-            rating.Stars = starRating;
-        }
-
-        public void AddNewRating(HoneypotUser user, int bookId, StarRating starRating)
-        {
-            var rating = new Rating()
-            {
-                Stars = starRating, UserId = user.Id, BookId = bookId 
-            };
-
-            this.context.Ratings.Add(rating);
         }
     }
 }

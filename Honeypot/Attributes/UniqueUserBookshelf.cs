@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Honeypot.Constants;
 using Honeypot.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 
@@ -12,7 +13,7 @@ namespace Honeypot.Attributes
         private IHttpContextAccessor httpContextAccessor;
 
         public UniqueUserBookshelf()
-            : base("Invalid Field")
+            : base(AttributeConstants.UsernameTaken)
         {
         }
 
@@ -29,7 +30,7 @@ namespace Honeypot.Attributes
             var bookshelfTitleExists = this.bookshelfService.UserHasBookshelfTitled(value.ToString(), user.Id);
             if (bookshelfTitleExists)
             {
-                return new ValidationResult("This user already has a bookshelf with this title.");
+                return new ValidationResult(AttributeConstants.BookshelfNameExists);
             }
 
             return ValidationResult.Success;

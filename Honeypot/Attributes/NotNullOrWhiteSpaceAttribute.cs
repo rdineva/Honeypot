@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Honeypot.Constants;
 
 namespace Honeypot.Attributes
 {
     public class NotNullOrWhiteSpaceAttribute : ValidationAttribute
     {
         public NotNullOrWhiteSpaceAttribute()
-            : base("Invalid Field")
+            : base(AttributeConstants.InvalidField)
         {
         }
 
@@ -32,7 +33,7 @@ namespace Honeypot.Attributes
                 return ValidationResult.Success;
             }
 
-            return new ValidationResult("Value cannot be empty or white space.");
+            return new ValidationResult(AttributeConstants.NotNullOrWhiteSpace);
         }
     }
 }

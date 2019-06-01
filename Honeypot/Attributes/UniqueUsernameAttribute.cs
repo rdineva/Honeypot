@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Honeypot.Constants;
 using Honeypot.Services.Contracts;
 
 namespace Honeypot.Attributes
@@ -9,7 +10,7 @@ namespace Honeypot.Attributes
         private IUserService userService;
 
         public UniqueUsernameAttribute()
-            : base("Invalid Field")
+            : base(AttributeConstants.UsernameTaken)
         {
         }
 
@@ -25,7 +26,7 @@ namespace Honeypot.Attributes
 
             if (usernameExists)
             {
-                return new ValidationResult("This username is already taken.");
+                return new ValidationResult(AttributeConstants.UsernameTaken);
             }
 
             return ValidationResult.Success;
