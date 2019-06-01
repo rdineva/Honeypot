@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.MappingModels;
@@ -6,6 +7,7 @@ using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Honeypot.Models.Enums;
 using Honeypot.Services.Contracts;
 
 namespace Honeypot.Controllers
@@ -148,57 +150,61 @@ namespace Honeypot.Controllers
             return book;
         }
 
-        public void ValidateStars(int stars)
+        public StarRating ValidateStars(int stars)
         {
-            if (stars < 1 || stars > 5)
+            var areStarsValid = Enum.TryParse<StarRating>(stars.ToString(), true, out StarRating starRating);
+            var areStarsDefined = Enum.IsDefined(typeof(StarRating), starRating);
+            if (!areStarsValid || !areStarsDefined)
             {
                 var errorMessage = string.Format(ControllerConstants.InvalidRating, typeof(Book).Name);
                 ModelState.AddModelError("Book", errorMessage);
             }
+
+            return starRating;
         }
 
         [HttpPost]
         public IActionResult Rate(int stars, int bookId)
         {
-            ValidateStars(stars);
+            StarRating starRating = ValidateStars(stars);
             var book = this.bookService.GeBookById(bookId);
             ValidateBookExists(book);
 
             if (ModelState.IsValid)
             {
-                OnPostUserRateBook(bookId, stars);
+                OnPostUserRateBook(bookId, starRating);
             }
 
             return RedirectToAction("Details", new { id = book.Id });
         }
 
-        public void OnPostUserRateBook(int bookId, int stars)
+        public void OnPostUserRateBook(int bookId, StarRating starRating)
         {
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
             var userHasRatedBook = this.ratingService.HasUserRatedBook(user.Id, bookId);
             if (userHasRatedBook)
             {
-                ChangeRating(user, bookId, stars);
+                ChangeRating(user, bookId, starRating);
             }
             else
             {
-                AddNewRating(user, bookId, stars);
+                AddNewRating(user, bookId, starRating);
             }
 
             this.context.SaveChanges();
         }
 
-        public void ChangeRating(HoneypotUser user, int bookId, int stars)
+        public void ChangeRating(HoneypotUser user, int bookId, StarRating starRating)
         {
             var rating = this.ratingService.FindUserBookRating(user.Id, bookId);
-            rating.Stars = stars;
+            rating.Stars = starRating;
         }
 
-        public void AddNewRating(HoneypotUser user, int bookId, int stars)
+        public void AddNewRating(HoneypotUser user, int bookId, StarRating starRating)
         {
             var rating = new Rating()
             {
-                Stars = stars, UserId = user.Id, BookId = bookId 
+                Stars = starRating, UserId = user.Id, BookId = bookId 
             };
 
             this.context.Ratings.Add(rating);

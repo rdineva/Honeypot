@@ -41,7 +41,7 @@ namespace Honeypot.Models
                 return 0;
             }
 
-            var averageRating = this.Ratings.Sum(x => x.Stars) / (double)this.RatingsCount();
+            var averageRating = this.Ratings.Sum(x => (int)x.Stars) / (double)this.RatingsCount();
             return averageRating;
         }
     }

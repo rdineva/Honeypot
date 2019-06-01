@@ -214,6 +214,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\StarRating.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Book.cs" />

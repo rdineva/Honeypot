@@ -51,6 +51,11 @@ namespace Honeypot.Controllers
             return this.View(bookshelf);
         }
 
+        //public IActionResult MyBookshelves()
+        //{
+        //
+        //}
+
         public Bookshelf OnPostCreateBookshelf(CreateBookshelfViewModel viewModel)
         {
             var bookshelf = this.mapper.Map<Bookshelf>(viewModel);

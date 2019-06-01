@@ -230,9 +230,9 @@
     <Compile Include="EntityConfiguration\UserConfiguration.cs" />
     <Compile Include="EntityConfiguration\UserQuoteConfiguration.cs" />
     <Compile Include="HoneypotDbContext.cs" />
-    <Compile Include="Migrations\20190601142321_initial.cs" />
-    <Compile Include="Migrations\20190601142321_initial.designer.cs">
-      <DependentUpon>20190601142321_initial.cs</DependentUpon>
+    <Compile Include="Migrations\20190601154439_initial.cs" />
+    <Compile Include="Migrations\20190601154439_initial.designer.cs">
+      <DependentUpon>20190601154439_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\HoneypotDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
