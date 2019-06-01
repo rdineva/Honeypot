@@ -222,8 +222,10 @@
     <Compile Include="Contracts\IBookService.cs" />
     <Compile Include="Contracts\IBookshelfService.cs" />
     <Compile Include="Contracts\IQuoteService.cs" />
+    <Compile Include="Contracts\IRatingService.cs" />
     <Compile Include="Contracts\IUserService.cs" />
     <Compile Include="QuoteService.cs" />
+    <Compile Include="RatingService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

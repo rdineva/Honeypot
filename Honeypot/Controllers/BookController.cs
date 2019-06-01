@@ -17,14 +17,16 @@ namespace Honeypot.Controllers
         private readonly IAuthorService authorService;
         private readonly IBookshelfService bookshelfService;
         private readonly IBookService bookService;
+        private readonly IRatingService ratingService;
 
-        public BookController(HoneypotDbContext context, IMapper mapper, IUserService usersService, IAuthorService authorService, IBookshelfService bookshelfService, IBookService bookService)
+        public BookController(HoneypotDbContext context, IMapper mapper, IUserService usersService, IAuthorService authorService, IBookshelfService bookshelfService, IBookService bookService, IRatingService ratingService)
             : base(context, mapper)
         {
             this.usersService = usersService;
             this.authorService = authorService;
             this.bookshelfService = bookshelfService;
             this.bookService = bookService;
+            this.ratingService = ratingService;
         }
 
         [AllowAnonymous]
@@ -173,7 +175,7 @@ namespace Honeypot.Controllers
         public void OnPostUserRateBook(int bookId, int stars)
         {
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
-            var userHasRatedBook = this.bookService.HasUserRatedBook(user.Id, bookId);
+            var userHasRatedBook = this.ratingService.HasUserRatedBook(user.Id, bookId);
             if (userHasRatedBook)
             {
                 ChangeRating(user, bookId, stars);
@@ -188,7 +190,7 @@ namespace Honeypot.Controllers
 
         public void ChangeRating(HoneypotUser user, int bookId, int stars)
         {
-            var rating = this.bookService.FindUserBookRating(user.Id, bookId);
+            var rating = this.ratingService.FindUserBookRating(user.Id, bookId);
             rating.Stars = stars;
         }
 

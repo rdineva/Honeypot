@@ -25,12 +25,6 @@ namespace Honeypot.Data.EntityConfiguration
                 .WithOne(x => x.Book)
                 .HasForeignKey(x => x.Id)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            //builder
-            //    .HasMany(x => x.Ratings)
-            //    .WithOne(x => x.Book)
-            //    .HasForeignKey(x => x.Id)
-            //    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

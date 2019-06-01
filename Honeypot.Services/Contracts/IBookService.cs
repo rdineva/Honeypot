@@ -7,9 +7,5 @@ namespace Honeypot.Services.Contracts
         Book GeBookById(int id);
 
         bool BookTitleExists(string title, string authorFirstName, string authorLastName);
-
-        bool HasUserRatedBook(string userId, int bookId);
-
-        Rating FindUserBookRating(string userId, int bookId);
     }
 }

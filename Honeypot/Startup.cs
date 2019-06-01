@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using AutoMapper;
 using Honeypot.Data;
@@ -36,7 +35,6 @@ namespace Honeypot
 
             var config = new AutoMapperConfiguration().Configure();
             IMapper iMapper = config.CreateMapper();
-
             Mapper.Initialize(cfg => { });
             Mapper.Configuration.CompileMappings();
 
@@ -64,6 +62,7 @@ namespace Honeypot
             services.AddScoped<IBookshelfService, BookshelfService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IRatingService, RatingService>();
             services.AddSingleton(iMapper);
         }
 
