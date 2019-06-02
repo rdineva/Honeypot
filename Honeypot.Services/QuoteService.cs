@@ -16,13 +16,17 @@ namespace Honeypot.Services
 
         public bool HasUserLikedQuote(int quoteId, string userId)
         {
-            bool hasUserLikedQuote = this.context.UsersQuotes.Any(x => x.UserId == userId && x.QuoteId == quoteId);
+            bool hasUserLikedQuote = this.context
+                .UsersQuotes
+                .Any(x => x.UserId == userId 
+                       && x.QuoteId == quoteId);
+
             return hasUserLikedQuote;
         }
 
         public List<Quote> FindUsersLikedQuotes(HoneypotUser user)
         {
-            var usersLikedQuotes = this.context
+            var usersLikedQuotes =  this.context
                 .UsersQuotes
                 .Include(x => x.Quote)
                 .ThenInclude(x => x.Book)
@@ -35,13 +39,21 @@ namespace Honeypot.Services
 
         public bool QuoteExists(string quote)
         {
-            var quoteExists = this.context.Quotes.Any(x => x.Text == quote);
+            var quoteExists = this.context
+                .Quotes
+                .Any(x => x.Text == quote);
+
             return quoteExists;
         }
 
         public Quote GetQuoteById(int id)
         {
-            var quote = this.context.Quotes.Include(x => x.Author).Include(x => x.Book).FirstOrDefault(x => x.Id == id);
+            var quote = this.context
+                .Quotes
+                .Include(x => x.Author)
+                .Include(x => x.Book)
+                .FirstOrDefault(x => x.Id == id);
+
             return quote;
         }
     }

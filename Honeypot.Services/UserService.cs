@@ -14,7 +14,10 @@ namespace Honeypot.Services
 
         public HoneypotUser GetByUsername(string username)
         {
-            HoneypotUser user = this.context.Users.FirstOrDefault(x => x.UserName == username);
+            HoneypotUser user = this.context
+                .Users
+                .FirstOrDefault(x => x.UserName == username);
+
             return user;
         }
     }

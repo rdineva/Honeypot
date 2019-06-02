@@ -15,13 +15,18 @@ namespace Honeypot.Services
 
         public bool AuthorExists(string firstName, string lastName)
         {
-            var authorExists = this.context.Authors.Any(x => x.FirstName == firstName && x.LastName == lastName);
+            var authorExists = this.context
+                .Authors
+                .Any(x => x.FirstName == firstName 
+                       && x.LastName == lastName);
+
             return authorExists;
         }
 
         public Author GeAuthorById(int id)
         {
-            var author = this.context.Authors
+            var author = this.context
+                .Authors
                 .Include(x => x.Books)
                 .ThenInclude(x => x.Quotes)
                 .FirstOrDefault(x => x.Id == id);

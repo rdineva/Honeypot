@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Honeypot.Attributes;
 
 namespace Honeypot.ViewModels.Author
 {
@@ -7,6 +8,7 @@ namespace Honeypot.ViewModels.Author
     {
         [Required]
         [DisplayName("First Name")]
+        [AuthorNamesExists(ShouldAuthorExist = false)]
         [DataType(DataType.Text)]
         [StringLength(ViewModelConstants.MaxNameLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string FirstName { get; set; }

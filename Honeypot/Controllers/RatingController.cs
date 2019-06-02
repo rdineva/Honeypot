@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Honeypot.Constants;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.Enums;
@@ -87,7 +88,7 @@ namespace Honeypot.Controllers
         {
             if (book == null)
             {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
+                var errorMessage = string.Format(GeneralConstants.DoesntExist, typeof(Book).Name);
                 ModelState.AddModelError("Book", errorMessage);
             }
         }

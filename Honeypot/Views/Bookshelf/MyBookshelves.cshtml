@@ -1,0 +1,15 @@
+﻿@model Honeypot.ViewModels.Bookshelf.MyBookshelvesViewModel
+
+@{
+    ViewData["Title"] = "My Bookshelves";
+}
+
+<div class="form-group col-md-6 col-md-offset-2">
+    <h2>@ViewData["Title"]</h2>
+    <hr class="blackHrLine" />
+    @foreach (var bookshelf in @Model.Bookshelves)
+    {
+        <p class="form-group"><em><a asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></em></p>
+        <p>@bookshelf.Books.Count Books in Colection</p>
+    }
+</div>

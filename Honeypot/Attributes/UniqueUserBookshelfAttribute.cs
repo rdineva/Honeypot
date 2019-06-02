@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace Honeypot.Attributes
 {
-    public class UniqueUserBookshelf : ValidationAttribute
+    public class UniqueUserBookshelfAttribute : ValidationAttribute
     {
         private IBookshelfService bookshelfService;
         private IUserService userService;
         private IHttpContextAccessor httpContextAccessor;
 
-        public UniqueUserBookshelf()
+        public UniqueUserBookshelfAttribute()
             : base(AttributeConstants.UsernameTaken)
         {
         }
 
-        public UniqueUserBookshelf(string errorMessage)
+        public UniqueUserBookshelfAttribute(string errorMessage)
             : base(errorMessage)
         {
         }

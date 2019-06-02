@@ -15,7 +15,8 @@ namespace Honeypot.Services
 
         public Book GeBookById(int id)
         {
-            var book = this.context.Books
+            var book = this.context
+                .Books
                 .Include(x => x.Author)
                 .Include(x => x.Quotes)
                 .Include(x => x.Ratings)
@@ -26,7 +27,8 @@ namespace Honeypot.Services
 
         public bool BookTitleExists(string title, string authorFirstName, string authorLastName)
         {
-            var book = this.context.Books
+            var book = this.context
+                .Books
                 .FirstOrDefault(x => x.Title == title 
                                   && x.Author.FirstName == authorFirstName
                                   && x.Author.LastName == authorLastName);

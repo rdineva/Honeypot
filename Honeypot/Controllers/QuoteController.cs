@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Honeypot.Constants;
 using Honeypot.Services.Contracts;
 
 namespace Honeypot.Controllers
@@ -38,8 +39,6 @@ namespace Honeypot.Controllers
         [Authorize(Roles = Role.Admin)]
         public IActionResult Create(CreateQuoteViewModel viewModel)
         {
-            ValidateQuoteCreate(viewModel);
-
             if (ModelState.IsValid)
             {
                 var createdQuote = this.OnPostCreateQuote(viewModel);
@@ -80,10 +79,10 @@ namespace Honeypot.Controllers
         public IActionResult MyLikedQuotes()
         {
             var user = userManager.GetUserAsync(HttpContext.User).Result;
-            var usersLikedQuotes = this.quoteService.FindUsersLikedQuotes(user);
+            var userLikedQuotes = this.quoteService.FindUsersLikedQuotes(user);
             var quotes = new MyLikedQuotesViewModel()
             {
-                Quotes = usersLikedQuotes
+                Quotes = userLikedQuotes
             };
 
             return this.View(quotes);
@@ -137,32 +136,11 @@ namespace Honeypot.Controllers
         }
 
         //INPUT DATA VALIDATION METHODS
-        public void ValidateQuoteCreate(CreateQuoteViewModel viewModel)
-        {
-            if (this.authorService.GeAuthorById(viewModel.AuthorId) == null)
-            {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Author).Name);
-                ModelState.AddModelError("Author", errorMessage);
-            }
-
-            if (this.bookService.GeBookById(viewModel.BookId) == null)
-            {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Book).Name);
-                ModelState.AddModelError("Book", errorMessage);
-            }
-
-            if (this.quoteService.QuoteExists(viewModel.Text))
-            {
-                var errorMessage = string.Format(ControllerConstants.AlreadyExists, typeof(Quote).Name);
-                ModelState.AddModelError("Text", errorMessage);
-            }
-        }
-
         public void ValidateQuoteExists(Quote quote)
         {
             if (quote == null)
             {
-                var errorMessage = string.Format(ControllerConstants.DoesntExist, typeof(Quote).Name);
+                var errorMessage = string.Format(GeneralConstants.DoesntExist, typeof(Quote).Name);
                 ModelState.AddModelError("Quote", errorMessage);
             }
         }

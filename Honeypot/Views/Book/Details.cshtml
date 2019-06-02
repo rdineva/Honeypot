@@ -21,7 +21,7 @@
     @if (this.User.Identity.IsAuthenticated)
     {
         <div class="row form-group">
-            <form asp-controller="Book" asp-action="Rate" method="post">
+            <form asp-controller="Rating" asp-action="Rate" method="post">
                 <div class="col-md-10 @*col-md-offset-8*@">
                     <select class="form-control" name="stars">
                         @{
@@ -59,7 +59,7 @@
     {
         var user = this.userService.GetByUsername(this.User.Identity.Name);
         <div class="row form-group">
-            <form asp-controller="Book" asp-action="AddToBookshelf" method="post">
+            <form asp-controller="Bookshelf" asp-action="AddToBookshelf" method="post">
                 <div class="col-md-10">
                     <select class="form-control" name="BookshelfId">
                         <option disabled selected>Add to Bookshelf</option>
