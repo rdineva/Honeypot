@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Honeypot.Models.Enums;
 using Honeypot.Models.MappingModels;
 using Honeypot.Models.Models;
 
@@ -18,6 +19,8 @@ namespace Honeypot.Models
         public string Title { get; private set; }
 
         public string Summary { get; private set; }
+
+        public Genre Genre { get; set; }
 
         [ForeignKey("Author")]
         public int AuthorId { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Honeypot.Models.Enums;
 
 namespace Honeypot.ViewModels.Book
 {
@@ -20,6 +21,8 @@ namespace Honeypot.ViewModels.Book
         public int ReviewsCount { get; set; }
 
         public double Rating { get; set; }
+
+        public Genre Genre { get; set; }
 
         public ICollection<Models.Quote> Quotes { get; set; }
     }

@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Honeypot.Data;
 using Honeypot.Models;
+using Honeypot.Models.Enums;
 using Honeypot.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +38,18 @@ namespace Honeypot.Services
 
             var bookExists = (book != null);
             return bookExists;
+        }
+
+        public List<Book> GetAllBooks()
+        {
+            var books = this.context.Books.ToList();
+            return books;
+        }
+
+        public Genre[] GetAllGenres()
+        {
+            Genre[] genres = (Genre[])Enum.GetValues(typeof(Genre));
+            return genres;
         }
     }
 }

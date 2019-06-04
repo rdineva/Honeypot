@@ -1,4 +1,5 @@
-﻿using Honeypot.Models;
+﻿using System.Collections.Generic;
+using Honeypot.Models;
 
 namespace Honeypot.Services.Contracts
 {
@@ -7,5 +8,7 @@ namespace Honeypot.Services.Contracts
         bool AuthorExists(string firstName, string lastName);
 
         Author GeAuthorById(int id);
+
+        List<Author> GetAllAuthors();
     }
 }

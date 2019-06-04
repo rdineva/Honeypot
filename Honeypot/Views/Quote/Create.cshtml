@@ -1,6 +1,8 @@
-﻿@using Honeypot.Data
+﻿@using Honeypot.Services.Contracts
 @model Honeypot.ViewModels.Quote.CreateQuoteViewModel
-@inject HoneypotDbContext context
+@inject IBookService bookService
+@inject IAuthorService authorService
+
 
 <div class="col-md-7 col-md-offset-2">
     <div class="form-group">
@@ -12,7 +14,7 @@
             <label asp-for="AuthorId"></label>
             <select asp-for="AuthorId" class="form-control col-md-4">
                 <option selected disabled>-- Choose Author --</option>
-                @foreach (var author in context.Authors.ToList())
+                @foreach (var author in authorService.GetAllAuthors())
                 {
                     <option value="@author.Id">@author.FirstName @author.LastName</option>
                 }
@@ -24,7 +26,7 @@
             <label asp-for="BookId"></label>
             <select asp-for="BookId" class="form-control col-md-4">
                 <option selected disabled>-- Choose Book --</option>
-                @foreach (var book in context.Books.ToList())
+                @foreach (var book in bookService.GetAllBooks())
                 {
                     <option value="@book.Id">"@book.Title"</option>
                 }

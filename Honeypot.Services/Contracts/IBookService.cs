@@ -1,4 +1,6 @@
-﻿using Honeypot.Models;
+﻿using System.Collections.Generic;
+using Honeypot.Models;
+using Honeypot.Models.Enums;
 
 namespace Honeypot.Services.Contracts
 {
@@ -7,5 +9,9 @@ namespace Honeypot.Services.Contracts
         Book GeBookById(int id);
 
         bool BookTitleExists(string title, string authorFirstName, string authorLastName);
+
+        List<Book> GetAllBooks();
+
+        Genre[] GetAllGenres();
     }
 }

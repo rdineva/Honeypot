@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Services.Contracts;
@@ -32,6 +33,12 @@ namespace Honeypot.Services
                 .FirstOrDefault(x => x.Id == id);
 
             return author;
+        }
+
+        public List<Author> GetAllAuthors()
+        {
+            var authors = this.context.Authors.ToList();
+            return authors;
         }
     }
 }

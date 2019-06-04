@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Honeypot.Attributes;
+using Honeypot.Models.Enums;
 
 namespace Honeypot.ViewModels.Book
 {
@@ -9,7 +10,7 @@ namespace Honeypot.ViewModels.Book
         [Required]
         [UniqueBookTitleByAuthor]
         [DataType(DataType.Text)]
-        [StringLength(ViewModelConstants.MaxTitleLength, ErrorMessage =ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinTitleLength)]
+        [StringLength(ViewModelConstants.MaxTitleLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinTitleLength)]
         public string Title { get; set; }
 
         [Required]
@@ -29,5 +30,9 @@ namespace Honeypot.ViewModels.Book
         [DisplayName("Author's Last Name")]
         [StringLength(ViewModelConstants.MaxNameLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]
         public string AuthorLastName { get; set; }
+
+        [Required]
+        [DisplayName("Genre")]
+        public Genre Genre { get; set; }
     }
 }

@@ -234,6 +234,10 @@
     <Compile Include="Migrations\20190601154439_initial.designer.cs">
       <DependentUpon>20190601154439_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20190604160538_bookGenreAdded.cs" />
+    <Compile Include="Migrations\20190604160538_bookGenreAdded.designer.cs">
+      <DependentUpon>20190604160538_bookGenreAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\HoneypotDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

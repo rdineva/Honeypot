@@ -1,4 +1,6 @@
-﻿@model Honeypot.ViewModels.Book.CreateBookViewModel
+﻿@using Honeypot.Services.Contracts
+@model Honeypot.ViewModels.Book.CreateBookViewModel
+@inject IBookService bookService
 
 <div class="col-md-8 col-md-offset-2">
         <div>
@@ -23,6 +25,17 @@
                         <input asp-for="AuthorLastName" class="form-control col-md-4" placeholder="Author's Last Name..." />
                         <span asp-validation-for="AuthorLastName" class="text-danger"></span>
                     </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Genre"></label>
+                    <select asp-for="Genre" class="form-control col-md-4">
+                        <option selected disabled>-- Choose Genre --</option>
+                        @foreach (var genre in bookService.GetAllGenres())
+                        {
+                            <option value="@genre">@genre</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Genre" class="text-danger"></span>
                 </div>
                 <div class="form-group row">
                     <label asp-for="Summary"></label>
