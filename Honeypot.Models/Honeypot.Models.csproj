@@ -216,7 +216,7 @@
   <ItemGroup>
     <Compile Include="Enums\StarRating.cs" />
     <Compile Include="Models\Author.cs" />
-    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Abstractions\BaseModel.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Bookshelf.cs" />
     <Compile Include="Models\HoneypotUser.cs" />

@@ -10,11 +10,6 @@ namespace Honeypot.Data.EntityConfiguration
         {
             builder
                 .HasKey(x => x.Id);
-
-            /*builder
-                .HasMany(x => x.Books)
-                .WithOne(x => x.Author)
-                .OnDelete(DeleteBehavior.Cascade);*/
         }
     }
 }

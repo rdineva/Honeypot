@@ -1,5 +1,4 @@
-﻿using System;
-using Honeypot.Models.MappingModels;
+﻿using Honeypot.Models.MappingModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
