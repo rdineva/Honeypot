@@ -14,13 +14,13 @@ namespace Honeypot.Services
         {
         }
 
-        public List<Bookshelf> GetUsersBookshelves(string userId)
+        public List<Bookshelf> GetUsersBookshelves(string username)
         {
             var usersBookshelves = this.context
                 .Bookshelves
                 .Include(x => x.Books)
                 .Include(x => x.User)
-                .Where(x => x.UserId == userId)
+                .Where(x => x.User.UserName == username)
                 .ToList();
 
             return usersBookshelves;
@@ -51,6 +51,9 @@ namespace Honeypot.Services
             var bookshelfResult = this.context
                 .Bookshelves
                 .Include(x => x.User)
+                .Include(x => x.Books)
+                .ThenInclude(x => x.Book)
+                .ThenInclude(x => x.Author)
                 .FirstOrDefaultAsync(x => x.Id == bookshelfId 
                                        && x.UserId == userId).Result;
 

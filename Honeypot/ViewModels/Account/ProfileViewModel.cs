@@ -15,7 +15,7 @@ namespace Honeypot.ViewModels.Account
 
         public string Email { get; set; }
 
-        public ICollection<Models.Bookshelf> Bookshelves { get; set; }
+        public ICollection<Models.Book> CustomBookshelves { get; set; }
 
         public ICollection<Models.Quote> FavouriteQuotes { get; set; }
     }

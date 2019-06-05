@@ -36,7 +36,8 @@ namespace Honeypot
             CreateMap<CreateBookshelfViewModel, Bookshelf>(MemberList.None);
             CreateMap<Bookshelf, BookshelfDetailsViewModel>(MemberList.None)
                 .ForMember(dest => dest.UserNickname, opt => opt
-                    .MapFrom(src => src.User.UserName));
+                    .MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
         }
     }
 }

@@ -220,6 +220,7 @@
     <Compile Include="Models\Abstractions\BaseModel.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Bookshelf.cs" />
+    <Compile Include="Models\CustomBookshelves.cs" />
     <Compile Include="Models\HoneypotUser.cs" />
     <Compile Include="Models\BookBookshelf.cs" />
     <Compile Include="Models\Role.cs" />

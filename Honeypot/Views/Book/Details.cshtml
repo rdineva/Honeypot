@@ -69,7 +69,7 @@
                 <div class="col-md-5 col-md-offset-5">
                     <select class="form-control" name="BookshelfId">
                         <option disabled selected>Add to Bookshelf</option>
-                        @foreach (var bookshelf in this.bookshelfService.GetUsersBookshelves(user.Id))
+                        @foreach (var bookshelf in this.bookshelfService.GetUsersBookshelves(user.UserName))
                         {
                             if (this.bookshelfService.IsBookInBookshelf(@Model.Id, bookshelf.Id))
                             {

@@ -80,9 +80,10 @@ namespace Honeypot.Controllers
             var bookBookshelf = new BookBookshelf()
             {
                 BookId = book.Id,
+                Book=book,
                 BookshelfId = bookshelfId
             };
-
+            
             user.CustomBookshelves.First(x => x.Id == bookshelfId).Books.Add(bookBookshelf);
             this.context.SaveChanges();
         }
@@ -90,7 +91,7 @@ namespace Honeypot.Controllers
         public IActionResult MyBookshelves()
         {
             var user = this.userService.GetByUsername(this.User.Identity.Name);
-            var userBokshelves = this.bookshelfService.GetUsersBookshelves(user.Id);
+            var userBokshelves = this.bookshelfService.GetUsersBookshelves(user.UserName);
             var bookshelves = new MyBookshelvesViewModel()
             {
                 Bookshelves = userBokshelves

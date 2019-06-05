@@ -9,10 +9,10 @@ namespace Honeypot.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Bookshelf> builder)
         {
-            builder
-                .HasOne(x => x.User)
-                .WithMany(x => x.CustomBookshelves)
-                .HasForeignKey(x => x.UserId);
+           builder
+               .HasOne(x => x.User)
+               .WithMany(x => x.CustomBookshelves)
+               .HasForeignKey(x => x.UserId);
 
             builder
                 .HasMany(x => x.Books)
