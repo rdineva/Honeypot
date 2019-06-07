@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Honeypot.Models.Enums;
 using Honeypot.Services.Contracts;
 
 namespace Honeypot.Controllers
@@ -48,6 +50,23 @@ namespace Honeypot.Controllers
                 var bookResult = OnPostCreateBook(viewModel);
                 return RedirectToAction("Details", "Book", new { id = bookResult.Id });
             }
+
+            return this.View(viewModel);
+        }
+
+        public IActionResult Discover()
+        {
+            var genres = this.bookService.GetAllGenres();
+            Dictionary<Genre, List<Book>> booksByGenre = new Dictionary<Genre, List<Book>>();
+            foreach (var genre in genres)
+            {
+                booksByGenre[genre] = this.bookService.GetAllBooksByGenre(genre);
+            }
+
+            var viewModel = new  DiscoverViewModel()
+            {
+                BooksByGenre = booksByGenre
+            };
 
             return this.View(viewModel);
         }

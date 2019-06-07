@@ -5,11 +5,11 @@
 @inject IRatingService ratingService
 
 <div class="col-md-6 col-sm-offset-2" style="background-color: #c2daff;">
-    <hr class="blackHrLine" />
+    <hr class="black-line" />
     <div class="form-group">
         <h1 class="text-center text-capitalize" style="font-family: Comic Sans MS, serif">@Model.Title</h1>
     </div>
-    <hr class="blackHrLine"/>
+    <hr class="black-line"/>
     <br/>
     <br/>
     <div class="row form-group">
@@ -49,17 +49,17 @@
                     <input type="number" hidden value="@Model.Id" name="BookId"/>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn blackButton">Rate</button>
+                    <button type="submit" class="black-btn">Rate</button>
                 </div>
             </form>
         </div>
     }
     <div class="form-group">
         <h4><b>About</b></h4>
-        <hr class="blackHrLine"/>
+        <hr class="black-line"/>
         <p class="text-justify">@Model.Summary</p>
     </div>
-    <hr class="blackHrLine"/>
+    <hr class="black-line"/>
     <br/>
     @if (this.User.Identity.IsAuthenticated)
     {
@@ -84,23 +84,25 @@
                     <input type="number" hidden value="@Model.Id" name="BookId" />
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn blackButton">Add</button>
+                    <button type="submit" class="center-block btn-lg black-btn">Add</button>
                 </div>
             </form>
         </div>
     }
     <div class="form-group">
         <h4><b>Quotes</b></h4>
-        <hr class="blackHrLine"/>
+        <hr class="black-line"/>
     </div>
     <div>
         <div>
             @foreach (var quote in @Model.Quotes)
             {
-                <p class="form-group"><em>"@quote.Text"</em><a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">
-                        <p class="text-right">Details</p></a>
-                </p>
-                <br/>
+                <blockquote class="blockquote" style="border:none">
+                    <p class="mb-0"><em>"@quote.Text"</em><a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">
+                            <p class="text-right">Details</p></a>
+                    </p>
+                    <br/>
+                </blockquote>
             }
         </div>
     </div>

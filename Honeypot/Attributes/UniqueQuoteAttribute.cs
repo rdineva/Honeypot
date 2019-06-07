@@ -24,7 +24,7 @@ namespace Honeypot.Attributes
         {
             this.quoteService = (IQuoteService)validationContext.GetService(typeof(IQuoteService));
 
-            if (this.quoteService.QuoteExists(value.ToString()))
+            if (this.quoteService.QuoteExists(value?.ToString()))
             {
                 return new ValidationResult(string.Format(GeneralConstants.AlreadyExists, typeof(Quote).Name));
             }

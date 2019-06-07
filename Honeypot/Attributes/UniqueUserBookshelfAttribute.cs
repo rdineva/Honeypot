@@ -27,7 +27,7 @@ namespace Honeypot.Attributes
             InitializeServices(validationContext);
 
             var user = this.userService.GetByUsername(httpContextAccessor.HttpContext.User.Identity.Name);
-            var bookshelfTitleExists = this.bookshelfService.UserHasBookshelfTitled(value.ToString(), user.Id);
+            var bookshelfTitleExists = this.bookshelfService.UserHasBookshelfTitled(value?.ToString(), user.Id);
             if (bookshelfTitleExists)
             {
                 return new ValidationResult(AttributeConstants.BookshelfNameExists);

@@ -13,5 +13,7 @@ namespace Honeypot.Services.Contracts
         List<Book> GetAllBooks();
 
         Genre[] GetAllGenres();
+
+        List<Book> GetAllBooksByGenre(Genre genre);
     }
 }

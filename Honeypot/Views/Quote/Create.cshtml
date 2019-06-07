@@ -8,7 +8,7 @@
     <div class="form-group">
         <h1 class="text-center">Create Quote</h1>
     </div>
-    <hr class="blackHrLine" />
+    <hr class="black-line" />
     <form asp-controller="Quote" asp-action="Create">
         <div class="form-group row">
             <label asp-for="AuthorId"></label>
@@ -39,9 +39,9 @@
             <textarea asp-for="Text" class="form-control col-md-4" rows="10" style="resize: none" placeholder="Quote..."></textarea>
             <span asp-validation-for="Text" class="text-danger"></span>
         </div>
-        <hr class="blackHrLine" />
+        <hr class="black-line" />
         <div class="form-group">
-            <button type="submit" class="btn center-block btn-lg blackButton">Create</button>
+            <button type="submit" class="center-block btn-lg black-btn">Create</button>
         </div>
     </form>
 </div>

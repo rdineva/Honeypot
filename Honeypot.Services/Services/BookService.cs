@@ -51,5 +51,15 @@ namespace Honeypot.Services
             Genre[] genres = (Genre[])Enum.GetValues(typeof(Genre));
             return genres;
         }
+
+        public List<Book> GetAllBooksByGenre(Genre genre)
+        {
+            var books = this.context
+                .Books
+                .Where(x => x.Genre == genre)
+                .ToList();
+
+            return books;
+        }
     }
 }

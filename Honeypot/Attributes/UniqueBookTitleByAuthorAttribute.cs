@@ -25,9 +25,9 @@ namespace Honeypot.Attributes
             this.bookService = (IBookService)validationContext.GetService(typeof(IBookService));
             object instance = validationContext.ObjectInstance;
             Type type = instance.GetType();
-            var authorFirstName = type.GetProperty(BookConstants.AuthorFirstName).GetValue(instance).ToString();
-            var authorLastName = type.GetProperty(BookConstants.AuthorLastName).GetValue(instance).ToString();
-            var title = type.GetProperty(BookConstants.Title).GetValue(instance).ToString();
+            var authorFirstName = type.GetProperty(BookConstants.AuthorFirstName).GetValue(instance)?.ToString();
+            var authorLastName = type.GetProperty(BookConstants.AuthorLastName).GetValue(instance)?.ToString();
+            var title = type.GetProperty(BookConstants.Title).GetValue(instance)?.ToString();
 
             if (!this.bookService.BookTitleExists(title, authorFirstName, authorLastName))
             {

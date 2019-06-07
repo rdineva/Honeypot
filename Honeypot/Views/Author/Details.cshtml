@@ -4,17 +4,17 @@
     <div class="form-group">
         <h1 class="text-center text-capitalize">@Model.FirstName @Model.LastName</h1>
     </div>
-    <hr class="blackHrLine" />
+    <hr class="black-line" />
     <div class="form-group">
         <h3>Biography</h3>
-        <hr class="blackHrLine" />
+        <hr class="black-line" />
         <div class="text-justify">
             @Model.Biography
         </div>
     </div>
     <div class="form-group">
         <h3>Books</h3>
-        <hr class="blackHrLine" />
+        <hr class="black-line" />
         @foreach (var book in @Model.Books)
         {
             <div class="form-group">
@@ -24,7 +24,7 @@
     </div>
     <div class="form-group">
         <h3>Quotes</h3>
-        <hr class="blackHrLine" />
+        <hr class="black-line" />
         @foreach (var quote in @Model.Quotes)
         {
             <div class="form-group">

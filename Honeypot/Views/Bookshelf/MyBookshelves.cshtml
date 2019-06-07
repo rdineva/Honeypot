@@ -6,7 +6,7 @@
 
 <div class="form-group col-md-6 col-md-offset-2">
     <h2>@ViewData["Title"]</h2>
-    <hr class="blackHrLine" />
+    <hr class="black-line" />
     @foreach (var bookshelf in @Model.Bookshelves)
     {
         <p class="form-group"><em><a asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></em></p>

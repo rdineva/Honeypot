@@ -41,8 +41,8 @@ namespace Honeypot.Attributes
 
         public ValidationResult AuthorShouldExist(Type type, object instance)
         {
-            var firstName = type.GetProperty(BookConstants.AuthorFirstName).GetValue(instance).ToString();
-            var lastName = type.GetProperty(BookConstants.AuthorLastName).GetValue(instance).ToString();
+            var firstName = type.GetProperty(BookConstants.AuthorFirstName).GetValue(instance)?.ToString();
+            var lastName = type.GetProperty(BookConstants.AuthorLastName).GetValue(instance)?.ToString();
 
             if (this.authorService.AuthorExists(firstName, lastName))
             {
@@ -54,8 +54,8 @@ namespace Honeypot.Attributes
 
         public ValidationResult AuthorShouldNotExist(Type type, object instance)
         {
-            var firstName = type.GetProperty(AuthorConstants.FirstName).GetValue(instance).ToString();
-            var lastName = type.GetProperty(AuthorConstants.LastName).GetValue(instance).ToString();
+            var firstName = type.GetProperty(AuthorConstants.FirstName).GetValue(instance)?.ToString();
+            var lastName = type.GetProperty(AuthorConstants.LastName).GetValue(instance)?.ToString();
 
             if (!this.authorService.AuthorExists(firstName, lastName))
             {
