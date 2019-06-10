@@ -4,21 +4,23 @@
 @inject IUserService userService
 @inject IRatingService ratingService
 
-<div class="col-md-6 col-sm-offset-2" style="background-color: #c2daff;">
+<div class="col-md-6 col-sm-offset-2">
     <hr class="black-line" />
     <div class="form-group">
-        <h1 class="text-center text-capitalize" style="font-family: Comic Sans MS, serif">@Model.Title</h1>
+        <h1 class="text-center text-capitalize title">@Model.Title</h1>
     </div>
-    <hr class="black-line"/>
-    <br/>
-    <br/>
+    <hr class="black-line" />
+    <br />
+    <br />
     <div class="row form-group">
         <div class="col-md-6">
-            <p class="text-left"><b>Rating:</b> @Model.Rating/5 <i>based on</i> <b>@Model.ReviewsCount ratings</b>
+            <p class="text-left">
+                <b>Rating:</b> @Model.Rating/5 <i>based on</i> <b>@Model.ReviewsCount ratings</b>
             </p>
         </div>
         <div class="col-md-6">
-            <p class="text-right"><b>Written by <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId" style="color:black"><i>@Model.AuthorName</i></a></b>
+            <p class="text-right">
+                <b>Written by <a class="black-link" asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId"><i>@Model.AuthorName</i></a></b>
             </p>
         </div>
     </div>
@@ -46,21 +48,24 @@
                         <option>4</option>
                         <option>5</option>
                     </select>
-                    <input type="number" hidden value="@Model.Id" name="BookId"/>
+                    <input type="number" hidden value="@Model.Id" name="BookId" />
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="black-btn">Rate</button>
+                    <button type="submit" class="black-btn btn-lg center-block">Rate</button>
                 </div>
             </form>
         </div>
     }
     <div class="form-group">
         <h4><b>About</b></h4>
-        <hr class="black-line"/>
+        <hr class="black-line" />
         <p class="text-justify">@Model.Summary</p>
     </div>
-    <hr class="black-line"/>
-    <br/>
+    <hr class="black-line" />
+    <div class="form-group">
+        <h5><b>Genre:</b> @Model.Genre</h5>
+    </div>
+    <br />
     @if (this.User.Identity.IsAuthenticated)
     {
         var user = this.userService.GetByUsername(this.User.Identity.Name);
@@ -91,17 +96,20 @@
     }
     <div class="form-group">
         <h4><b>Quotes</b></h4>
-        <hr class="black-line"/>
+        <hr class="black-line" />
     </div>
     <div>
         <div>
             @foreach (var quote in @Model.Quotes)
             {
                 <blockquote class="blockquote" style="border:none">
-                    <p class="mb-0"><em>"@quote.Text"</em><a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">
-                            <p class="text-right">Details</p></a>
-                    </p>
-                    <br/>
+                    <div class="mb-0">
+                       <em>"@quote.Text"</em>
+                        <a class="black-link" asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">
+                            <p class="text-right">Details</p>
+                        </a>
+                    </div>
+                    <br />
                 </blockquote>
             }
         </div>

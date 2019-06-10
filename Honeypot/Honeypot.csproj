@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Honeypot.Services\Honeypot.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
 </Project>

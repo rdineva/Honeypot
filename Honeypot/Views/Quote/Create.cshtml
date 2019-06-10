@@ -4,7 +4,7 @@
 @inject IAuthorService authorService
 
 
-<div class="col-md-7 col-md-offset-2">
+<div class="col-md-5 col-md-offset-3">
     <div class="form-group">
         <h1 class="text-center">Create Quote</h1>
     </div>
@@ -36,7 +36,7 @@
         <br />
         <div class="form-group row">
             <label asp-for="Text"></label>
-            <textarea asp-for="Text" class="form-control col-md-4" rows="10" style="resize: none" placeholder="Quote..."></textarea>
+            <textarea asp-for="Text" class="form-control col-md-4" rows="10" placeholder="Quote..."></textarea>
             <span asp-validation-for="Text" class="text-danger"></span>
         </div>
         <hr class="black-line" />

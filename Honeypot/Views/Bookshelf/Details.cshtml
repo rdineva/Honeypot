@@ -1,18 +1,19 @@
 ﻿@model Honeypot.ViewModels.Bookshelf.BookshelfDetailsViewModel
 
-<div class="col-md-8 col-sm-offset-2" style="background-color: #c2daff;">
+<div class="col-md-8 col-sm-offset-2">
     <div class="form-group">
-        <h1 class="text-center text-capitalize" style="font-family: Comic Sans MS, serif">@Model.Title</h1>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-6">
-            <p class="text-left"><b>Books Count: @Model.BooksCount</b></p>
-        </div>
-        <div class="col-md-6">
-            <p class="text-right"><b>Owner: <a asp-controller="Account" asp-action="Profile">@Model.UserNickname</a></b></p>
-        </div>
+        <h1 class="text-center text-capitalize title">@Model.Title</h1>
     </div>
     <hr class="black-line" />
+    <div class="form-group row">
+        <div class="col-md-6">
+            <p class="text-left"><b>Books in this bookshelf: @Model.BooksCount</b></p>
+        </div>
+        <div class="col-md-6">
+            <p class="text-right"><b>Owner: <a class="black-link" asp-controller="Account" asp-action="Profile">@Model.UserNickname</a></b></p>
+        </div>
+    </div>
+    <br/>
     <div class="form-group">
         <h4><b>Books</b></h4>
         <hr class="black-line" />
@@ -23,8 +24,8 @@
             {
                 <div class="form-group row">
                     <div class="col-md-6"><i>@bookshelfBook.Book.Title</i> by @bookshelfBook.Book.Author.FirstName @bookshelfBook.Book.Author.LastName</div>
+                    <div class="col-md-6" style="text-align: right"><a class="black-link" asp-controller="Book" asp-action="Details" asp-route-id="@bookshelfBook.Book.Id">View details...</a></div>
                 </div>
-                <div><a asp-controller="Book" asp-action="Details" asp-route-id="@bookshelfBook.Book.Id">See more...</a></div>
                 <br />
             }
         </div>

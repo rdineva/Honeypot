@@ -9,6 +9,7 @@
         Poetry = 5,
         Drama = 6,
         Adventure = 7,
-        Romance = 8
+        Romance = 8,
+        Science = 9
     }
 }

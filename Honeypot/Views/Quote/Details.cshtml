@@ -3,10 +3,13 @@
 @inject IUserService userService
 @inject IQuoteService quoteService
 
-<div class="card col-md-8" style="border:2px solid black">
+<br/>
+<br/>
+<div class="card col-md-8 col-md-offset-2" style="border: 3px solid black; border-radius: 15px">
     <div class="card-body">
         <blockquote class="blockquote mb-0" style=" border: none">
             <h3><em>"@Model.Text"</em></h3>
+            <hr class="black-line-bolded"/>
             <div class="blockquote-footer text-right row">
                 <div class="col-md-2">
                     @{
@@ -15,19 +18,19 @@
                     @if (this.quoteService.HasUserLikedQuote(Model.Id, userId))
                     {
                         <form asp-controller="Quote" asp-action="LikeOrUnlike" method="post">
-                            <button style="border-radius:50px" class="form-group btn btn-primary" type="submit" name="quoteId" value="@Model.Id">Liked</button>
+                            <button style="border-radius: 15px" class="btn-lg black-btn" type="submit" name="quoteId" value="@Model.Id">Liked</button>
                         </form>
                     }
                     else if (this.User.Identity.IsAuthenticated)
                     {
                         <form asp-controller="Quote" asp-action="LikeOrUnlike" method="post">
-                            <button style="border-radius:50px" class="form-group btn btn-primary" type="submit" name="quoteId" value="@Model.Id">Like</button>
+                            <button style="border-radius: 15px" class="btn-lg black-btn" type="submit" name="quoteId" value="@Model.Id">Like</button>
                         </form>
                     }
                 </div>
                 <div class="col-md-10">
-                    &ndash; <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.BookId">"@Model.BookTitle"</a>, written by
-                    <a asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a>
+                    &ndash; <a class="black-link" asp-controller="Book" asp-action="Details" asp-route-id="@Model.BookId">"@Model.BookTitle"</a>, written by
+                    <a class="black-link" asp-controller="Author" asp-action="Details" asp-route-id="@Model.AuthorId">@Model.AuthorName</a>
                 </div>
             </div>
         </blockquote>

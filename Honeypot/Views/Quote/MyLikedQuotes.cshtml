@@ -4,15 +4,30 @@
     ViewData["Title"] = "My Favourite Quotes";
 }
 
-<div class="form-group col-md-6 col-md-offset-2">
+<div class="form-group col-md-10 col-md-offset-2">
     <h2>@ViewData["Title"]</h2>
     <hr class="black-line" />
     @foreach (var quote in @Model.Quotes)
     {
-        <p class="form-group"><em>"@quote.Text"</em></p>
-        <p class="col-md-12 text-right">
-            &ndash; @quote.Author.FirstName @quote.Author.LastName &nbsp; &nbsp;
-            <a asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">Details</a>
-        </p>
+        <blockquote class="blockquote" style="border:none">
+            <div>
+                <em>"@quote.Text"</em>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1">
+                    <a class="black-link" asp-controller="Quote" asp-action="Details" asp-route-id="@quote.Id">
+                        <p>Details</p>
+                    </a>
+                </div>
+                <div class="col-md-6 text-right" style="text-align: right">
+                    <p> &ndash; @quote.Book.Author.FirstName @quote.Book.Author.LastName &nbsp; &nbsp;</p>
+                </div>
+                <br />
+            </div>
+            <br />
+        </blockquote>
+        <hr class="black-line"/>
     }
 </div>

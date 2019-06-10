@@ -13,6 +13,13 @@
 
 .black-line {
     border-color: #222222;
+    background-color: #222222;
+}
+
+.black-line-bolded {
+    border-color: #222222;
+    background-color: #222222;
+    height: 1px;
 }
 
 body {
@@ -23,7 +30,6 @@ body {
     color: #c2daff;
     background-color: #222222;
     border: none;
-
 }
 
     .black-btn:hover {
@@ -35,11 +41,38 @@ body {
     background-color: #a4c4f4;
 }
 
+.title {
+    font-family: Comic Sans MS, serif;
+}
+
+.black-link {
+    color: black;
+}
+
+.bookshelves-card {
+    border-radius: 25px;
+    width: 280px;
+    height: auto;
+    background-color: #a4c4f4;
+    padding: 2%;
+    margin-top: 4%;
+    text-align: center;
+}
+
+.jumbotron-style {
+    opacity: 1;
+    text-align: center;
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    font-family: Georgia, serif;
+    height: 400px;
+}
+
 .book-card {
     width: 200px;
     padding: 2%;
     background-color: #90acd4;
-    border-radius: 5px
+    border-radius: 5px;
 }
 
 .card-title {
@@ -50,18 +83,19 @@ body {
 
 .card-link {
     text-align: center;
-    color: black
+    color: black;
 }
 
 .card-text {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    text-align: center;
 }
 
 .brand {
     text-transform: uppercase;
-    font-family: Comic Sans MS, serif
+    font-family: Comic Sans MS, serif;
 }
 
 /* Dropdown button */

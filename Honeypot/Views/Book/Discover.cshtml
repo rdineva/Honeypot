@@ -3,28 +3,29 @@
     ViewData["Title"] = "Discover";
 }
 
-<h2>Discover</h2>
-
-<div>
+<h2 style="text-align: center">Discover</h2>
+    
+<div class="container">
     @foreach (var booksByGenre in @Model.BooksByGenre)
     {
-        <div class="">
-            <h3>@booksByGenre.Key</h3>
-            <hr class="black-line"/>
-            <div>
-                @foreach (var book in @booksByGenre.Value)
-                {
+        <h3>@booksByGenre.Key</h3>
+        <hr class="black-line"/>
+        <div class="row">
+            @foreach (var book in @booksByGenre.Value)
+            {
+                <div class="col-sm-2" style="margin: 35px">
                     <div class="card book-card">
-                        @*<img class="card-img-top" src="..." alt="Card image cap">*@
                         <div class="card-body">
                             <h5 class="card-title">@book.Title</h5>
-                            <div class="card-text">@book.Summary.</div>
+                            <div class="card-text">"@book.Summary"</div>
                             <br/>
-                            <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id"><div class="card-link">Details</div></a>
+                            <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                <div class="card-link">Details</div>
+                            </a>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     }
 </div>

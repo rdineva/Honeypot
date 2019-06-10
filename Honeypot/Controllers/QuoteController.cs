@@ -16,16 +16,12 @@ namespace Honeypot.Controllers
     public class QuoteController : BaseController
     {
         private readonly UserManager<HoneypotUser> userManager;
-        private readonly IAuthorService authorService;
-        private readonly IBookService bookService;
         private readonly IQuoteService quoteService;
 
-        public QuoteController(HoneypotDbContext context, UserManager<HoneypotUser> userManager, IMapper mapper, IAuthorService authorService, IBookService bookService, IQuoteService quoteService)
+        public QuoteController(HoneypotDbContext context, UserManager<HoneypotUser> userManager, IMapper mapper, IQuoteService quoteService)
             : base(context, mapper)
         {
             this.userManager = userManager;
-            this.authorService = authorService;
-            this.bookService = bookService;
             this.quoteService = quoteService;
         }
 

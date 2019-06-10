@@ -12,15 +12,15 @@
 
         public const int MinBiographyLength = 15;
 
-        public const int MaxBiographyLength = 500;
+        public const int MaxBiographyLength = 2000;
 
         public const int MinTitleLength = 3;
 
-        public const int MaxTitleLength = 35;
+        public const int MaxTitleLength = 100;
 
         public const int MinSummaryLength = 10;
 
-        public const int MaxSummaryLength = 400;
+        public const int MaxSummaryLength = 5000;
 
         public const int MinQuoteTextLength = 5;
 

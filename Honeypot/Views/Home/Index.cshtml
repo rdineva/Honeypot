@@ -7,21 +7,21 @@
 
 @if (this.User.Identity.IsAuthenticated)
 {
-    <div class="card col-md-6" style="border-radius: 25px; width: 280px; height: auto; background-color: #a4c4f4; padding: 2%; margin-top: 4% ">
-        <div class="card-body">
+    <div class="card col-md-6">
+        <div class="card-body bookshelves-card">
             <h5 class="card-title"><strong>My Bookshelves</strong></h5>
-            <hr class="black-line"/>
+            <hr class="black-line" />
             @foreach (var bookshelf in this.bookshelfService.GetUsersBookshelves(this.User.Identity.Name))
             {
-                <p class="form-group"><em><a asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></em></p>
+                <p class="form-group"><em><a class="black-link" asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></em></p>
             }
         </div>
     </div>
 }
 else
 {
-    <div class="jumbotron" style="background-color: #a4c4f4; height: 400px">
-        <h1 style="opacity: 1; text-align: center; text-decoration-line: none; text-decoration-style: solid; font-family: Georgia, serif;">
+    <div class="jumbotron jumbotron-style" style="background-color: #a4c4f4;">                                                                                                                                                                                  
+        <h1>
             <div class="brand">HONEYPOT</div>
             <hr class="black-line" />
             <p class="lead">

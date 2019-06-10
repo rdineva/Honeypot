@@ -9,7 +9,10 @@
     <hr class="black-line" />
     @foreach (var bookshelf in @Model.Bookshelves)
     {
-        <p class="form-group"><em><a asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></em></p>
-        <p>@bookshelf.Books.Count Books in Colection</p>
+        <div class="row">
+            <div class="col-md-6"><a class="black-link" asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></div>
+            <div class="col-md-6" style="text-align: right"><em>@bookshelf.Books.Count Books in Collection</em></div>
+        </div>
+        <br/>
     }
 </div>
