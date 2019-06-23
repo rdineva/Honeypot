@@ -39,7 +39,8 @@
                     <td><i>@bookshelfBook.Book.Title</i></td>
                     <td>@bookshelfBook.Book.Author.FirstName @bookshelfBook.Book.Author.LastName</td>
                     <td><a class="black-link" asp-controller="Book" asp-action="Details" asp-route-id="@bookshelfBook.Book.Id">Details</a></td>
-                    <td>Remove</td>
+                    <td><a class="black-link" asp-controller="Bookshelf" asp-action="RemoveFromBookshelf" asp-route-bookshelfId="@bookshelfBook.Bookshelf.Id"
+   asp-route-bookId="@bookshelfBook.Book.Id">Remove</a></td>
                 </tr>
                 count++;
             }

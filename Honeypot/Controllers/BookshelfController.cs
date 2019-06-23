@@ -75,15 +75,27 @@ namespace Honeypot.Controllers
             return this.RedirectToAction("/", "Home");
         }
 
+        public IActionResult RemoveFromBookshelf(int bookshelfId, int bookId)
+        {
+            var user = this.userService.GetByUsername(this.User.Identity.Name);
+            var bookshelf = this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id);
+            var bookInBookshelf = bookshelf.Books.FirstOrDefault(x => x.BookId == bookId);
+
+            this.context.Remove(bookInBookshelf);
+            this.context.SaveChanges();
+
+            return this.RedirectToAction("Details", "Bookshelf", new { id = bookshelf.Id });
+        }
+
         private void OnPostAddToBookshelf(int bookshelfId, Book book, HoneypotUser user)
         {
             var bookBookshelf = new BookBookshelf()
             {
                 BookId = book.Id,
-                Book=book,
+                Book = book,
                 BookshelfId = bookshelfId
             };
-            
+
             user.CustomBookshelves.First(x => x.Id == bookshelfId).Books.Add(bookBookshelf);
             this.context.SaveChanges();
         }
