@@ -80,9 +80,11 @@ namespace Honeypot.Controllers
             var user = this.userService.GetByUsername(this.User.Identity.Name);
             var bookshelf = this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id);
             var bookInBookshelf = bookshelf.Books.FirstOrDefault(x => x.BookId == bookId);
-
-            this.context.Remove(bookInBookshelf);
-            this.context.SaveChanges();
+            if (bookshelf != null && bookInBookshelf != null)
+            {
+                this.context.Remove(bookInBookshelf);
+                this.context.SaveChanges();
+            }
 
             return this.RedirectToAction("Details", "Bookshelf", new { id = bookshelf.Id });
         }
@@ -110,6 +112,19 @@ namespace Honeypot.Controllers
             };
 
             return this.View(bookshelves);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var user = this.userService.GetByUsername(this.User.Identity.Name);
+            var bookshelf = this.context.Bookshelves.FirstOrDefault(x => x.Id == id && x.UserId == user.Id);
+            if (bookshelf != null)
+            {
+                this.context.Remove(bookshelf);
+                this.context.SaveChanges();
+            }
+
+            return this.RedirectToAction("MyBookshelves", "Bookshelf");
         }
 
         private Bookshelf OnPostCreateBookshelf(CreateBookshelfViewModel viewModel)

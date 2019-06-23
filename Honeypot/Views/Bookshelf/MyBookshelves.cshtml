@@ -10,8 +10,17 @@
     @foreach (var bookshelf in @Model.Bookshelves)
     {
         <div class="row">
-            <div class="col-md-6"><a class="black-link" asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></div>
-            <div class="col-md-6" style="text-align: right"><em>@bookshelf.Books.Count Books in Collection</em></div>
+            <div class="col-md-5"><a class="black-link" asp-controller="Bookshelf" asp-action="Details" asp-route-id="@bookshelf.Id">@bookshelf.Title</a></div>
+            @if (bookshelf.Books.Count == 1)
+            {
+                <div class="col-md-5" style="text-align: right"><em>@bookshelf.Books.Count Book in Collection</em>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-5" style="text-align: right"><em>@bookshelf.Books.Count Books in Collection</em></div>
+            }
+            <div class="col-md-2" style="text-align: right"><a class="black-link" asp-controller="Bookshelf" asp-action="Delete" asp-route-id="@bookshelf.Id">Delete</a></div>
         </div>
         <br/>
     }
