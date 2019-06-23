@@ -84,7 +84,7 @@ namespace Honeypot.Controllers
             return this.View(quotes);
         }
 
-        public Quote OnPostCreateQuote(CreateQuoteViewModel viewModel)
+        private Quote OnPostCreateQuote(CreateQuoteViewModel viewModel)
         {
             var quote = this.mapper.Map<Quote>(viewModel);
             quote.AuthorId = viewModel.AuthorId;
@@ -94,7 +94,7 @@ namespace Honeypot.Controllers
             return quote;
         }
 
-        public void OnPostLikeQuote(Quote quote, HoneypotUser user)
+        private void OnPostLikeQuote(Quote quote, HoneypotUser user)
         {
             var userQuote = new UserQuote()
             {
@@ -108,7 +108,7 @@ namespace Honeypot.Controllers
             this.context.SaveChanges();
         }
 
-        public void OnPostUnlikeQuote(Quote quote, HoneypotUser user)
+        private void OnPostUnlikeQuote(Quote quote, HoneypotUser user)
         {
             var quoteToUnlike =
                 this.context.UsersQuotes.FirstOrDefault(x => x.QuoteId == quote.Id && x.UserId == user.Id);
@@ -116,7 +116,7 @@ namespace Honeypot.Controllers
             this.context.SaveChanges();
         }
 
-        public void OnPostLikeOrUnlike(Quote quote)
+        private void OnPostLikeOrUnlike(Quote quote)
         {
             var user = userManager.GetUserAsync(HttpContext.User).Result;
             var isQuoteliked = this.context.UsersQuotes.Any(x => x.QuoteId == quote.Id && x.UserId == user.Id);
@@ -132,7 +132,7 @@ namespace Honeypot.Controllers
         }
 
         //INPUT DATA VALIDATION METHODS
-        public void ValidateQuoteExists(Quote quote)
+        private void ValidateQuoteExists(Quote quote)
         {
             if (quote == null)
             {

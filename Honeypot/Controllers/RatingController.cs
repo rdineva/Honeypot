@@ -37,7 +37,7 @@ namespace Honeypot.Controllers
             return RedirectToAction("Details", "Book", new { id = book.Id });
         }
 
-        public void OnPostUserRateBook(int bookId, StarRating starRating)
+        private void OnPostUserRateBook(int bookId, StarRating starRating)
         {
             var user = this.usersService.GetByUsername(this.User.Identity.Name);
             var userHasRatedBook = this.ratingService.HasUserRatedBook(user.Id, bookId);
@@ -53,13 +53,13 @@ namespace Honeypot.Controllers
             this.context.SaveChanges();
         }
 
-        public void ChangeRating(HoneypotUser user, int bookId, StarRating starRating)
+        private void ChangeRating(HoneypotUser user, int bookId, StarRating starRating)
         {
             var rating = this.ratingService.FindUserBookRating(user.Id, bookId);
             rating.Stars = starRating;
         }
 
-        public void AddNewRating(HoneypotUser user, int bookId, StarRating starRating)
+        private void AddNewRating(HoneypotUser user, int bookId, StarRating starRating)
         {
             var rating = new Rating()
             {
@@ -71,7 +71,7 @@ namespace Honeypot.Controllers
             this.context.Ratings.Add(rating);
         }
 
-        public StarRating ValidateStars(int stars)
+        private StarRating ValidateStars(int stars)
         {
             var areStarsValid = Enum.TryParse<StarRating>(stars.ToString(), true, out StarRating starRating);
             var areStarsDefined = Enum.IsDefined(typeof(StarRating), starRating);
@@ -84,7 +84,7 @@ namespace Honeypot.Controllers
             return starRating;
         }
 
-        public void ValidateBookExists(Book book)
+        private void ValidateBookExists(Book book)
         {
             if (book == null)
             {

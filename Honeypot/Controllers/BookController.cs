@@ -71,7 +71,7 @@ namespace Honeypot.Controllers
             return this.View(viewModel);
         }
 
-        public Book OnPostCreateBook(CreateBookViewModel viewModel)
+        private Book OnPostCreateBook(CreateBookViewModel viewModel)
         {
             var bookAuthor = this.context.Authors.FirstOrDefault(x => x.FirstName == viewModel.AuthorFirstName && x.LastName == viewModel.AuthorLastName);
             var book = this.mapper.Map<Book>(viewModel);

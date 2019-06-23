@@ -51,7 +51,7 @@ namespace Honeypot.Controllers
             return this.View(author);
         }
 
-        public Author OnPostCreateAuthor(CreateAuthorViewModel viewModel)
+        private Author OnPostCreateAuthor(CreateAuthorViewModel viewModel)
         {
             var author = this.mapper.Map<Author>(viewModel);
             this.context.Authors.Add(author);

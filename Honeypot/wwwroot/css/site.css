@@ -1,7 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
-
-.logo {
+﻿.logo {
     color: #FFD700;
     text-transform: uppercase;
     font-family: Comic Sans MS, serif;

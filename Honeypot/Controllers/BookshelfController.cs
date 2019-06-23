@@ -75,7 +75,7 @@ namespace Honeypot.Controllers
             return this.RedirectToAction("/", "Home");
         }
 
-        public void OnPostAddToBookshelf(int bookshelfId, Book book, HoneypotUser user)
+        private void OnPostAddToBookshelf(int bookshelfId, Book book, HoneypotUser user)
         {
             var bookBookshelf = new BookBookshelf()
             {
@@ -100,7 +100,7 @@ namespace Honeypot.Controllers
             return this.View(bookshelves);
         }
 
-        public Bookshelf OnPostCreateBookshelf(CreateBookshelfViewModel viewModel)
+        private Bookshelf OnPostCreateBookshelf(CreateBookshelfViewModel viewModel)
         {
             var bookshelf = this.mapper.Map<Bookshelf>(viewModel);
             bookshelf.UserId = this.userService.GetByUsername(this.User.Identity.Name).Id;
@@ -110,7 +110,7 @@ namespace Honeypot.Controllers
         }
 
         //INPUT DATA VALIDATION METHODS
-        public void ValidateUserBookshelfIdExists(int bookshelfId, HoneypotUser user)
+        private void ValidateUserBookshelfIdExists(int bookshelfId, HoneypotUser user)
         {
             if (this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id) == null)
             {
@@ -119,7 +119,7 @@ namespace Honeypot.Controllers
             }
         }
 
-        public void ValidateBookExists(Book book)
+        private void ValidateBookExists(Book book)
         {
             if (book == null)
             {
@@ -128,7 +128,7 @@ namespace Honeypot.Controllers
             }
         }
 
-        public void ValidateBookIsntInBookshelf(int bookId, int bookshelfId)
+        private void ValidateBookIsntInBookshelf(int bookId, int bookshelfId)
         {
             if (this.bookshelfService.IsBookInBookshelf(bookId, bookshelfId))
             {

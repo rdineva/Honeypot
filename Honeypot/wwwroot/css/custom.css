@@ -24,6 +24,7 @@
 
 body {
     background-color: #c2daff;
+    color: black;
 }
 
 .black-btn {
@@ -39,10 +40,18 @@ body {
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #a4c4f4;
+    color: black;
 }
 
 .title {
     font-family: Comic Sans MS, serif;
+}
+
+table .table-bordered thead th td {
+    border-top: 1px solid #000 !important;
+    border-bottom: 1px solid #000 !important;
+    border-left: 1px solid #000 !important;
+    border-right: 1px solid #000 !important;
 }
 
 .black-link {

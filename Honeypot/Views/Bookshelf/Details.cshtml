@@ -13,21 +13,36 @@
             <p class="text-right"><b>Owner: <a class="black-link" asp-controller="Account" asp-action="Profile">@Model.UserNickname</a></b></p>
         </div>
     </div>
-    <br/>
+    <br />
     <div class="form-group">
         <h4><b>Books</b></h4>
         <hr class="black-line" />
     </div>
-    <div>
-        <div class="form-group">
+    @{
+        int count = 1;
+    }
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">View</th>
+                <th scope="col">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach (var bookshelfBook in @Model.Books)
             {
-                <div class="form-group row">
-                    <div class="col-md-6"><i>@bookshelfBook.Book.Title</i> by @bookshelfBook.Book.Author.FirstName @bookshelfBook.Book.Author.LastName</div>
-                    <div class="col-md-6" style="text-align: right"><a class="black-link" asp-controller="Book" asp-action="Details" asp-route-id="@bookshelfBook.Book.Id">View details...</a></div>
-                </div>
-                <br />
+                <tr>
+                    <th scope="row">@count</th>
+                    <td><i>@bookshelfBook.Book.Title</i></td>
+                    <td>@bookshelfBook.Book.Author.FirstName @bookshelfBook.Book.Author.LastName</td>
+                    <td><a class="black-link" asp-controller="Book" asp-action="Details" asp-route-id="@bookshelfBook.Book.Id">Details</a></td>
+                    <td>Remove</td>
+                </tr>
+                count++;
             }
-        </div>
-    </div>
+        </tbody>
+    </table>
 </div>

@@ -106,7 +106,7 @@ namespace Honeypot.Controllers
             return registerResult;
         }
 
-        public async Task AddRoleToAccountAsync(HoneypotUser user)
+        private async Task AddRoleToAccountAsync(HoneypotUser user)
         {
             if (this.context.Users.Count() == 1)
             {
