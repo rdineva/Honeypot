@@ -7,7 +7,7 @@ namespace Honeypot.Attributes
 {
     public class UniqueUsernameAttribute : ValidationAttribute
     {
-        private IUserService userService;
+        private IAccountService accountService;
 
         public UniqueUsernameAttribute()
             : base(AttributeConstants.UsernameTaken)
@@ -21,8 +21,8 @@ namespace Honeypot.Attributes
 
         protected override ValidationResult IsValid(Object value, ValidationContext validationContext)
         {
-            this.userService = (IUserService)validationContext.GetService(typeof(IUserService));
-            var usernameExists = this.userService.GetByUsername(value.ToString()) != null;
+            this.accountService = (IAccountService)validationContext.GetService(typeof(IAccountService));
+            var usernameExists = this.accountService.GetByUsername(value.ToString()) != null;
             if (usernameExists)
             {
                 return new ValidationResult(AttributeConstants.UsernameTaken);

@@ -16,9 +16,9 @@ namespace Honeypot.Models
             this.Quotes = new List<Quote>();
         }
 
-        public string Title { get; private set; }
+        public string Title { get; set; }
 
-        public string Summary { get; private set; }
+        public string Summary { get; set; }
 
         public Genre Genre { get; set; }
 

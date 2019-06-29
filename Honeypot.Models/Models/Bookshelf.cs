@@ -12,7 +12,7 @@ namespace Honeypot.Models
             this.Books = new List<BookBookshelf>();
         }
 
-        public string Title { get; private set; }
+        public string Title { get; set; }
 
         public virtual ICollection<BookBookshelf> Books { get; set; }
 

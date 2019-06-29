@@ -214,6 +214,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IAccountService.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\AuthorService.cs" />
     <Compile Include="Abstractions\BaseService.cs" />
     <Compile Include="Services\BookService.cs" />
@@ -223,10 +225,8 @@
     <Compile Include="Contracts\IBookshelfService.cs" />
     <Compile Include="Contracts\IQuoteService.cs" />
     <Compile Include="Contracts\IRatingService.cs" />
-    <Compile Include="Contracts\IUserService.cs" />
     <Compile Include="Services\QuoteService.cs" />
     <Compile Include="Services\RatingService.cs" />
-    <Compile Include="Services\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

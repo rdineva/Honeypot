@@ -1,6 +1,6 @@
 ﻿@using Honeypot.Services.Contracts
 @model Honeypot.ViewModels.Quote.QuoteDetailsViewModel
-@inject IUserService userService
+@inject IAccountService accountService
 @inject IQuoteService quoteService
 
 <br/>
@@ -13,7 +13,7 @@
             <div class="blockquote-footer text-right row">
                 <div class="col-md-2">
                     @{
-                        string userId = this.userService.GetByUsername(this.User.Identity.Name).Id;
+                        string userId = this.accountService.GetByUsername(this.User.Identity.Name).Id;
                     }
                     @if (this.quoteService.HasUserLikedQuote(Model.Id, userId))
                     {

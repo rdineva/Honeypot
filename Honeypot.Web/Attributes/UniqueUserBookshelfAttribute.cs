@@ -9,7 +9,7 @@ namespace Honeypot.Attributes
     public class UniqueUserBookshelfAttribute : ValidationAttribute
     {
         private IBookshelfService bookshelfService;
-        private IUserService userService;
+        private IAccountService accountService;
         private IHttpContextAccessor httpContextAccessor;
 
         public UniqueUserBookshelfAttribute()
@@ -25,7 +25,7 @@ namespace Honeypot.Attributes
         protected override ValidationResult IsValid(Object value, ValidationContext validationContext)
         {
             InitializeServices(validationContext);
-            var user = this.userService.GetByUsername(httpContextAccessor.HttpContext.User.Identity.Name);
+            var user = this.accountService.GetByUsername(httpContextAccessor.HttpContext.User.Identity.Name);
             var bookshelfTitleExists = this.bookshelfService.UserHasBookshelfTitled(value?.ToString(), user.Id);
             if (bookshelfTitleExists)
             {
@@ -38,7 +38,7 @@ namespace Honeypot.Attributes
         public void InitializeServices(ValidationContext validationContext)
         {
             this.bookshelfService = (IBookshelfService)validationContext.GetService(typeof(IBookshelfService));
-            this.userService = (IUserService)validationContext.GetService(typeof(IUserService));
+            this.accountService = (IAccountService)validationContext.GetService(typeof(IAccountService));
             this.httpContextAccessor = (IHttpContextAccessor)validationContext.GetService(typeof(IHttpContextAccessor));
         }
     }

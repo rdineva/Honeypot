@@ -60,7 +60,7 @@ namespace Honeypot
         private void AddServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IQuoteService, QuoteService>();
             services.AddScoped<IBookshelfService, BookshelfService>();
             services.AddScoped<IAuthorService, AuthorService>();

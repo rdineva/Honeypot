@@ -12,7 +12,7 @@ namespace Honeypot.Models
             this.LikedByUsers = new List<UserQuote>();
         }
 
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
         [ForeignKey("Author")]
         public int AuthorId { get; set; }

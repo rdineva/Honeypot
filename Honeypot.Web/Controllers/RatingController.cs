@@ -11,14 +11,14 @@ namespace Honeypot.Controllers
 {
     public class RatingController : BaseController
     {
-        private readonly IUserService usersService;
+        private readonly IAccountService usersService;
         private readonly IRatingService ratingService;
         private readonly IBookService bookService;
 
-        public RatingController(HoneypotDbContext context, IMapper mapper, IUserService userService, IRatingService ratingService, IBookService bookService)
+        public RatingController(HoneypotDbContext context, IMapper mapper, IAccountService accountService, IRatingService ratingService, IBookService bookService)
             : base(context, mapper)
         {
-            this.usersService = userService;
+            this.usersService = accountService;
             this.ratingService = ratingService;
             this.bookService = bookService;
         }

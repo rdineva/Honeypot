@@ -14,14 +14,14 @@ namespace Honeypot.Controllers
     [Authorize]
     public class BookshelfController : BaseController
     {
-        private readonly IUserService userService;
+        private readonly IAccountService accountService;
         private readonly IBookshelfService bookshelfService;
         private readonly IBookService bookService;
 
-        public BookshelfController(HoneypotDbContext context, IUserService userService, IMapper mapper, IBookService bookService, IBookshelfService bookshelfService)
+        public BookshelfController(HoneypotDbContext context, IAccountService accountService, IMapper mapper, IBookService bookService, IBookshelfService bookshelfService)
             : base(context, mapper)
         {
-            this.userService = userService;
+            this.accountService = accountService;
             this.bookService = bookService;
             this.bookshelfService = bookshelfService;
         }
@@ -45,7 +45,7 @@ namespace Honeypot.Controllers
 
         public IActionResult Details(int id)
         {
-            var currentUser = this.userService.GetByUsername(this.User.Identity.Name);
+            var currentUser = this.accountService.GetByUsername(this.User.Identity.Name);
             var bookshelfResult = this.bookshelfService.GetUserBookshelfById(id, currentUser.Id);
             if (bookshelfResult == null)
             {
@@ -59,7 +59,7 @@ namespace Honeypot.Controllers
         [HttpPost]
         public IActionResult AddToBookshelf(int bookshelfId, int bookId)
         {
-            var user = this.userService.GetByUsername(this.User.Identity.Name);
+            var user = this.accountService.GetByUsername(this.User.Identity.Name);
             var bookResult = this.bookService.GetBookById(bookId);
             ValidateAddToBookshelf(bookshelfId, bookId, bookResult, user);
 
@@ -74,7 +74,7 @@ namespace Honeypot.Controllers
 
         public IActionResult RemoveFromBookshelf(int bookshelfId, int bookId)
         {
-            var user = this.userService.GetByUsername(this.User.Identity.Name);
+            var user = this.accountService.GetByUsername(this.User.Identity.Name);
             var bookshelf = this.bookshelfService.GetUserBookshelfById(bookshelfId, user.Id);
             var bookInBookshelf = bookshelf.Books.FirstOrDefault(x => x.BookId == bookId);
             if (bookshelf != null && bookInBookshelf != null)
@@ -101,7 +101,7 @@ namespace Honeypot.Controllers
 
         public IActionResult MyBookshelves()
         {
-            var user = this.userService.GetByUsername(this.User.Identity.Name);
+            var user = this.accountService.GetByUsername(this.User.Identity.Name);
             var userBokshelves = this.bookshelfService.GetUsersBookshelves(user.UserName);
             var bookshelves = new MyBookshelvesViewModel()
             {
@@ -113,7 +113,7 @@ namespace Honeypot.Controllers
 
         public IActionResult Delete(int id)
         {
-            var user = this.userService.GetByUsername(this.User.Identity.Name);
+            var user = this.accountService.GetByUsername(this.User.Identity.Name);
             var bookshelf = this.bookshelfService.GetUserBookshelfById(id, user.Id);
             if (bookshelf != null)
             {
@@ -127,7 +127,7 @@ namespace Honeypot.Controllers
         private Bookshelf OnPostCreateBookshelf(CreateBookshelfViewModel viewModel)
         {
             var bookshelf = this.mapper.Map<Bookshelf>(viewModel);
-            bookshelf.UserId = this.userService.GetByUsername(this.User.Identity.Name).Id;
+            bookshelf.UserId = this.accountService.GetByUsername(this.User.Identity.Name).Id;
             this.context.Bookshelves.Add(bookshelf);
             this.context.SaveChanges();
             return bookshelf;
