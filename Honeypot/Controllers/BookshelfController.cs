@@ -46,7 +46,7 @@ namespace Honeypot.Controllers
         public IActionResult Details(int id)
         {
             var currentUser = this.userService.GetByUsername(this.User.Identity.Name);
-            var bookshelfResult = this.bookshelfService.FindUserBookshelfById(id, currentUser.Id);
+            var bookshelfResult = this.bookshelfService.GetUserBookshelfById(id, currentUser.Id);
             if (bookshelfResult == null)
             {
                 return this.RedirectToAction("/", "Home");
@@ -60,11 +60,8 @@ namespace Honeypot.Controllers
         public IActionResult AddToBookshelf(int bookshelfId, int bookId)
         {
             var user = this.userService.GetByUsername(this.User.Identity.Name);
-            var bookResult = this.bookService.GeBookById(bookId);
-            //TODO: create addtobookshelf viewmodel and validate there
-            ValidateBookExists(bookResult);
-            ValidateUserBookshelfIdExists(bookshelfId, user);
-            ValidateBookIsntInBookshelf(bookId, bookshelfId);
+            var bookResult = this.bookService.GetBookById(bookId);
+            ValidateAddToBookshelf(bookshelfId, bookId, bookResult, user);
 
             if (ModelState.IsValid)
             {
@@ -78,7 +75,7 @@ namespace Honeypot.Controllers
         public IActionResult RemoveFromBookshelf(int bookshelfId, int bookId)
         {
             var user = this.userService.GetByUsername(this.User.Identity.Name);
-            var bookshelf = this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id);
+            var bookshelf = this.bookshelfService.GetUserBookshelfById(bookshelfId, user.Id);
             var bookInBookshelf = bookshelf.Books.FirstOrDefault(x => x.BookId == bookId);
             if (bookshelf != null && bookInBookshelf != null)
             {
@@ -117,7 +114,7 @@ namespace Honeypot.Controllers
         public IActionResult Delete(int id)
         {
             var user = this.userService.GetByUsername(this.User.Identity.Name);
-            var bookshelf = this.context.Bookshelves.FirstOrDefault(x => x.Id == id && x.UserId == user.Id);
+            var bookshelf = this.bookshelfService.GetUserBookshelfById(id, user.Id);
             if (bookshelf != null)
             {
                 this.context.Remove(bookshelf);
@@ -137,9 +134,16 @@ namespace Honeypot.Controllers
         }
 
         //INPUT DATA VALIDATION METHODS
+        private void ValidateAddToBookshelf(int bookshelfId, int bookId, Book bookResult, HoneypotUser user)
+        {
+            ValidateBookExists(bookResult);
+            ValidateUserBookshelfIdExists(bookshelfId, user);
+            ValidateBookIsntInBookshelf(bookId, bookshelfId);
+        }
+
         private void ValidateUserBookshelfIdExists(int bookshelfId, HoneypotUser user)
         {
-            if (this.bookshelfService.FindUserBookshelfById(bookshelfId, user.Id) == null)
+            if (this.bookshelfService.GetUserBookshelfById(bookshelfId, user.Id) == null)
             {
                 var errorMessage = string.Format(GeneralConstants.DoesntExist, typeof(Bookshelf).Name);
                 ModelState.AddModelError("Bookshelf", errorMessage);

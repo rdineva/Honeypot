@@ -7,8 +7,10 @@ namespace Honeypot.Services.Contracts
     {
         bool AuthorExists(string firstName, string lastName);
 
-        Author GeAuthorById(int id);
+        Author GetAuthorById(int id);
 
         List<Author> GetAllAuthors();
+
+        Author GetAuthorByName(string firstName, string lastName);
     }
 }

@@ -6,7 +6,7 @@ namespace Honeypot.Services.Contracts
 {
     public interface IBookService
     {
-        Book GeBookById(int id);
+        Book GetBookById(int id);
 
         bool BookTitleExists(string title, string authorFirstName, string authorLastName);
 
@@ -15,5 +15,7 @@ namespace Honeypot.Services.Contracts
         Genre[] GetAllGenres();
 
         List<Book> GetAllBooksByGenre(Genre genre);
+
+        Dictionary<Genre, List<Book>> GetAllBooksFromAllGenres(Genre[] genres);
     }
 }

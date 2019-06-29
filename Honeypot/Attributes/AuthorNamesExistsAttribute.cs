@@ -7,18 +7,18 @@ using Honeypot.Services.Contracts;
 
 namespace Honeypot.Attributes
 {
-    public class AuthorNamesExistsAttribute : ValidationAttribute
+    public class AuthorNamesExistAttribute : ValidationAttribute
     {
         private IAuthorService authorService;
 
         public bool ShouldAuthorExist { get; set; }
 
-        public AuthorNamesExistsAttribute()
+        public AuthorNamesExistAttribute()
             : base(AttributeConstants.InvalidField)
         {
         }
 
-        public AuthorNamesExistsAttribute(string message)
+        public AuthorNamesExistAttribute(string message)
             : base(message)
         {
         }
@@ -43,7 +43,6 @@ namespace Honeypot.Attributes
         {
             var firstName = type.GetProperty(BookConstants.AuthorFirstName).GetValue(instance)?.ToString();
             var lastName = type.GetProperty(BookConstants.AuthorLastName).GetValue(instance)?.ToString();
-
             if (this.authorService.AuthorExists(firstName, lastName))
             {
                 return ValidationResult.Success;
@@ -56,7 +55,6 @@ namespace Honeypot.Attributes
         {
             var firstName = type.GetProperty(AuthorConstants.FirstName).GetValue(instance)?.ToString();
             var lastName = type.GetProperty(AuthorConstants.LastName).GetValue(instance)?.ToString();
-
             if (!this.authorService.AuthorExists(firstName, lastName))
             {
                 return ValidationResult.Success;

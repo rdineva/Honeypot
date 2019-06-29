@@ -24,7 +24,7 @@ namespace Honeypot.Services
             return authorExists;
         }
 
-        public Author GeAuthorById(int id)
+        public Author GetAuthorById(int id)
         {
             var author = this.context
                 .Authors
@@ -39,6 +39,16 @@ namespace Honeypot.Services
         {
             var authors = this.context.Authors.ToList();
             return authors;
+        }
+
+        public Author GetAuthorByName(string firstName, string lastName)
+        {
+            var author = this.context
+                .Authors
+                .FirstOrDefault(x => x.FirstName == firstName
+                          && x.LastName == lastName);
+
+            return author;
         }
     }
 }

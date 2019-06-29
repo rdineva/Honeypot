@@ -46,7 +46,7 @@ namespace Honeypot.Services
             return userHasBookshelf;
         }
 
-        public Bookshelf FindUserBookshelfById(int bookshelfId, string userId)
+        public Bookshelf GetUserBookshelfById(int bookshelfId, string userId)
         {
             var bookshelfResult = this.context
                 .Bookshelves

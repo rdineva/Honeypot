@@ -33,15 +33,16 @@ namespace Honeypot
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var config = new AutoMapperConfiguration().Configure();
-            IMapper iMapper = config.CreateMapper();
-            Mapper.Initialize(cfg => { });
-            Mapper.Configuration.CompileMappings();
-
             services.AddDbContext<HoneypotDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            AddIdentityConfiguration(services);
+            AddServices(services);
+        }
+
+        private void AddIdentityConfiguration(IServiceCollection services)
+        {
             services.AddIdentity<HoneypotUser, IdentityRole>(options =>
                 {
                     options.SignIn.RequireConfirmedEmail = false;
@@ -54,8 +55,10 @@ namespace Honeypot
                 })
                 .AddEntityFrameworkStores<HoneypotDbContext>()
                 .AddDefaultTokenProviders();
+        }
 
-            //services.AddAutoMapper();
+        private void AddServices(IServiceCollection services)
+        {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IQuoteService, QuoteService>();
@@ -63,6 +66,9 @@ namespace Honeypot
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IRatingService, RatingService>();
+
+            var config = new AutoMapperConfiguration().Configure();
+            IMapper iMapper = config.CreateMapper();
             services.AddSingleton(iMapper);
         }
 

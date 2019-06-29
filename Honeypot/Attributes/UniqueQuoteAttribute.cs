@@ -23,7 +23,6 @@ namespace Honeypot.Attributes
         protected override ValidationResult IsValid(Object value, ValidationContext validationContext)
         {
             this.quoteService = (IQuoteService)validationContext.GetService(typeof(IQuoteService));
-
             if (this.quoteService.QuoteExists(value?.ToString()))
             {
                 return new ValidationResult(string.Format(GeneralConstants.AlreadyExists, typeof(Quote).Name));

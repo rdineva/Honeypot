@@ -16,7 +16,7 @@ namespace Honeypot.Services
         {
         }
 
-        public Book GeBookById(int id)
+        public Book GetBookById(int id)
         {
             var book = this.context
                 .Books
@@ -60,6 +60,17 @@ namespace Honeypot.Services
                 .ToList();
 
             return books;
+        }
+
+        public Dictionary<Genre, List<Book>> GetAllBooksFromAllGenres(Genre[] genres)
+        {
+            Dictionary<Genre, List<Book>> allBooksByGenres = new Dictionary<Genre, List<Book>>();
+            foreach (var genre in genres)
+            {
+                allBooksByGenres[genre] = this.GetAllBooksByGenre(genre);
+            }
+
+            return allBooksByGenres;
         }
     }
 }

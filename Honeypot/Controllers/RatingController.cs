@@ -27,8 +27,7 @@ namespace Honeypot.Controllers
         public IActionResult Rate(int stars, int bookId)
         {
             StarRating starRating = ValidateStars(stars);
-            var book = this.bookService.GeBookById(bookId);
-
+            var book = this.bookService.GetBookById(bookId);
             if (ModelState.IsValid)
             {
                 OnPostUserRateBook(bookId, starRating);
@@ -55,7 +54,7 @@ namespace Honeypot.Controllers
 
         private void ChangeRating(HoneypotUser user, int bookId, StarRating starRating)
         {
-            var rating = this.ratingService.FindUserBookRating(user.Id, bookId);
+            var rating = this.ratingService.GetUserBookRating(user.Id, bookId);
             rating.Stars = starRating;
         }
 

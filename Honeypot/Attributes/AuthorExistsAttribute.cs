@@ -25,8 +25,7 @@ namespace Honeypot.Attributes
         {
             this.authorService = (IAuthorService)validationContext.GetService(typeof(IAuthorService));
             var isAuthorIdValid = int.TryParse(value.ToString(), NumberStyles.Integer, new NumberFormatInfo(), out int authorId);
-
-            if (isAuthorIdValid && this.authorService.GeAuthorById(authorId) != null)
+            if (isAuthorIdValid && this.authorService.GetAuthorById(authorId) != null)
             {
                 return ValidationResult.Success;
             }

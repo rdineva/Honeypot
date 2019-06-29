@@ -19,7 +19,7 @@ namespace Honeypot.ViewModels.Book
         public string Summary { get; set; }
 
         [Required]
-        [AuthorNamesExists(ShouldAuthorExist = true)]
+        [AuthorNamesExistAttribute(ShouldAuthorExist = true)]
         [DataType(DataType.Text)]
         [DisplayName("Author's First Name")]
         [StringLength(ViewModelConstants.MaxNameLength, ErrorMessage = ViewModelConstants.StringLengthError, MinimumLength = ViewModelConstants.MinNameLength)]

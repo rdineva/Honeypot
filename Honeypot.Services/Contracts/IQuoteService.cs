@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Honeypot.Models;
+using Honeypot.Models.MappingModels;
 
 namespace Honeypot.Services.Contracts
 {
@@ -7,10 +8,12 @@ namespace Honeypot.Services.Contracts
     {
         bool HasUserLikedQuote(int quoteId, string userId);
 
-        List<Quote> FindUsersLikedQuotes(HoneypotUser user);
+        List<Quote> GetLikedQuotesByUser(HoneypotUser user);
 
         bool QuoteExists(string quote);
 
         Quote GetQuoteById(int id);
+
+        UserQuote GetUsersLikedQuoteById(int quoteId, string userId);
     }
 }

@@ -88,7 +88,6 @@ namespace Honeypot.Controllers
         {
             var currentUser = userManager.GetUserAsync(HttpContext.User).Result;
             var userProfileViewModel = mapper.Map<ProfileViewModel>(currentUser);
-
             return this.View(userProfileViewModel);
         }
 
@@ -96,7 +95,6 @@ namespace Honeypot.Controllers
         {
             var user = mapper.Map<RegisterViewModel, HoneypotUser>(viewModel);
             var registerResult = await this.userManager.CreateAsync(user, viewModel.Password);
-
             if (registerResult.Succeeded)
             {
                 await this.AddRoleToAccountAsync(user);

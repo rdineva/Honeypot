@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Honeypot", "Honeypot\Honeypot.csproj", "{8A1C877A-4FBF-4C07-B4E0-5C6A94CF17C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Honeypot.Web", "Honeypot\Honeypot.Web.csproj", "{8A1C877A-4FBF-4C07-B4E0-5C6A94CF17C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Honeypot.Models", "Honeypot.Models\Honeypot.Models.csproj", "{155FAD12-6287-4810-A02C-0EA73FFEB6D5}"
 EndProject

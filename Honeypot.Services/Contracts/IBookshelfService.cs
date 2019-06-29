@@ -11,6 +11,6 @@ namespace Honeypot.Services.Contracts
 
         bool UserHasBookshelfTitled(string bookshelfName, string userId);
 
-        Bookshelf FindUserBookshelfById(int bookshelfId, string userId);
+        Bookshelf GetUserBookshelfById(int bookshelfId, string userId);
     }
 }

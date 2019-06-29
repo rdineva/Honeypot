@@ -24,7 +24,7 @@ namespace Honeypot.Services
             return userHasRatedBook;
         }
 
-        public Rating FindUserBookRating(string userId, int bookId)
+        public Rating GetUserBookRating(string userId, int bookId)
         {
             var rating = this.context
                 .Ratings

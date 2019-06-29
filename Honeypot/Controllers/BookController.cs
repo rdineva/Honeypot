@@ -15,17 +15,19 @@ namespace Honeypot.Controllers
     public class BookController : BaseController
     {
         private readonly IBookService bookService;
+        private readonly IAuthorService authorService;
 
-        public BookController(HoneypotDbContext context, IMapper mapper, IBookService bookService)
+        public BookController(HoneypotDbContext context, IMapper mapper, IBookService bookService, IAuthorService authorService)
             : base(context, mapper)
         {
             this.bookService = bookService;
+            this.authorService = authorService;
         }
 
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
-            var bookResult = this.bookService.GeBookById(id);
+            var bookResult = this.bookService.GetBookById(id);
             if (bookResult == null)
             {
                 return this.RedirectToAction("/", "Home");
@@ -57,15 +59,10 @@ namespace Honeypot.Controllers
         public IActionResult Discover()
         {
             var genres = this.bookService.GetAllGenres();
-            Dictionary<Genre, List<Book>> booksByGenre = new Dictionary<Genre, List<Book>>();
-            foreach (var genre in genres)
-            {
-                booksByGenre[genre] = this.bookService.GetAllBooksByGenre(genre);
-            }
-
+            Dictionary<Genre, List<Book>> allBooksByGenres = this.bookService.GetAllBooksFromAllGenres(genres);
             var viewModel = new  DiscoverViewModel()
             {
-                BooksByGenre = booksByGenre
+                BooksByGenre = allBooksByGenres
             };
 
             return this.View(viewModel);
@@ -73,7 +70,7 @@ namespace Honeypot.Controllers
 
         private Book OnPostCreateBook(CreateBookViewModel viewModel)
         {
-            var bookAuthor = this.context.Authors.FirstOrDefault(x => x.FirstName == viewModel.AuthorFirstName && x.LastName == viewModel.AuthorLastName);
+            var bookAuthor = this.authorService.GetAuthorByName(viewModel.AuthorFirstName, viewModel.AuthorLastName);
             var book = this.mapper.Map<Book>(viewModel);
             book.AuthorId = bookAuthor.Id;
             this.context.Books.Add(book);

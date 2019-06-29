@@ -2,6 +2,7 @@
 using Honeypot.Data;
 using System.Linq;
 using Honeypot.Models;
+using Honeypot.Models.MappingModels;
 using Honeypot.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,7 @@ namespace Honeypot.Services
 {
     public class QuoteService : BaseService, IQuoteService
     {
-        public QuoteService(HoneypotDbContext context) 
+        public QuoteService(HoneypotDbContext context)
             : base(context)
         {
         }
@@ -18,15 +19,15 @@ namespace Honeypot.Services
         {
             bool hasUserLikedQuote = this.context
                 .UsersQuotes
-                .Any(x => x.UserId == userId 
+                .Any(x => x.UserId == userId
                        && x.QuoteId == quoteId);
 
             return hasUserLikedQuote;
         }
 
-        public List<Quote> FindUsersLikedQuotes(HoneypotUser user)
+        public List<Quote> GetLikedQuotesByUser(HoneypotUser user)
         {
-            var usersLikedQuotes =  this.context
+            var likedQuotesByUser = this.context
                 .UsersQuotes
                 .Include(x => x.Quote)
                 .ThenInclude(x => x.Book)
@@ -34,7 +35,7 @@ namespace Honeypot.Services
                 .Where(x => x.UserId == user.Id)
                 .ToList().ConvertAll(x => x.Quote);
 
-            return usersLikedQuotes;
+            return likedQuotesByUser;
         }
 
         public bool QuoteExists(string quote)
@@ -53,6 +54,15 @@ namespace Honeypot.Services
                 .Include(x => x.Author)
                 .Include(x => x.Book)
                 .FirstOrDefault(x => x.Id == id);
+
+            return quote;
+        }
+
+        public UserQuote GetUsersLikedQuoteById(int quoteId, string userId)
+        {
+            var quote = this.context
+                .UsersQuotes
+                .FirstOrDefault(x => x.QuoteId == quoteId && x.UserId == userId);
 
             return quote;
         }

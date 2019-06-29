@@ -62,7 +62,6 @@ namespace Honeypot.Controllers
         {
             var quote = this.quoteService.GetQuoteById(quoteId);
             ValidateQuoteExists(quote);
-
             if (ModelState.IsValid)
             {
                 this.OnPostLikeOrUnlike(quote);
@@ -75,10 +74,10 @@ namespace Honeypot.Controllers
         public IActionResult MyLikedQuotes()
         {
             var user = userManager.GetUserAsync(HttpContext.User).Result;
-            var userLikedQuotes = this.quoteService.FindUsersLikedQuotes(user);
+            var likedQuotesByUser = this.quoteService.GetLikedQuotesByUser(user);
             var quotes = new MyLikedQuotesViewModel()
             {
-                Quotes = userLikedQuotes
+                Quotes = likedQuotesByUser
             };
 
             return this.View(quotes);

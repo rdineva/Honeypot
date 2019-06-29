@@ -25,8 +25,7 @@ namespace Honeypot.Attributes
         {
             this.bookService = (IBookService)validationContext.GetService(typeof(IBookService));
             var isBookIdValid = int.TryParse(value.ToString(), NumberStyles.Integer, new NumberFormatInfo(), out int bookId);
-
-            if (isBookIdValid && this.bookService.GeBookById(bookId) != null)
+            if (isBookIdValid && this.bookService.GetBookById(bookId) != null)
             {
                 return ValidationResult.Success;
             }

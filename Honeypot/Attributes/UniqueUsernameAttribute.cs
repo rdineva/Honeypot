@@ -23,7 +23,6 @@ namespace Honeypot.Attributes
         {
             this.userService = (IUserService)validationContext.GetService(typeof(IUserService));
             var usernameExists = this.userService.GetByUsername(value.ToString()) != null;
-
             if (usernameExists)
             {
                 return new ValidationResult(AttributeConstants.UsernameTaken);

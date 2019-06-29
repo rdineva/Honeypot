@@ -41,7 +41,7 @@ namespace Honeypot.Controllers
         [AllowAnonymous]
         public IActionResult Details(int id)
         {
-            var authorResult = this.authorService.GeAuthorById(id);
+            var authorResult = this.authorService.GetAuthorById(id);
             if (authorResult == null)
             {
                 return this.RedirectToAction("/", "Home");

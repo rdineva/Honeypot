@@ -25,7 +25,6 @@ namespace Honeypot.Attributes
         protected override ValidationResult IsValid(Object value, ValidationContext validationContext)
         {
             InitializeServices(validationContext);
-
             var user = this.userService.GetByUsername(httpContextAccessor.HttpContext.User.Identity.Name);
             var bookshelfTitleExists = this.bookshelfService.UserHasBookshelfTitled(value?.ToString(), user.Id);
             if (bookshelfTitleExists)

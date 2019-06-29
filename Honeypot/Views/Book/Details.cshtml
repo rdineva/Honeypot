@@ -1,5 +1,6 @@
 ﻿@using Honeypot.Services.Contracts
 @model Honeypot.ViewModels.Book.BookDetailsViewModel
+
 @inject IBookshelfService bookshelfService
 @inject IUserService userService
 @inject IRatingService ratingService
@@ -32,7 +33,7 @@
                     <select class="form-control" name="stars">
                         @{
                             var user = this.userService.GetByUsername(this.User.Identity.Name);
-                            var userRating = this.ratingService.FindUserBookRating(user.Id, @Model.Id);
+                            var userRating = this.ratingService.GetUserBookRating(user.Id, @Model.Id);
                         }
                         @if (this.ratingService.HasUserRatedBook(user.Id, @Model.Id))
                         {

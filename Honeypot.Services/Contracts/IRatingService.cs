@@ -6,6 +6,6 @@ namespace Honeypot.Services.Contracts
     {
         bool HasUserRatedBook(string userId, int bookId);
 
-        Rating FindUserBookRating(string userId, int bookId);
+        Rating GetUserBookRating(string userId, int bookId);
     }
 }
