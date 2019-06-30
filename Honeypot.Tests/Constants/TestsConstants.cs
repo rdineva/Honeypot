@@ -1,6 +1,6 @@
 ﻿namespace Honeypot.Tests.Account
 {
-    public class TestConstants
+    public class TestsConstants
     {
         public const string FirstName = "TestFirstNameExists";
 

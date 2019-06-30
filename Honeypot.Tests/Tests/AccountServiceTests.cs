@@ -25,7 +25,7 @@ namespace Honeypot.Tests
             this.DeleteUsersData();
             var user = new HoneypotUser()
             {
-                UserName = TestConstants.Username
+                UserName = TestsConstants.Username
             };
 
             this.context.Users.Add(user);
@@ -42,8 +42,8 @@ namespace Honeypot.Tests
         [Fact]
         public void GetByUsername_ShouldReturnUser()
         {
-            var user = this.accountService.GetByUsername(TestConstants.Username);
-            Assert.Equal(user.UserName, TestConstants.Username);
+            var user = this.accountService.GetByUsername(TestsConstants.Username);
+            Assert.Equal(user.UserName, TestsConstants.Username);
         }
     }
 }

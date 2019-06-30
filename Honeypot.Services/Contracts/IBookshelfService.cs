@@ -5,7 +5,7 @@ namespace Honeypot.Services.Contracts
 {
     public interface IBookshelfService
     {
-        List<Bookshelf> GetUsersBookshelves(string userId);
+        List<Bookshelf> GetUsersBookshelves(string username);
 
         bool IsBookInBookshelf(int bookId, int bookshelfId);
 

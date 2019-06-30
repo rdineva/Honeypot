@@ -25,9 +25,9 @@ namespace Honeypot.Tests
             this.DeleteAuthorsData();
             var author = new Author()
             {
-                FirstName = TestConstants.FirstName,
-                LastName = TestConstants.LastName,
-                Id = TestConstants.IntegerId1
+                FirstName = TestsConstants.FirstName,
+                LastName = TestsConstants.LastName,
+                Id = TestsConstants.IntegerId1
             };
 
             this.context.Authors.Add(author);
@@ -44,22 +44,22 @@ namespace Honeypot.Tests
         [Fact]
         public void AuthorExists_ShouldReturnTrue_WhenAuthorExists()
         {
-            var authorExists = this.authorService.AuthorExists(TestConstants.FirstName, TestConstants.LastName);
+            var authorExists = this.authorService.AuthorExists(TestsConstants.FirstName, TestsConstants.LastName);
             Assert.True(authorExists);
         }
 
         [Fact]
         public void AuthorExists_ShouldReturnFalse_WhenAuthorDoesntExists()
         {
-            var authorExists = this.authorService.AuthorExists(TestConstants.FirstNameNonExistent, TestConstants.LastNameNonExistent);
+            var authorExists = this.authorService.AuthorExists(TestsConstants.FirstNameNonExistent, TestsConstants.LastNameNonExistent);
             Assert.False(authorExists);
         }
 
         [Fact]
         public void GetAuthorById_ShouldReturnAuthor()
         {
-            var author = this.authorService.GetAuthorById(TestConstants.IntegerId1);
-            Assert.Equal(author.Id, TestConstants.IntegerId1);
+            var author = this.authorService.GetAuthorById(TestsConstants.IntegerId1);
+            Assert.Equal(author.Id, TestsConstants.IntegerId1);
         }
 
         [Fact]
@@ -74,9 +74,9 @@ namespace Honeypot.Tests
         public void GetAuthorByName_ShouldReturnAuthor()
         {
             var authorFromService =
-                this.authorService.GetAuthorByName(TestConstants.FirstName, TestConstants.LastName);
+                this.authorService.GetAuthorByName(TestsConstants.FirstName, TestsConstants.LastName);
             var correctAuthor = this.context.Authors.FirstOrDefault(x =>
-                x.FirstName == TestConstants.FirstName && x.LastName == TestConstants.LastName);
+                x.FirstName == TestsConstants.FirstName && x.LastName == TestsConstants.LastName);
 
             Assert.Equal(authorFromService, correctAuthor);
         }
