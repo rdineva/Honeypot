@@ -2,7 +2,7 @@
 Honeypot is an online web application project for book readers. Users can view books, quotes and authors. They can also create bookshelves and delete them, rate books and add books to their own bookshelves and delete them. Admins also have the ability to create new authors, books and quotes.
 
 ## Overview
-There are four components of the system:
+There are five components of the system:
 * **Honeypot.Web** contains the core functionality of the project. 
   * *Attributes* for ViewModel data properties validation
   * *AutoMapper* for automatically mapping from user input ViewModels to Models and vice versa
