@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.Enums;
 using Honeypot.Services.Contracts;
@@ -8,16 +7,13 @@ using Xunit;
 
 namespace Honeypot.Tests.Tests
 {
-    public class RatingServiceTests : IClassFixture<BaseTest>
+    public class RatingServiceTests : BaseTest
     {
         private readonly IRatingService ratingService;
 
-        private readonly HoneypotDbContext context;
-
-        public RatingServiceTests(BaseTest fixture)
+        public RatingServiceTests(BaseTestFixture fixture) : base(fixture)
         {
             this.ratingService = fixture.Provider.GetService(typeof(IRatingService)) as IRatingService;
-            this.context = fixture.Provider.GetService(typeof(HoneypotDbContext)) as HoneypotDbContext;
             this.SeedData();
         }
 
@@ -60,34 +56,6 @@ namespace Honeypot.Tests.Tests
             };
 
             this.context.Ratings.Add(rating);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteRatingsData()
-        {
-            var ratings = this.context.Ratings.ToList();
-            this.context.Ratings.RemoveRange(ratings);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteUsersData()
-        {
-            var users = this.context.Users.ToList();
-            this.context.Users.RemoveRange(users);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteBooksData()
-        {
-            var books = this.context.Books.ToList();
-            this.context.Books.RemoveRange(books);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteAuthorsData()
-        {
-            var authors = this.context.Authors.ToList();
-            this.context.Authors.RemoveRange(authors);
             this.context.SaveChanges();
         }
 

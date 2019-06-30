@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Honeypot.Tests
 {
-    public class BaseTest
+    public class BaseTestFixture
     {
         private readonly IMapper mapper;
 
@@ -20,7 +20,7 @@ namespace Honeypot.Tests
 
         public IServiceProvider Provider { get; private set; }
 
-        public BaseTest()
+        public BaseTestFixture()
         {
             this.options = new DbContextOptionsBuilder<HoneypotDbContext>()
                 .UseInMemoryDatabase(databaseName: "HoneypotInMemoryDb");

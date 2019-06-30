@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.Enums;
 using Honeypot.Models.MappingModels;
@@ -9,16 +8,13 @@ using Xunit;
 
 namespace Honeypot.Tests.Tests
 {
-    public class BookshelfServiceTests : IClassFixture<BaseTest>
+    public class BookshelfServiceTests : BaseTest
     {
         private readonly IBookshelfService bookshelfService;
 
-        private readonly HoneypotDbContext context;
-
-        public BookshelfServiceTests(BaseTest fixture)
+        public BookshelfServiceTests(BaseTestFixture fixture) : base(fixture)
         {
             this.bookshelfService = fixture.Provider.GetService(typeof(IBookshelfService)) as IBookshelfService;
-            this.context = fixture.Provider.GetService(typeof(HoneypotDbContext)) as HoneypotDbContext;
             this.SeedData();
         }
 
@@ -68,34 +64,6 @@ namespace Honeypot.Tests.Tests
 
             this.context.Bookshelves.Add(bookshelf);
             this.context.BooksBookshelves.Add(bookBookshelf);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteUsersData()
-        {
-            var users = this.context.Users.ToList();
-            this.context.Users.RemoveRange(users);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteAuthorsData()
-        {
-            var authors = this.context.Authors.ToList();
-            this.context.Authors.RemoveRange(authors);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteBooksData()
-        {
-            var books = this.context.Books.ToList();
-            this.context.Books.RemoveRange(books);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteBookshelvesData()
-        {
-            var bookshelves = this.context.Bookshelves.ToList();
-            this.context.Bookshelves.RemoveRange(bookshelves);
             this.context.SaveChanges();
         }
 

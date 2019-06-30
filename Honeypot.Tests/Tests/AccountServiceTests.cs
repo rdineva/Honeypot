@@ -3,20 +3,18 @@ using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
+using Honeypot.Tests.Tests;
 using Xunit;
 
 namespace Honeypot.Tests
 {
-    public class AccountServiceTests : IClassFixture<BaseTest>
+    public class AccountServiceTests :BaseTest
     {
         private readonly IAccountService accountService;
 
-        private readonly HoneypotDbContext context;
-
-        public AccountServiceTests(BaseTest fixture)
+        public AccountServiceTests(BaseTestFixture fixture) : base(fixture)
         {
             this.accountService = fixture.Provider.GetService(typeof(IAccountService)) as IAccountService;
-            this.context = fixture.Provider.GetService(typeof(HoneypotDbContext)) as HoneypotDbContext;
             this.SeedData();
         }
 
@@ -29,13 +27,6 @@ namespace Honeypot.Tests
             };
 
             this.context.Users.Add(user);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteUsersData()
-        {
-            var users = this.context.Users.ToList();
-            this.context.Users.RemoveRange(users);
             this.context.SaveChanges();
         }
 

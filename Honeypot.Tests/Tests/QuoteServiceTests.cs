@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.MappingModels;
 using Honeypot.Services.Contracts;
@@ -8,16 +7,13 @@ using Xunit;
 
 namespace Honeypot.Tests.Tests
 {
-    public class QuoteServiceTests : IClassFixture<BaseTest>
+    public class QuoteServiceTests : BaseTest
     {
         private readonly IQuoteService quoteService;
 
-        private readonly HoneypotDbContext context;
-
-        public QuoteServiceTests(BaseTest fixture)
+        public QuoteServiceTests(BaseTestFixture fixture) : base(fixture)
         {
             this.quoteService = fixture.Provider.GetService(typeof(IQuoteService)) as IQuoteService;
-            this.context = fixture.Provider.GetService(typeof(HoneypotDbContext)) as HoneypotDbContext;
             this.SeedData();
         }
 
@@ -70,34 +66,6 @@ namespace Honeypot.Tests.Tests
 
             user.LikedQuotes.Add(userQuote);
             this.context.UsersQuotes.Add(userQuote);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteQuotesData()
-        {
-            var quotes = this.context.Quotes.ToList();
-            this.context.Quotes.RemoveRange(quotes);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteUsersData()
-        {
-            var users = this.context.Users.ToList();
-            this.context.Users.RemoveRange(users);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteBooksData()
-        {
-            var books = this.context.Books.ToList();
-            this.context.Books.RemoveRange(books);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteAuthorsData()
-        {
-            var authors = this.context.Authors.ToList();
-            this.context.Authors.RemoveRange(authors);
             this.context.SaveChanges();
         }
 

@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Linq;
-using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Models.Enums;
 using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
 using Xunit;
 using System.Collections.Generic;
+using Honeypot.Tests.Tests;
 
 namespace Honeypot.Tests
 {
-    public class BookServiceTests : IClassFixture<BaseTest>
+    public class BookServiceTests : BaseTest
     {
         private readonly IBookService bookService;
 
-        private readonly HoneypotDbContext context;
-
-        public BookServiceTests(BaseTest fixture)
+        public BookServiceTests(BaseTestFixture fixture) : base(fixture)
         {
             this.bookService = fixture.Provider.GetService(typeof(IBookService)) as IBookService;
-            this.context = fixture.Provider.GetService(typeof(HoneypotDbContext)) as HoneypotDbContext;
             this.SeedData();
         }
 
@@ -54,20 +51,6 @@ namespace Honeypot.Tests
 
             this.context.Books.Add(book1);
             this.context.Books.Add(book2);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteBooksData()
-        {
-            var books = this.context.Books.ToList();
-            this.context.Books.RemoveRange(books);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteAuthorsData()
-        {
-            var authors = this.context.Authors.ToList();
-            this.context.Authors.RemoveRange(authors);
             this.context.SaveChanges();
         }
 

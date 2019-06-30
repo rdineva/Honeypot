@@ -1,22 +1,19 @@
 ﻿using System.Linq;
-using Honeypot.Data;
 using Honeypot.Models;
 using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
+using Honeypot.Tests.Tests;
 using Xunit;
 
 namespace Honeypot.Tests
 {
-    public class AuthorServiceTests : IClassFixture<BaseTest>
+    public class AuthorServiceTests : BaseTest
     {
         private readonly IAuthorService authorService;
 
-        private readonly HoneypotDbContext context;
-
-        public AuthorServiceTests(BaseTest fixture)
+        public AuthorServiceTests(BaseTestFixture fixture) : base(fixture)
         {
             this.authorService = fixture.Provider.GetService(typeof(IAuthorService)) as IAuthorService;
-            this.context = fixture.Provider.GetService(typeof(HoneypotDbContext)) as HoneypotDbContext;
             this.SeedData();
         }
 
@@ -31,13 +28,6 @@ namespace Honeypot.Tests
             };
 
             this.context.Authors.Add(author);
-            this.context.SaveChanges();
-        }
-
-        private void DeleteAuthorsData()
-        {
-            var authors = this.context.Authors.ToList();
-            this.context.Authors.RemoveRange(authors);
             this.context.SaveChanges();
         }
 
