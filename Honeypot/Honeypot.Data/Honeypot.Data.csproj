@@ -245,12 +245,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Content\bootstrap-grid.css.map" />
-    <None Include="Content\bootstrap-grid.min.css.map" />
-    <None Include="Content\bootstrap-reboot.css.map" />
-    <None Include="Content\bootstrap-reboot.min.css.map" />
-    <None Include="Content\bootstrap.css.map" />
-    <None Include="Content\bootstrap.min.css.map" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -258,14 +252,6 @@
       <Project>{155fad12-6287-4810-a02c-0ea73ffeb6d5}</Project>
       <Name>Honeypot.Models</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
