@@ -1,5 +1,5 @@
 # Honeypot
-Honeypot is an online web application project for book readers. Users can view books, quotes and authors. They can also create bookshelves, rate books and add them to their own bookshelves. Moreover, Admins have the ability to create new authors, books and quotes.
+Honeypot is an online web application project for book readers. Users can view books, quotes and authors. They can also create bookshelves and delete them, rate books and add books to their own bookshelves and delete them. Admins also have the ability to create new authors, books and quotes.
 
 ## Overview
 There are four components of the system:
@@ -20,10 +20,17 @@ There are four components of the system:
 * **Honeypot.Models** contains the model layer
   * *Contracts*
   * *Enums*
-  * *Models*
+  * *Models* - all the model classes used in the application
     * `Author`, `Book`, `BookBookshelf`, `Bookshelf`, `HoneypotUser`, `Quote`, `Rating`, `Role`, `UserQuote`
 * **Honeypot.Services** contains helper services for the application
   * *Abstractions*
-  * *Contracts* 
-  * *Services* 
+  * *Contracts* - keeps the services interfaces
+  * *Services* - classes with business logic helper methods 
     * `AuthorService`, `BookService`, `BookshelfService`, `QuoteServce`, `RatingService`, `UserService`
+* **Honeypot.Tests** contains all the unit tests for the application
+  * *Abstractions*
+    * `BaseTest` for initializing DB context and providing Test classes with methods that clear the In Memory Database from objects
+    * `BaseTestFixture` for creating and configuring the In Memory Database used for unit testing
+  * *Constants*
+  * *Tests* contains test classes for the services in the application 
+    * `AccountServiceTests`, `AuthorServiceTests`, `BookServiceTests`, `BookshelfServiceTests`, `QuoteServiceTests`, `RatingServiceTests`
