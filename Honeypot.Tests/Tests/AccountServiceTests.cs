@@ -43,7 +43,7 @@ namespace Honeypot.Tests
         public void GetByUsername_ShouldReturnUser()
         {
             var user = this.accountService.GetByUsername(TestsConstants.Username);
-            Assert.Equal(user.UserName, TestsConstants.Username);
+            Assert.Equal(TestsConstants.Username, user.UserName);
         }
     }
 }

@@ -12,15 +12,18 @@
 
         public const string Username = "TestUsername";
 
-        public const int IntegerId1 = 12;
+        public const int Id1 = 12;
 
-        public const int IntegerId2 = 14;
+        public const int Id2 = 14;
 
-        public const string StringId = "id_key_12209";
+        public const string UserId = "id_key_12209";
 
         public const string Title1 = "TestTitle1";
 
         public const string Title2 = "TestTitle2";
 
+        public const string Text = "Random Test Text";
+
+        public const string NonExistentText = "Random Non Existent Test Text";
     }
 }

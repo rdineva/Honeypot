@@ -32,8 +32,9 @@ namespace Honeypot.Services
                 .Include(x => x.Quote)
                 .ThenInclude(x => x.Book)
                 .ThenInclude(x => x.Author)
-                .Where(x => x.UserId == user.Id)
-                .ToList().ConvertAll(x => x.Quote);
+                .Where(x => x.User == user)
+                .ToList()
+                .ConvertAll(x => x.Quote);
 
             return likedQuotesByUser;
         }

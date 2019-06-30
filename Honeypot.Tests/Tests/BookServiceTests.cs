@@ -31,14 +31,14 @@ namespace Honeypot.Tests
             {
                 FirstName = TestsConstants.FirstName,
                 LastName = TestsConstants.LastName,
-                Id = TestsConstants.IntegerId1
+                Id = TestsConstants.Id1
             };
 
             this.context.Authors.Add(author);
 
             var book1 = new Book()
             {
-                Id = TestsConstants.IntegerId1,
+                Id = TestsConstants.Id1,
                 Author = author,
                 Title = TestsConstants.Title1,
                 Genre = Genre.Adventure
@@ -46,7 +46,7 @@ namespace Honeypot.Tests
 
             var book2 = new Book()
             {
-                Id = TestsConstants.IntegerId2,
+                Id = TestsConstants.Id2,
                 Author = author,
                 Title = TestsConstants.Title2,
                 Genre = Genre.Adventure
@@ -74,63 +74,63 @@ namespace Honeypot.Tests
         [Fact]
         public void GetBookById_ShouldReturnBook()
         {
-            var book = this.bookService.GetBookById(TestsConstants.IntegerId1);
-            Assert.Equal(book.Id, TestsConstants.IntegerId1);
+            var book = this.bookService.GetBookById(TestsConstants.Id1);
+            Assert.Equal(TestsConstants.Id1, book.Id);
         }
 
         [Fact]
         public void BookTitleExists_ShouldReturnTrue_WhenBookTitleFromAuthorExists()
         {
-            var bookTitleExists = this.bookService.BookTitleExists(TestsConstants.Title1, TestsConstants.FirstName,
+            var resultFromService = this.bookService.BookTitleExists(TestsConstants.Title1, TestsConstants.FirstName,
                 TestsConstants.LastName);
-            Assert.True(bookTitleExists);
+            Assert.True(resultFromService);
         }
 
         [Fact]
         public void BookTitleExists_ShouldReturnFalse_WhenBookTitleExistsButFromAnotherAuthor()
         {
-            var bookTitleExists = this.bookService.BookTitleExists(TestsConstants.Title1, TestsConstants.FirstNameNonExistent,
+            var resultFromService = this.bookService.BookTitleExists(TestsConstants.Title1, TestsConstants.FirstNameNonExistent,
                 TestsConstants.LastNameNonExistent);
-            Assert.False(bookTitleExists);
+            Assert.False(resultFromService);
         }
 
         [Fact]
         public void BookTitleExists_ShouldReturnFalse_WhenBookTitleFromAuthorDoesntExists()
         {
-            var bookTitleExists = this.bookService.BookTitleExists(TestsConstants.Title2, TestsConstants.FirstNameNonExistent,
+            var resultFromService = this.bookService.BookTitleExists(TestsConstants.Title2, TestsConstants.FirstNameNonExistent,
                 TestsConstants.LastNameNonExistent);
-            Assert.False(bookTitleExists);
+            Assert.False(resultFromService);
         }
 
         [Fact]
         public void GetAllBooks_ShouldReturnAllBooks()
         {
-            var allBooksFromService = this.bookService.GetAllBooks();
+            var resultFromService = this.bookService.GetAllBooks();
             var correctResult = this.context.Books.ToList();
-            Assert.Equal(allBooksFromService, correctResult);
+            Assert.Equal(correctResult, resultFromService);
         }
 
         [Fact]
         public void GetAllGenres_ShouldReturnAllGenres()
         {
-            var allGenresFromService = this.bookService.GetAllGenres();
+            var resultFromService = this.bookService.GetAllGenres();
             var correctResult = (Genre[])Enum.GetValues(typeof(Genre));
-            Assert.Equal(allGenresFromService, correctResult);
+            Assert.Equal(correctResult, resultFromService);
         }
 
         [Fact]
         public void GetAllBooksByGenre_ShouldReturnAllBooksByGenre()
         {
-            var allBookByGenreFromService = this.bookService.GetAllBooksByGenre(Genre.Adventure);
+            var resultFromService = this.bookService.GetAllBooksByGenre(Genre.Adventure);
             var correctResult = this.context.Books.Where(x => x.Genre == Genre.Adventure).ToList();
-            Assert.Equal(allBookByGenreFromService, correctResult);
+            Assert.Equal(correctResult, resultFromService);
         }
 
         [Fact]
         public void GetAllBooksByGenre_ShouldReturnNull_WhenNoBooksInDbFromOneGenre()
         {
-            var allBookByGenreFromService = this.bookService.GetAllBooksByGenre(Genre.Romance);
-            Assert.Empty(allBookByGenreFromService);
+            var resultFromService = this.bookService.GetAllBooksByGenre(Genre.Romance);
+            Assert.Empty(resultFromService);
         }
 
         [Fact]
@@ -145,7 +145,7 @@ namespace Honeypot.Tests
             }
 
             correctResults[Genre.Adventure].AddRange(this.context.Books.Where(x => x.Genre == Genre.Adventure).ToList());
-            Assert.Equal(resultFromService, correctResults);
+            Assert.Equal(correctResults, resultFromService);
         }
     }
 }

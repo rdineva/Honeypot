@@ -32,7 +32,7 @@ namespace Honeypot.Tests.Tests
             var user = new HoneypotUser()
             {
                 UserName = TestsConstants.Username,
-                Id = TestsConstants.StringId
+                Id = TestsConstants.UserId
             };
 
             this.context.Users.Add(user);
@@ -40,13 +40,13 @@ namespace Honeypot.Tests.Tests
             {
                 FirstName = TestsConstants.FirstName,
                 LastName = TestsConstants.LastName,
-                Id = TestsConstants.IntegerId1
+                Id = TestsConstants.Id1
             };
 
             this.context.Authors.Add(author);
             var book = new Book()
             {
-                Id = TestsConstants.IntegerId1,
+                Id = TestsConstants.Id1,
                 Author = author,
                 Title = TestsConstants.Title1,
                 Genre = Genre.Adventure
@@ -57,7 +57,7 @@ namespace Honeypot.Tests.Tests
             {
                 Title = TestsConstants.Title1,
                 UserId = user.Id,
-                Id = TestsConstants.IntegerId2
+                Id = TestsConstants.Id2
             };
 
             var bookBookshelf = new BookBookshelf()
@@ -103,35 +103,35 @@ namespace Honeypot.Tests.Tests
         public void GetUsersBookshelves_ShouldReturnUserBookshelves()
         {
             var resultFromService = this.bookshelfService.GetUsersBookshelves(TestsConstants.Username);
-            var correctResult = this.context.Bookshelves.Where(x => x.UserId == TestsConstants.StringId).ToList();
-            Assert.Equal(resultFromService, correctResult);
+            var correctResult = this.context.Bookshelves.Where(x => x.UserId == TestsConstants.UserId).ToList();
+            Assert.Equal(correctResult, resultFromService);
         }
 
         [Fact]
         public void IsBookInBookshelf_ShouldReturnTrue_WhenBookIsInBookshelf()
         {
-            var resultFromService = this.bookshelfService.IsBookInBookshelf(TestsConstants.IntegerId1, TestsConstants.IntegerId2);
+            var resultFromService = this.bookshelfService.IsBookInBookshelf(TestsConstants.Id1, TestsConstants.Id2);
             Assert.True(resultFromService);
         }
 
         [Fact]
         public void IsBookInBookshelf_ShouldReturnFalse_WhenBookIsNotInBookshelf()
         {
-            var resultFromService = this.bookshelfService.IsBookInBookshelf(TestsConstants.IntegerId2, TestsConstants.IntegerId2);
+            var resultFromService = this.bookshelfService.IsBookInBookshelf(TestsConstants.Id2, TestsConstants.Id2);
             Assert.False(resultFromService);
         }
 
         [Fact]
         public void UserHasBookshelfTitled_ShouldReturnTrue_WhenUserHasBookshelfWithThisTitle()
         {
-            var resultFromService = this.bookshelfService.UserHasBookshelfTitled(TestsConstants.Title1, TestsConstants.StringId);
+            var resultFromService = this.bookshelfService.UserHasBookshelfTitled(TestsConstants.Title1, TestsConstants.UserId);
             Assert.True(resultFromService);
         }
 
         [Fact]
         public void UserHasBookshelfTitled_ShouldReturnFalse_WhenUserDoesntHaveBookshelfWithThisTitle()
         {
-            var resultFromService = this.bookshelfService.UserHasBookshelfTitled(TestsConstants.Title2, TestsConstants.StringId);
+            var resultFromService = this.bookshelfService.UserHasBookshelfTitled(TestsConstants.Title2, TestsConstants.UserId);
             Assert.False(resultFromService);
         }
 
@@ -139,8 +139,8 @@ namespace Honeypot.Tests.Tests
         public void GetUserBookshelfById_ShouldReturnUserBookshelf()
         {
             var resultFromService =
-                this.bookshelfService.GetUserBookshelfById(TestsConstants.IntegerId2, TestsConstants.StringId);
-            Assert.Equal(resultFromService.Id, TestsConstants.IntegerId2);
+                this.bookshelfService.GetUserBookshelfById(TestsConstants.Id2, TestsConstants.UserId);
+            Assert.Equal(TestsConstants.Id2, resultFromService.Id);
         }
     }
 }
