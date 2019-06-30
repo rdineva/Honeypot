@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using Honeypot.Models;
-using Honeypot.Models.MappingModels;
 using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
 using Xunit;
@@ -24,49 +22,11 @@ namespace Honeypot.Tests.Tests
             this.DeleteBooksData();
             this.DeleteAuthorsData();
 
-            var author = new Author()
-            {
-                FirstName = TestsConstants.FirstName,
-                LastName = TestsConstants.LastName,
-                Id = TestsConstants.Id1
-            };
-
-            this.context.Authors.Add(author);
-
-            var book = new Book()
-            {
-                Id = TestsConstants.Id1,
-                Author = author,
-                Title = TestsConstants.Title1,
-            };
-
-            this.context.Books.Add(book);
-
-            var quote = new Quote()
-            {
-                Id = TestsConstants.Id1,
-                Text = TestsConstants.Text,
-                Book = book,
-                Author = author
-            };
-
-            this.context.Quotes.Add(quote);
-            var user = new HoneypotUser()
-            {
-                UserName = TestsConstants.Username,
-                Id = TestsConstants.UserId
-            };
-
-            this.context.Users.Add(user);
-            var userQuote = new UserQuote()
-            {
-                UserId = user.Id,
-                QuoteId = quote.Id
-            };
-
-            user.LikedQuotes.Add(userQuote);
-            this.context.UsersQuotes.Add(userQuote);
-            this.context.SaveChanges();
+            var author = this.CreateAuthorData();
+            var book = this.CreateBookData(author);
+            var quote = this.CreateQuoteData(book, author);
+            var user = this.CreateUserData();
+            this.CreateUserQuoteData(user, quote);
         }
 
         [Fact]

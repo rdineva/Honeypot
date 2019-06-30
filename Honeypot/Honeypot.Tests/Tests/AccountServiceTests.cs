@@ -1,14 +1,11 @@
-﻿using System.Linq;
-using Honeypot.Data;
-using Honeypot.Models;
-using Honeypot.Services.Contracts;
+﻿using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
 using Honeypot.Tests.Tests;
 using Xunit;
 
 namespace Honeypot.Tests
 {
-    public class AccountServiceTests :BaseTest
+    public class AccountServiceTests : BaseTest
     {
         private readonly IAccountService accountService;
 
@@ -21,13 +18,7 @@ namespace Honeypot.Tests
         private void SeedData()
         {
             this.DeleteUsersData();
-            var user = new HoneypotUser()
-            {
-                UserName = TestsConstants.Username
-            };
-
-            this.context.Users.Add(user);
-            this.context.SaveChanges();
+            this.CreateUserData();
         }
 
         [Fact]

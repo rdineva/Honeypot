@@ -1,5 +1,9 @@
 ﻿using System.Linq;
 using Honeypot.Data;
+using Honeypot.Models;
+using Honeypot.Models.Enums;
+using Honeypot.Models.MappingModels;
+using Honeypot.Tests.Account;
 using Xunit;
 
 namespace Honeypot.Tests.Tests
@@ -53,6 +57,118 @@ namespace Honeypot.Tests.Tests
             var ratings = this.context.Ratings.ToList();
             this.context.Ratings.RemoveRange(ratings);
             this.context.SaveChanges();
+        }
+
+        protected Author CreateAuthorData()
+        {
+            var author = new Author()
+            {
+                FirstName = TestsConstants.FirstName,
+                LastName = TestsConstants.LastName,
+                Id = TestsConstants.Id1
+            };
+
+            this.context.Authors.Add(author);
+            this.context.SaveChanges();
+            return author;
+        }
+
+        protected Book CreateBookData(Author author)
+        {
+            var book = new Book()
+            {
+                Id = TestsConstants.Id1,
+                Author = author,
+                Title = TestsConstants.Title1,
+                Genre = Genre.Adventure
+            };
+
+            this.context.Books.Add(book);
+            this.context.SaveChanges();
+            return book;
+        }
+
+        protected HoneypotUser CreateUserData()
+        {
+            var user = new HoneypotUser()
+            {
+                UserName = TestsConstants.Username,
+                Id = TestsConstants.UserId
+            };
+
+            this.context.Users.Add(user);
+            this.context.SaveChanges();
+            return user;
+        }
+
+        protected Bookshelf CreateBookshelfData(HoneypotUser user)
+        {
+            var bookshelf = new Bookshelf()
+            {
+                Title = TestsConstants.Title1,
+                UserId = user.Id,
+                Id = TestsConstants.Id2
+            };
+
+            this.context.Bookshelves.Add(bookshelf);
+            this.context.SaveChanges();
+            return bookshelf;
+        }
+
+        protected BookBookshelf CreateBookBookshelfData(Book book, Bookshelf bookshelf)
+        {
+            var bookBookshelf = new BookBookshelf()
+            {
+                Book = book,
+                Bookshelf = bookshelf
+            };
+
+            this.context.BooksBookshelves.Add(bookBookshelf);
+            this.context.SaveChanges();
+            return bookBookshelf;
+        }
+
+        protected Quote CreateQuoteData(Book book, Author author)
+        {
+            var quote = new Quote()
+            {
+                Id = TestsConstants.Id1,
+                Text = TestsConstants.Text,
+                Book = book,
+                Author = author
+            };
+
+            this.context.Quotes.Add(quote);
+            this.context.SaveChanges();
+            return quote;
+        }
+
+        protected UserQuote CreateUserQuoteData(HoneypotUser user, Quote quote)
+        {
+            var userQuote = new UserQuote()
+            {
+                UserId = user.Id,
+                QuoteId = quote.Id
+            };
+
+            user.LikedQuotes.Add(userQuote);
+            this.context.UsersQuotes.Add(userQuote);
+            this.context.SaveChanges();
+            return userQuote;
+        }
+
+        protected Rating CreateRatingData(HoneypotUser user, Book book)
+        {
+            Rating rating = new Rating()
+            {
+                UserId = user.Id,
+                BookId = book.Id,
+                Stars = StarRating.Awesome
+            };
+
+            this.context.Ratings.Add(rating);
+            this.context.SaveChanges();
+            return rating;
         }
     }
 }

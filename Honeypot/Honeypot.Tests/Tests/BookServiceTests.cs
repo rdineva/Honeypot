@@ -24,34 +24,9 @@ namespace Honeypot.Tests
         {
             this.DeleteBooksData();
             this.DeleteAuthorsData();
-            var author = new Author()
-            {
-                FirstName = TestsConstants.FirstName,
-                LastName = TestsConstants.LastName,
-                Id = TestsConstants.Id1
-            };
 
-            this.context.Authors.Add(author);
-
-            var book1 = new Book()
-            {
-                Id = TestsConstants.Id1,
-                Author = author,
-                Title = TestsConstants.Title1,
-                Genre = Genre.Adventure
-            };
-
-            var book2 = new Book()
-            {
-                Id = TestsConstants.Id2,
-                Author = author,
-                Title = TestsConstants.Title2,
-                Genre = Genre.Adventure
-            };
-
-            this.context.Books.Add(book1);
-            this.context.Books.Add(book2);
-            this.context.SaveChanges();
+            var author = this.CreateAuthorData();
+            this.CreateBookData(author);
         }
 
         [Fact]

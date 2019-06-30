@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using Honeypot.Models;
-using Honeypot.Models.Enums;
 using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
 using Xunit;
@@ -24,39 +22,10 @@ namespace Honeypot.Tests.Tests
             this.DeleteBooksData();
             this.DeleteRatingsData();
 
-            var author = new Author()
-            {
-                FirstName = TestsConstants.FirstName,
-                LastName = TestsConstants.LastName,
-                Id = TestsConstants.Id1
-            };
-
-            this.context.Authors.Add(author);
-            var book = new Book()
-            {
-                Id = TestsConstants.Id1,
-                Author = author,
-                Title = TestsConstants.Title1,
-                Genre = Genre.Adventure
-            };
-
-            this.context.Books.Add(book);
-            var user = new HoneypotUser()
-            {
-                UserName = TestsConstants.Username,
-                Id = TestsConstants.UserId
-            };
-
-            this.context.Users.Add(user);
-            Rating rating = new Rating()
-            {
-                UserId = user.Id,
-                BookId = book.Id,
-                Stars = StarRating.Awesome
-            };
-
-            this.context.Ratings.Add(rating);
-            this.context.SaveChanges();
+            var author = this.CreateAuthorData();
+            var book = this.CreateBookData(author);
+            var user = this.CreateUserData();
+            this.CreateRatingData(user, book);
         }
 
         [Fact]

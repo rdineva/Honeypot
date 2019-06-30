@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Honeypot.Models;
 using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
 using Honeypot.Tests.Tests;
@@ -20,15 +19,7 @@ namespace Honeypot.Tests
         private void SeedData()
         {
             this.DeleteAuthorsData();
-            var author = new Author()
-            {
-                FirstName = TestsConstants.FirstName,
-                LastName = TestsConstants.LastName,
-                Id = TestsConstants.Id1
-            };
-
-            this.context.Authors.Add(author);
-            this.context.SaveChanges();
+            this.CreateAuthorData();
         }
 
         [Fact]

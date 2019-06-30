@@ -1,7 +1,4 @@
 ﻿using System.Linq;
-using Honeypot.Models;
-using Honeypot.Models.Enums;
-using Honeypot.Models.MappingModels;
 using Honeypot.Services.Contracts;
 using Honeypot.Tests.Account;
 using Xunit;
@@ -25,46 +22,11 @@ namespace Honeypot.Tests.Tests
             this.DeleteBooksData();
             this.DeleteBookshelvesData();
 
-            var user = new HoneypotUser()
-            {
-                UserName = TestsConstants.Username,
-                Id = TestsConstants.UserId
-            };
-
-            this.context.Users.Add(user);
-            var author = new Author()
-            {
-                FirstName = TestsConstants.FirstName,
-                LastName = TestsConstants.LastName,
-                Id = TestsConstants.Id1
-            };
-
-            this.context.Authors.Add(author);
-            var book = new Book()
-            {
-                Id = TestsConstants.Id1,
-                Author = author,
-                Title = TestsConstants.Title1,
-                Genre = Genre.Adventure
-            };
-
-            this.context.Books.Add(book);
-            var bookshelf = new Bookshelf()
-            {
-                Title = TestsConstants.Title1,
-                UserId = user.Id,
-                Id = TestsConstants.Id2
-            };
-
-            var bookBookshelf = new BookBookshelf()
-            {
-                Book = book,
-                Bookshelf = bookshelf
-            };
-
-            this.context.Bookshelves.Add(bookshelf);
-            this.context.BooksBookshelves.Add(bookBookshelf);
-            this.context.SaveChanges();
+            var author = CreateAuthorData();
+            var book = this.CreateBookData(author);
+            var user = CreateUserData();
+            var bookshelf = this.CreateBookshelfData(user);
+            this.CreateBookBookshelfData(book, bookshelf);
         }
 
         [Fact]
