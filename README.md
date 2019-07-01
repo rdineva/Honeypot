@@ -3,7 +3,7 @@
 Honeypot is an online web application project for book readers. Users can view books, quotes and authors. They can also create bookshelves and delete them, rate books and add books to their own bookshelves and delete them. Admins also have the ability to create new authors, books and quotes.
 
 ## Structure
-There are five components of the system:
+There are five main components of the system:
 * **Honeypot.Web** contains the core functionality of the project. 
   * *Attributes* for ViewModel data properties validation
   * *AutoMapper* for automatically mapping from user input ViewModels to Models and vice versa
@@ -30,7 +30,7 @@ There are five components of the system:
     * `AuthorService`, `BookService`, `BookshelfService`, `QuoteServce`, `RatingService`, `UserService`
 * **Honeypot.Tests** contains all the unit tests for the application
   * *Abstractions*
-    * `BaseTest` for initializing DB context and providing Test classes with methods that clear the In Memory Database from objects
+    * `BaseTest` for initializing DB context and providing Test classes with methods that clear and also fill the In Memory Database with objects
     * `BaseTestFixture` for creating and configuring the In Memory Database used for unit testing
   * *Constants*
   * *Tests* contains test classes for the services in the application 
